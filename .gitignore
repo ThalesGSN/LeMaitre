@@ -1,0 +1,9 @@
+/LeMaitreCore/dist/
+/LeMaitreCore/build/
+/LeMaitreCore/nbproject/private/
+/LeMaitrePersistenceProstgres/nbproject/private/
+/LeMaitreBusiness/dist/
+/LeMaitreBusiness/build/
+/LeMaitreBusiness/nbproject/private/
+/LeMaitrePersistenceRAM/dist/
+/LeMaitrePersistencePostgres/src/br/cefetmg/LeMaitre/util/db/Password.java
