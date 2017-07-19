@@ -5,6 +5,8 @@
  */
 package br.cefetmg.LeMaitre.model.domain;
 
+import java.util.Date;
+
 /**
  *
  * @author Thalesgsn
@@ -13,13 +15,13 @@ public class Bill {
     
     private Long codID;
     
-    private Long datUse;
+    private Date datUse;
 
     private char idtStatus;
 
     public Bill() { }
 
-    public Bill(Long codID, Long datUse, char idtStatus) {
+    public Bill(Long codID, Date datUse, char idtStatus) {
         this.codID = codID;
         this.datUse = datUse;
         this.idtStatus = idtStatus;
@@ -44,21 +46,21 @@ public class Bill {
     }
 
     /**
-     * Get the value of datUse
+     * Get the value of seqUse
      *
-     * @return the value of datUse
+     * @return the value of seqUse
      */
-    public Long getDatUse() {
+    public Date getSeqUse() {
         return datUse;
     }
 
     /**
-     * Set the value of datUse
+     * Set the value of seqUse
      *
-     * @param datUse new value of datUse
+     * @param seqUse new value of seqUse
      */
-    public void setDatUse(Long datUse) {
-        this.datUse = datUse;
+    public void setSeqUse(Date seqUse) {
+        this.datUse = seqUse;
     }
     
     /**
