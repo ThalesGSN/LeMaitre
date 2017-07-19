@@ -10,18 +10,14 @@ package br.cefetmg.LeMaitre.model.domain;
  * @author Thalesgsn
  */
 public class BillTable {
-    
     private Long codIDBill;
-    
-    private Long datUseBill;
 
-    private String codIDTable;
+    private Integer codIDTable;
 
     public BillTable() { }
 
-    public BillTable(Long codIDBill, Long datUseBill, String codIDTable) {
+    public BillTable(Long codIDBill, Integer codIDTable) {
         this.codIDBill = codIDBill;
-        this.datUseBill = datUseBill;
         this.codIDTable = codIDTable;
     }
 
@@ -42,31 +38,13 @@ public class BillTable {
     public void setCodIDBill(Long codIDBill) {
         this.codIDBill = codIDBill;
     }
-
-    /**
-     * Get the value of datUseBill
-     *
-     * @return the value of datUseBill
-     */
-    public Long getDatUseBill() {
-        return datUseBill;
-    }
-
-    /**
-     * Set the value of datUseBill
-     *
-     * @param datUseBill new value of datUseBill
-     */
-    public void setDatUseBill(Long datUseBill) {
-        this.datUseBill = datUseBill;
-    }
     
     /**
      * Get the value of codIDTable
      *
      * @return the value of codIDTable
      */
-    public String getcodIDBillTable() {
+    public Integer getcodIDBillTable() {
         return codIDTable;
     }
 
@@ -75,7 +53,7 @@ public class BillTable {
      *
      * @param codIDTable new value of codIDTable
      */
-    public void setcodIDBillTable(String codIDTable) {
+    public void setcodIDBillTable(Integer codIDTable) {
         this.codIDTable = codIDTable;
     }
 }

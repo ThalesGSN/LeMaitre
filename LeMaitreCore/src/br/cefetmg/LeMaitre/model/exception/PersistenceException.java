@@ -10,6 +10,7 @@ package br.cefetmg.LeMaitre.model.exception;
  * @author Jota Renan
  */
 public class PersistenceException extends Exception {
+    private int errorCode;
 
     public PersistenceException(String message) {
         super(message);
@@ -17,5 +18,23 @@ public class PersistenceException extends Exception {
     
     public PersistenceException(Exception ex) {
         super(ex);
+    }
+    
+    /**
+     * Get the value of errorCode
+     *
+     * @return the value of errorCode
+     */
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    /**
+     * Set the value of errorCode
+     *
+     * @param errorCode new value of errorCode
+     */
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 }

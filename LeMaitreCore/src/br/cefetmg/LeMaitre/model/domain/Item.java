@@ -7,7 +7,7 @@ package br.cefetmg.LeMaitre.model.domain;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
 public class Item {
     private Long codItem;

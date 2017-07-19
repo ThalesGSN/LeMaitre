@@ -14,11 +14,11 @@ public class Table {
 
     private char idtStatus;
 
-    private Integer nroSeat;
+    private int nroSeat;
 
     public Table() { }
 
-    public Table(Integer codID, char idtStatus, Integer nroSeat) {
+    public Table(Integer codID, char idtStatus, int nroSeat) {
         this.codID = codID;
         this.idtStatus = idtStatus;
         this.nroSeat = nroSeat;
@@ -65,7 +65,7 @@ public class Table {
      *
      * @return the value of nroSeat
      */
-    public Integer getNroSeat() {
+    public int getNroSeat() {
         return nroSeat;
     }
 
@@ -74,7 +74,7 @@ public class Table {
      *
      * @param nroSeat new value of nroSeat
      */
-    public void setNroSeat(Integer nroSeat) {
+    public void setNroSeat(int nroSeat) {
         this.nroSeat = nroSeat;
     }
 }

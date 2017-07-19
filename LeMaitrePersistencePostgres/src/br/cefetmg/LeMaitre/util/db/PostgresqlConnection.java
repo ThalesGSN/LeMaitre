@@ -8,15 +8,15 @@ import java.util.logging.Logger;
 
 public class PostgresqlConnection extends Password implements ConnectionFactory {
 
-    private final static String dbDriver = "org.postgresql.Driver";
+    private final static String DB_DRIVER = "org.postgresql.Driver";
 
     public PostgresqlConnection() {
     }
 
     @Override
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName(dbDriver);
-        return DriverManager.getConnection(dbURL, user, pass);
+        Class.forName(DB_DRIVER);
+        return DriverManager.getConnection(DB_URL, USER, PASS);
     }
     
     public static void main(String[] args) {

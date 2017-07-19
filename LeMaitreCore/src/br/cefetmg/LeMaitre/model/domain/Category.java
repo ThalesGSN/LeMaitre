@@ -10,23 +10,25 @@ package br.cefetmg.LeMaitre.model.domain;
  * @author Thalesgsn
  */
 public class Category {
-    private String codCategory;
+    private Integer codCategory;
     
     private String nomCategory;
 
     public Category() { }
 
-    public Category(String codCategory, String nomCategory) {
+    public Category(Integer codCategory, String nomCategory) {
         this.codCategory = codCategory;
         this.nomCategory = nomCategory;
     }
+
     
+
     /**
      * Get the value of codCategory
      *
      * @return the value of codCategory
      */
-    public String getCodCategory() {
+    public Integer getCodCategory() {
         return codCategory;
     }
 
@@ -35,10 +37,10 @@ public class Category {
      *
      * @param codCategory new value of codCategory
      */
-    public void setCodCategory(String codCategory) {
+    public void setCodCategory(Integer codCategory) {
         this.codCategory = codCategory;
     }
-
+   
     /**
      * Get the value of nomCategory
      *

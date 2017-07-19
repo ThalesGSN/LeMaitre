@@ -7,14 +7,33 @@ package br.cefetmg.LeMaitre.model.exception;
 
 /**
  *
- * @author Jota Renan
+ * @author Thalesgsn
  */
 public class BusinessException extends Exception {
+    private int errorCode;
+
 
     public BusinessException(String message) {
         super(message);
     }
     public BusinessException(Exception ex) {
         super(ex);
+    }
+    /**
+     * Get the value of errorCode
+     *
+     * @return the value of errorCode
+     */
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    /**
+     * Set the value of errorCode
+     *
+     * @param errorCode new value of errorCode
+     */
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 }

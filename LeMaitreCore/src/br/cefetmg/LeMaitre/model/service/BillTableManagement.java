@@ -14,14 +14,13 @@ import java.util.List;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
 public interface BillTableManagement {
     public Long BillTableInsert(BillTable billTable) throws BusinessException, PersistenceException;
     public boolean BillTableUpdate(BillTable billTable) throws BusinessException, PersistenceException;
-    public boolean BillTableRemove(Long billID, Long tableID) throws PersistenceException;
-    public BillTable getBillTableByID(Long billID, Long tableID) throws PersistenceException;
-    public List<Bill> getBillsByTableID(Long tableID) throws PersistenceException;
+    public boolean BillTableRemove(Long billID, Integer tableID) throws PersistenceException;
+    public List<Bill> getBillsByTableID(Integer tableID) throws PersistenceException;
     public List<Table> getTablesByBillID(Long billID) throws PersistenceException;
     
 }

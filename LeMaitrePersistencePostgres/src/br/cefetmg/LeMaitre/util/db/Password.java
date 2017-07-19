@@ -10,7 +10,7 @@ package br.cefetmg.LeMaitre.util.db;
  * @author Paula Ribeiro
  */
 public class Password {
-    protected final static String dbURL = "jdbc:postgresql://localhost:5432/jquest";
-    protected final static String user = "postgres";
-    protected final static String pass = "123456";
+    protected final static String DB_URL = "jdbc:postgresql://localhost:5432/LeMaitre";
+    protected final static String USER = "postgres";
+    protected final static String PASS = "123456";
 }
