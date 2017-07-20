@@ -35,7 +35,7 @@ public class OrderDAOImpl implements OrderDAO{
     
     
     @Override
-    public boolean insert(Order order) throws PersistenceException {
+    synchronized public boolean insert(Order order) throws PersistenceException {
         if (order == null) {
             throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Order cannot be null");
         }
@@ -72,7 +72,7 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
-    public boolean update(Order order) throws PersistenceException {
+    synchronized public boolean update(Order order) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -109,7 +109,7 @@ public class OrderDAOImpl implements OrderDAO{
     
 
     @Override
-    public boolean remove(Long billID, Integer itemID) throws PersistenceException {
+    synchronized public boolean remove(Long billID, Integer itemID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -138,7 +138,7 @@ public class OrderDAOImpl implements OrderDAO{
     }
  
     @Override
-    public Order getOrderByID(Long billID, Integer itemID) throws PersistenceException {
+    synchronized public Order getOrderByID(Long billID, Integer itemID) throws PersistenceException {
        try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -173,7 +173,7 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
-    public List<Order> listOrdersByBillID(Long billID) throws PersistenceException {
+    synchronized public List<Order> listOrdersByBillID(Long billID) throws PersistenceException {
         ArrayList<Order> orders = null;
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -208,7 +208,7 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
-    public List<Item> listItemsByBillID(Long billID) throws PersistenceException {
+    synchronized public List<Item> listItemsByBillID(Long billID) throws PersistenceException {
         ArrayList<Item> items = null;
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();

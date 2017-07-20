@@ -36,7 +36,7 @@ public class ReservationDAOImpl implements ReservationDAO{
     
     
     @Override
-    public boolean insert(Reservation reservation) throws PersistenceException {
+    synchronized public boolean insert(Reservation reservation) throws PersistenceException {
         if (reservation == null) {
             throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Reservation cannot be null");
         }
@@ -80,7 +80,7 @@ public class ReservationDAOImpl implements ReservationDAO{
     }
 
     @Override
-    public boolean update(Reservation reservation) throws PersistenceException {
+    synchronized public boolean update(Reservation reservation) throws PersistenceException {
         try {
 
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -115,7 +115,7 @@ public class ReservationDAOImpl implements ReservationDAO{
     }
 
     @Override
-    public boolean remove(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException {
+    synchronized public boolean remove(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -144,7 +144,7 @@ public class ReservationDAOImpl implements ReservationDAO{
     }
 
     @Override
-    public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException {
+    synchronized public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -182,7 +182,7 @@ public class ReservationDAOImpl implements ReservationDAO{
     }
 
     @Override
-    public List<Reservation> listAllReservations() throws PersistenceException {
+    synchronized public List<Reservation> listAllReservations() throws PersistenceException {
         ArrayList<Reservation> reservations = null;
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -218,7 +218,40 @@ public class ReservationDAOImpl implements ReservationDAO{
     }
 
     @Override
-    public List<Reservation> listReservationByTableID(Integer tableID) throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    synchronized public List<Reservation> listReservationByTableID(Integer tableID) throws PersistenceException {
+        ArrayList<Reservation> reservations = null;
+        try {
+            Connection connection = ConnectionManager.getInstance().getConnection();
+            
+            String sql = "SELECT * FROM Reservation WHERE COD_ID_Table = ?;";
+            
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()){
+                Reservation reservation = new Reservation();
+                
+                reservation.setCodIDTable(rs.getInt("COD_ID_Table"));
+                reservation.setDatReservation(rs.getDate("DAT_reservation"));
+                reservation.setDatHourReservation(rs.getTime("DAT_hour_reservation"));
+                reservation.setNropersons(rs.getInt("NRO_persons"));
+                reservation.setTxtContactName(rs.getString("TXT_contact_name"));
+                reservation.setTxtCellphone("TXT_telephone");
+                reservation.setTxtCellphone("TXT_cellphone");
+                
+                reservations.add(reservation);
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return reservations;
+        } catch (ClassNotFoundException ex) {
+            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
+        } catch(SQLException ex){
+            throw new PersistenceException(ex);
+        }
     }
 }

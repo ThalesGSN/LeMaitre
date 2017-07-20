@@ -31,7 +31,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     
     
     @Override
-    public Long insert(Employee employee) throws PersistenceException {
+    synchronized public Long insert(Employee employee) throws PersistenceException {
         if (employee == null) {
             throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Employee cannot be null");
         }
@@ -71,7 +71,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public boolean update(Employee employee) throws PersistenceException {
+    synchronized public boolean update(Employee employee) throws PersistenceException {
         try {
 
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -107,7 +107,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public boolean remove(Integer employeeID) throws PersistenceException {
+    synchronized public boolean remove(Integer employeeID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -134,7 +134,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public Employee getEmployeeByID(Integer employeeID) throws PersistenceException {
+    synchronized public Employee getEmployeeByID(Integer employeeID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 

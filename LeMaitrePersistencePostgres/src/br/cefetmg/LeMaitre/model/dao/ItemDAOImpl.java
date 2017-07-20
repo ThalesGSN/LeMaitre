@@ -34,7 +34,7 @@ public class ItemDAOImpl implements ItemDAO {
     
     
     @Override
-    public Integer insert(Item item) throws PersistenceException {
+    synchronized public Integer insert(Item item) throws PersistenceException {
         if (item == null) {
             throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Item cannot be null");
         }
@@ -75,7 +75,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean update(Item item) throws PersistenceException {
+    synchronized public boolean update(Item item) throws PersistenceException {
         try {
 
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -113,7 +113,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean remove(Integer itemID) throws PersistenceException {
+    synchronized public boolean remove(Integer itemID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -140,7 +140,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public Item getItemByID(Integer itemID) throws PersistenceException {
+    synchronized public Item getItemByID(Integer itemID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -173,7 +173,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
      @Override
-    public List<Item> listAllItems() throws PersistenceException {
+    synchronized public List<Item> listAllItems() throws PersistenceException {
         ArrayList<Item> items = null;
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -208,7 +208,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
     
     @Override
-    public boolean thisItemIDExists(Integer itemID) throws PersistenceException {
+    synchronized public boolean thisItemIDExists(Integer itemID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 

@@ -32,7 +32,7 @@ public class BillDAOImpl implements BillDAO {
     
     
     @Override
-    public Long insert(Bill bill) throws PersistenceException {
+    synchronized public Long insert(Bill bill) throws PersistenceException {
         if (bill == null) {
             throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Bill cannot be null");
         }
@@ -70,7 +70,7 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    public boolean update(Bill bill) throws PersistenceException {
+    synchronized public boolean update(Bill bill) throws PersistenceException {
         try {
 
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -102,7 +102,7 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    public boolean remove(Long billID) throws PersistenceException {
+    synchronized public boolean remove(Long billID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -129,7 +129,7 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    public Bill getBillByID(Long billID) throws PersistenceException {
+    synchronized public Bill getBillByID(Long billID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -159,7 +159,7 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    public boolean thisBillIDExists(Integer billID) throws PersistenceException {
+    synchronized public boolean thisBillIDExists(Integer billID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 

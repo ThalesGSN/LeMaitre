@@ -31,7 +31,7 @@ public class TableDAOImpl implements TableDAO{
     
     
     @Override
-    public Integer insert(Table table) throws PersistenceException {
+    synchronized public Integer insert(Table table) throws PersistenceException {
         if (table == null) {
             throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Table cannot be null");
         }
@@ -69,7 +69,7 @@ public class TableDAOImpl implements TableDAO{
     }
 
     @Override
-    public boolean update(Table table) throws PersistenceException {
+    synchronized public boolean update(Table table) throws PersistenceException {
         try {
 
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -101,7 +101,7 @@ public class TableDAOImpl implements TableDAO{
     }
 
     @Override
-    public boolean remove(Integer tableID) throws PersistenceException {
+    synchronized public boolean remove(Integer tableID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -128,7 +128,7 @@ public class TableDAOImpl implements TableDAO{
     }
 
     @Override
-    public Table getTableByID(Integer tableID) throws PersistenceException {
+    synchronized public Table getTableByID(Integer tableID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -158,7 +158,7 @@ public class TableDAOImpl implements TableDAO{
     }
 
     @Override
-    public boolean thisTableIDExists(Integer tableID) throws PersistenceException {
+    synchronized public boolean thisTableIDExists(Integer tableID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 

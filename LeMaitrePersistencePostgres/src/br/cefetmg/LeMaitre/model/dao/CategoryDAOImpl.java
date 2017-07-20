@@ -34,7 +34,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     
     
     @Override
-    public Integer insert(Category category) throws PersistenceException {
+    synchronized public Integer insert(Category category) throws PersistenceException {
         if (category == null) {
             throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Category cannot be null");
         }
@@ -71,7 +71,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public boolean update(Category category) throws PersistenceException {
+    synchronized public boolean update(Category category) throws PersistenceException {
         try {
 
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -101,7 +101,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public boolean remove(Integer categoryID) throws PersistenceException {
+    synchronized public boolean remove(Integer categoryID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -128,7 +128,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public Category getCategoryByID(Integer categoryID) throws PersistenceException {
+    synchronized public Category getCategoryByID(Integer categoryID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -157,7 +157,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public boolean thisCategoryIDExists(Integer categoryID) throws PersistenceException {
+    synchronized public boolean thisCategoryIDExists(Integer categoryID) throws PersistenceException {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -181,7 +181,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public List<Category> listAllCategories() throws PersistenceException {
+    synchronized public List<Category> listAllCategories() throws PersistenceException {
         ArrayList<Category> categories = null;
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
