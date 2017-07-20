@@ -167,7 +167,7 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    synchronized public boolean thisBillIDExists(Long billID) throws PersistenceException {
+    synchronized public boolean containsThisBillID(Long billID) throws PersistenceException {
         if(billID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         

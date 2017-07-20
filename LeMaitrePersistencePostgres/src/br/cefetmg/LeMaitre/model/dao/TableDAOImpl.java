@@ -168,7 +168,7 @@ public class TableDAOImpl implements TableDAO {
     }
 
     @Override
-    synchronized public boolean thisTableIDExists(Integer tableID) throws PersistenceException {
+    synchronized public boolean containsThisTableID(Integer tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         

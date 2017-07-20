@@ -166,7 +166,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    synchronized public boolean thisCategoryIDExists(Integer categoryID) throws PersistenceException {
+    synchronized public boolean containsThisCategoryID(Integer categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         

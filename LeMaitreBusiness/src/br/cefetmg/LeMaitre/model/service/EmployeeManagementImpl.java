@@ -24,7 +24,7 @@ public class EmployeeManagementImpl implements EmployeeManagemant {
     @Override
     public Integer employeeInsert(Employee employee) throws BusinessException, PersistenceException {
         if(employee == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null employee cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null employee cannot be inserted.");
         
         if(employee.getNomName().isEmpty())
             throw new BusinessException(BusinessException.EMPTY_STRING, "nomName cannot be empty.");
@@ -52,7 +52,7 @@ public class EmployeeManagementImpl implements EmployeeManagemant {
     @Override
     public boolean employeeUpdate(Employee employee) throws BusinessException, PersistenceException {
         if(employee == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null employee cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null employee cannot be inserted.");
         
         if(employee.getCodID() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codId cannot be null.");

@@ -17,5 +17,5 @@ public interface TableDAO {
     public boolean update(Table table) throws PersistenceException;
     public boolean remove(Integer tableID) throws PersistenceException;
     public Table getTableByID(Integer tableID) throws PersistenceException;
-    public boolean thisTableIDExists(Integer tableID) throws PersistenceException;
+    public boolean containsThisTableID(Integer tableID) throws PersistenceException;
 }

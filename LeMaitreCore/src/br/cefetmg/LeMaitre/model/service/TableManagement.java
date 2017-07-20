@@ -18,5 +18,5 @@ public interface TableManagement {
     public boolean tableUpdate(Table table) throws BusinessException, PersistenceException;
     public boolean tableRemove(Integer tableID) throws PersistenceException;
     public Table getTableByID(Integer tableID) throws PersistenceException;
-    public boolean thisTableIDExists(Integer tableID) throws PersistenceException;
+    public boolean containsThisTableID(Integer tableID) throws PersistenceException;
 }

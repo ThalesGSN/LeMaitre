@@ -30,12 +30,12 @@ public class ReservationManagementImpl implements ReservationManagement {
     @Override
     public boolean reservationInsert(Reservation reservation) throws BusinessException, PersistenceException {
         if(reservation == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null reservation cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null reservation cannot be inserted.");
         
         if(reservation.getCodIDTable() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codIDTable cannot be null.");
         
-        if(!tableManagement.thisTableIDExists(reservation.getCodIDTable()))
+        if(!tableManagement.containsThisTableID(reservation.getCodIDTable()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "tableID doesn't exist in the persistence");
         
         if(reservation.getDatReservation() == null)
@@ -65,12 +65,12 @@ public class ReservationManagementImpl implements ReservationManagement {
     @Override
     public boolean reservationUpdate(Reservation reservation) throws BusinessException, PersistenceException {
         if(reservation == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null reservation cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null reservation cannot be inserted.");
         
         if(reservation.getCodIDTable() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codIDTable cannot be null.");
         
-        if(!tableManagement.thisTableIDExists(reservation.getCodIDTable()))
+        if(!tableManagement.containsThisTableID(reservation.getCodIDTable()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "tableID doesn't exist in the persistence");
         
         if(reservation.getDatReservation() == null)

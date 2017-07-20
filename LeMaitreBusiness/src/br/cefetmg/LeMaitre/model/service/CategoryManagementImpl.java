@@ -25,7 +25,7 @@ public class CategoryManagementImpl implements CategoryManagement {
     @Override
     public Integer categoryInsert(Category category) throws BusinessException, PersistenceException {
         if(category == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null category cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null category cannot be inserted.");
         
         if(category.getNomCategory() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "nomCategory cannot be null.");
@@ -39,7 +39,7 @@ public class CategoryManagementImpl implements CategoryManagement {
     @Override
     public boolean categoryUpdate(Category category) throws BusinessException, PersistenceException {
         if(category == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null category cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null category cannot be inserted.");
         
         if(category.getSeqCategory() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "seqCategory cannot be null.");
@@ -71,11 +71,11 @@ public class CategoryManagementImpl implements CategoryManagement {
 
     
     @Override
-    public boolean thisCategoryIDExists(Integer categoryID) throws PersistenceException {
+    public boolean containsThisCategoryID(Integer categoryID) throws PersistenceException {
          if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "categoryID cannot be null.");
         
-        return DAO.thisCategoryIDExists(categoryID);
+        return DAO.containsThisCategoryID(categoryID);
     }
     
     @Override

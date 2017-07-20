@@ -28,7 +28,7 @@ public class ItemManagementImpl implements ItemManagement {
     @Override
     public Integer itemInsert(Item item) throws BusinessException, PersistenceException {
         if(item == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null item cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null item cannot be inserted.");
         
         if(item.getVlrPrice() < 0)
             throw new BusinessException(BusinessException.INVALID_PARAMETER, "VlrPrice cannot be negative");
@@ -53,7 +53,7 @@ public class ItemManagementImpl implements ItemManagement {
         if(item.getCodCategory() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
         
-        if(!categoryManagement.thisCategoryIDExists(item.getCodCategory()))
+        if(!categoryManagement.containsThisCategoryID(item.getCodCategory()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "codCategory doesn't exist in the persistence");
         
         return DAO.insert(item);
@@ -62,7 +62,7 @@ public class ItemManagementImpl implements ItemManagement {
     @Override
     public boolean itemUpdate(Item item) throws BusinessException, PersistenceException {
         if(item == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null item cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null item cannot be inserted.");
         
         if(item.getCodItem() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
@@ -90,7 +90,7 @@ public class ItemManagementImpl implements ItemManagement {
         if(item.getCodCategory() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
         
-        if(!categoryManagement.thisCategoryIDExists(item.getCodCategory()))
+        if(!categoryManagement.containsThisCategoryID(item.getCodCategory()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "codCategory doesn't exist in the persistence");
         
         return DAO.update(item);
@@ -113,11 +113,11 @@ public class ItemManagementImpl implements ItemManagement {
     }
 
     @Override
-    public boolean thisItemIDExists(Integer itemID) throws PersistenceException {
+    public boolean containsThisItemID(Integer itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "itemID cannot be null.");
         
-        return DAO.thisItemIDExists(itemID);
+        return DAO.containsThisItemID(itemID);
     }
 
     @Override

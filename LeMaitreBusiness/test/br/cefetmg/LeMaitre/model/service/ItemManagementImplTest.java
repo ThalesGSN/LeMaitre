@@ -100,7 +100,7 @@ public class ItemManagementImplTest {
     }
 
     /**
-     * Test of thisItemIDExists method, of class ItemManagementImpl.
+     * Test of containsThisItemID method, of class ItemManagementImpl.
      */
     @Test
     public void testThisItemIDExists() throws Exception {
@@ -108,7 +108,7 @@ public class ItemManagementImplTest {
         Integer itemID = null;
         ItemManagementImpl instance = null;
         boolean expResult = false;
-        boolean result = instance.thisItemIDExists(itemID);
+        boolean result = instance.containsThisItemID(itemID);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

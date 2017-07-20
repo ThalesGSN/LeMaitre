@@ -25,7 +25,7 @@ public class TableManagementImpl implements TableManagement {
     @Override
     public Integer tableInsert(Table table) throws BusinessException, PersistenceException {
         if(table == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null table cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null table cannot be inserted.");
         
         if(String.copyValueOf(Table.IDT_STATUS_POSSIBLE_VALUES)
                 .indexOf(table.getIdtStatus()) < 0){
@@ -41,7 +41,7 @@ public class TableManagementImpl implements TableManagement {
     @Override
     public boolean tableUpdate(Table table) throws BusinessException, PersistenceException {
         if(table == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null table cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null table cannot be inserted.");
         
         if(table.getCodID() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "CodID cannot be null.");
@@ -74,11 +74,11 @@ public class TableManagementImpl implements TableManagement {
     }
 
     @Override
-    public boolean thisTableIDExists(Integer tableID) throws PersistenceException {
+    public boolean containsThisTableID(Integer tableID) throws PersistenceException {
          if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cannot be null.");
         
-        return DAO.thisTableIDExists(tableID);
+        return DAO.containsThisTableID(tableID);
     }
     
 }

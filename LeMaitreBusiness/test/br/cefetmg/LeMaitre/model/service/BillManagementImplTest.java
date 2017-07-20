@@ -99,7 +99,7 @@ public class BillManagementImplTest {
     }
 
     /**
-     * Test of thisBillIDExists method, of class BillManagementImpl.
+     * Test of containsThisBillID method, of class BillManagementImpl.
      */
     @Test
     public void testThisBillIDExists() throws Exception {
@@ -107,7 +107,7 @@ public class BillManagementImplTest {
         Long billID = null;
         BillManagementImpl instance = null;
         boolean expResult = false;
-        boolean result = instance.thisBillIDExists(billID);
+        boolean result = instance.containsThisBillID(billID);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

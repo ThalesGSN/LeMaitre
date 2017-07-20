@@ -17,5 +17,5 @@ public interface BillDAO {
     public boolean update(Bill bill) throws PersistenceException;
     public boolean remove(Long billID) throws PersistenceException;
     public Bill getBillByID(Long billID) throws PersistenceException;
-    public boolean thisBillIDExists(Long billID) throws PersistenceException;
+    public boolean containsThisBillID(Long billID) throws PersistenceException;
 }

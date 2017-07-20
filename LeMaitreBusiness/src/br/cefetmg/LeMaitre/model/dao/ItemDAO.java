@@ -18,7 +18,7 @@ public interface ItemDAO {
     public boolean update(Item item) throws PersistenceException;
     public boolean remove(Integer itemID) throws PersistenceException;
     public Item getItemByID(Integer itemID) throws PersistenceException;
-    public boolean thisItemIDExists(Integer itemID) throws PersistenceException;
+    public boolean containsThisItemID(Integer itemID) throws PersistenceException;
     public List<Item> listAllItems() throws PersistenceException;
     
 }

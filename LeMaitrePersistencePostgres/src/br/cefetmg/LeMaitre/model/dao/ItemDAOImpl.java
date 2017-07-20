@@ -182,7 +182,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
     
     @Override
-    synchronized public boolean thisItemIDExists(Integer itemID) throws PersistenceException {
+    synchronized public boolean containsThisItemID(Integer itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         

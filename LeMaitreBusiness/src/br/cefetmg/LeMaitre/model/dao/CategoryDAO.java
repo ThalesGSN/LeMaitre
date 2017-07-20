@@ -18,6 +18,6 @@ public interface CategoryDAO {
     public boolean update(Category category) throws PersistenceException;
     public boolean remove(Integer categorySEQ) throws PersistenceException;
     public Category getCategoryByID(Integer categorySEQ) throws PersistenceException;
-    public boolean thisCategoryIDExists(Integer categorySEQ) throws PersistenceException ;
+    public boolean containsThisCategoryID(Integer categorySEQ) throws PersistenceException ;
     public List<Category> listAllCategories() throws PersistenceException;
 }

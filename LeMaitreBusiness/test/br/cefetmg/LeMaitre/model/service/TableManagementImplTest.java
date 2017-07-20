@@ -99,7 +99,7 @@ public class TableManagementImplTest {
     }
 
     /**
-     * Test of thisTableIDExists method, of class TableManagementImpl.
+     * Test of containsThisTableID method, of class TableManagementImpl.
      */
     @Test
     public void testThisTableIDExists() throws Exception {
@@ -107,7 +107,7 @@ public class TableManagementImplTest {
         Integer tableID = null;
         TableManagementImpl instance = null;
         boolean expResult = false;
-        boolean result = instance.thisTableIDExists(tableID);
+        boolean result = instance.containsThisTableID(tableID);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

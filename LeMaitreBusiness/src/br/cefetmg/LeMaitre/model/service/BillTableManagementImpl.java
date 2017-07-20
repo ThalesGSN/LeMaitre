@@ -33,18 +33,18 @@ public class BillTableManagementImpl implements BillTableManagement {
     @Override
     public boolean billTableInsert(BillTable billTable) throws BusinessException, PersistenceException {
         if(billTable == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "billTable cannot be null");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "billTable cannot be null");
         
         if(billTable.getCodIDBill() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "CodIDBill cannot be null");
         
-        if(!billManagement.thisBillIDExists(billTable.getCodIDBill()))
+        if(!billManagement.containsThisBillID(billTable.getCodIDBill()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "CodIDBill is not in the persistence");
         
         if(billTable.getCodIDTable() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "CodIDTable cannot be null");
         
-        if(!tableManagement.thisTableIDExists(billTable.getCodIDTable()))
+        if(!tableManagement.containsThisTableID(billTable.getCodIDTable()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "CodIDTablem is not in the persistence");
 
         return DAO.insert(billTable);

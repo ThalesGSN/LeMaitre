@@ -24,7 +24,7 @@ public class BillManagementImpl implements BillManagement {
     @Override
     public Long billInsert(Bill bill) throws BusinessException, PersistenceException {
         if(bill == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null bill cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null bill cannot be inserted.");
         
         if(bill.getDatUse() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "CodID cannot be null.");
@@ -40,7 +40,7 @@ public class BillManagementImpl implements BillManagement {
     @Override
     public boolean billUpdate(Bill bill) throws BusinessException, PersistenceException {
         if(bill == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null bill cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null bill cannot be inserted.");
         
         if(bill.getCodID() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "CodID cannot be null.");
@@ -73,11 +73,11 @@ public class BillManagementImpl implements BillManagement {
     }
 
     @Override
-    public boolean thisBillIDExists(Long billID) throws PersistenceException {
+    public boolean containsThisBillID(Long billID) throws PersistenceException {
          if(billID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "billID cannot be null.");
         
-        return DAO.thisBillIDExists(billID);
+        return DAO.containsThisBillID(billID);
     }
     
 }

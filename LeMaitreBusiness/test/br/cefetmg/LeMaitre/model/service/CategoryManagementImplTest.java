@@ -100,7 +100,7 @@ public class CategoryManagementImplTest {
     }
 
     /**
-     * Test of thisCategoryIDExists method, of class CategoryManagementImpl.
+     * Test of containsThisCategoryID method, of class CategoryManagementImpl.
      */
     @Test
     public void testThisCategoryIDExists() throws Exception {
@@ -108,7 +108,7 @@ public class CategoryManagementImplTest {
         Integer categoryID = null;
         CategoryManagementImpl instance = null;
         boolean expResult = false;
-        boolean result = instance.thisCategoryIDExists(categoryID);
+        boolean result = instance.containsThisCategoryID(categoryID);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

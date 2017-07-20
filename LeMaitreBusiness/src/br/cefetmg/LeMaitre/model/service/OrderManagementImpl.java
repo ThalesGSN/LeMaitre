@@ -32,18 +32,18 @@ public class OrderManagementImpl implements  OrderManagement {
     @Override
     public boolean orderInsert(Order order) throws BusinessException, PersistenceException {
         if(order == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null order cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null order cannot be inserted.");
         
         if(order.getCodIDBill() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codIDBill cannot be null.");
         
-        if(!billManagement.thisBillIDExists(order.getCodIDBill()))
+        if(!billManagement.containsThisBillID(order.getCodIDBill()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "billID doesn't exist in the persistence");
         
         if(order.getCodItem() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
         
-        if(!itemManagement.thisItemIDExists(order.getCodItem()))
+        if(!itemManagement.containsThisItemID(order.getCodItem()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "itemID doesn't exist in the persistence");
         
         if(String.copyValueOf(Order.IDT_STATUS_POSSIBLE_VALUES)
@@ -60,18 +60,18 @@ public class OrderManagementImpl implements  OrderManagement {
     @Override
     public boolean orderUpdate(Order order) throws BusinessException, PersistenceException {
         if(order == null)
-            throw new BusinessException(BusinessException.NULL_INSERTED_OBJECT, "Null order cannot be inserted.");
+            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null order cannot be inserted.");
         
         if(order.getCodIDBill() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codIDBill cannot be null.");
         
-        if(!billManagement.thisBillIDExists(order.getCodIDBill()))
+        if(!billManagement.containsThisBillID(order.getCodIDBill()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "billID doesn't exist in the persistence");
         
         if(order.getCodItem() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
         
-        if(!itemManagement.thisItemIDExists(order.getCodItem()))
+        if(!itemManagement.containsThisItemID(order.getCodItem()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "itemID doesn't exist in the persistence");
         
         if(String.copyValueOf(Order.IDT_STATUS_POSSIBLE_VALUES)
