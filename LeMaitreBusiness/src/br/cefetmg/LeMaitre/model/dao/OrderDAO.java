@@ -7,7 +7,6 @@ package br.cefetmg.LeMaitre.model.dao;
 
 import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.domain.Order;
-import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import java.util.List;
 
@@ -16,10 +15,10 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface OrderDAO {
-    public Long orderInsert(Order order) throws BusinessException, PersistenceException;
-    public boolean orderUpdate(Order order) throws BusinessException, PersistenceException;
-    public boolean orderRemove(Long billId, Long itemID) throws PersistenceException;
-    public Order getOrderByID(Long billId, Long itemID) throws PersistenceException;
+    public boolean insert(Order order) throws PersistenceException;
+    public boolean update(Order order) throws PersistenceException;
+    public boolean remove(Long billID, Integer itemID) throws PersistenceException;
+    public Order getOrderByID(Long billID, Integer itemID) throws PersistenceException;
     public List<Order> listOrdersByBillID(Long billID) throws PersistenceException;
     public List<Item> listItemsByBillID(Long billID) throws PersistenceException;
 }

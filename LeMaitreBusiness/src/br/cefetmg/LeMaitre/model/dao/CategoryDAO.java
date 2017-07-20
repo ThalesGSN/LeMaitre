@@ -6,16 +6,18 @@
 package br.cefetmg.LeMaitre.model.dao;
 
 import br.cefetmg.LeMaitre.model.domain.Category;
-import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.List;
 
 /**
  *
  * @author Thalesgsn
  */
 public interface CategoryDAO {
-    public Long insert(Category category) throws BusinessException, PersistenceException;
-    public boolean update(Category category) throws BusinessException, PersistenceException;
-    public boolean remove(Integer categoryID) throws PersistenceException;
-    public Category getCategoryByID(Integer categoryID) throws PersistenceException;
+    public Integer insert(Category category) throws PersistenceException;
+    public boolean update(Category category) throws PersistenceException;
+    public boolean remove(Integer categorySEQ) throws PersistenceException;
+    public Category getCategoryByID(Integer categorySEQ) throws PersistenceException;
+    public boolean thisCategoryIDExists(Integer categorySEQ) throws PersistenceException ;
+    public List<Category> listAllCategories() throws PersistenceException;
 }

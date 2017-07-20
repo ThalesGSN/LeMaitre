@@ -14,7 +14,7 @@ import br.cefetmg.LeMaitre.model.exception.PersistenceException;
  * @author Thalesgsn
  */
 public interface TableManagement {
-    public Long tableInsert(Table table) throws BusinessException, PersistenceException;
+    public Integer tableInsert(Table table) throws BusinessException, PersistenceException;
     public boolean tableUpdate(Table table) throws BusinessException, PersistenceException;
     public boolean tableRemove(Integer tableID) throws PersistenceException;
     public Table gettableByID(Integer tableID) throws PersistenceException;

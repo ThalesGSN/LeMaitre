@@ -6,7 +6,6 @@
 package br.cefetmg.LeMaitre.model.dao;
 
 import br.cefetmg.LeMaitre.model.domain.Employee;
-import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 
 /**
@@ -14,8 +13,8 @@ import br.cefetmg.LeMaitre.model.exception.PersistenceException;
  * @author Thalesgsn
  */
 public interface EmployeeDAO {
-    public Long insert(Employee employee) throws BusinessException, PersistenceException;
-    public boolean update(Employee employee) throws BusinessException, PersistenceException;
+    public Long insert(Employee employee) throws PersistenceException;
+    public boolean update(Employee employee) throws PersistenceException;
     public boolean remove(Integer employeeID) throws PersistenceException;
-    public Employee getemployeeByID(Integer employeeID) throws PersistenceException;
+    public Employee getEmployeeByID(Integer employeeID) throws PersistenceException;
 }

@@ -35,7 +35,7 @@ public class Employee {
      *
      * @return the value of codID
      */
-    public Integer getCod_ID() {
+    public Integer getCodID() {
         return codID;
     }
 
@@ -44,7 +44,7 @@ public class Employee {
      *
      * @param codID new value of codID
      */
-    public void setCod_ID(Integer codID) {
+    public void setCodID(Integer codID) {
         this.codID = codID;
     }
 
@@ -53,7 +53,7 @@ public class Employee {
      *
      * @return the value of nomName
      */
-    public String getNom_name() {
+    public String getNomName() {
         return nomName;
     }
 
@@ -62,7 +62,7 @@ public class Employee {
      *
      * @param nomName new value of nomName
      */
-    public void setNom_name(String nomName) {
+    public void setNomName(String nomName) {
         this.nomName = nomName;
     }
     
@@ -89,7 +89,7 @@ public class Employee {
      *
      * @return the value of nomUsername
      */
-    public String getNom_username() {
+    public String getNomUsername() {
         return nomUsername;
     }
 
@@ -98,7 +98,7 @@ public class Employee {
      *
      * @param nomUsername new value of nomUsername
      */
-    public void setNom_username(String nomUsername) {
+    public void setNomUsername(String nomUsername) {
         this.nomUsername = nomUsername;
     }
 
@@ -107,7 +107,7 @@ public class Employee {
      *
      * @return the value of txtPassword
      */
-    public String getTxt_password() {
+    public String getTxtPassword() {
         return txtPassword;
     }
 
@@ -116,7 +116,7 @@ public class Employee {
      *
      * @param txtPassword new value of txtPassword
      */
-    public void setTxt_password(String txtPassword) {
+    public void setTxtPassword(String txtPassword) {
         this.txtPassword = txtPassword;
     }
 }

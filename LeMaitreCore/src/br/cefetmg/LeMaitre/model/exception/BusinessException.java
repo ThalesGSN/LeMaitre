@@ -9,13 +9,19 @@ package br.cefetmg.LeMaitre.model.exception;
  *
  * @author Thalesgsn
  */
-public class BusinessException extends Exception {
+public class BusinessException extends Exception implements BusinessErrorCodes {
     private int errorCode;
 
 
     public BusinessException(String message) {
         super(message);
     }
+
+    public BusinessException(int errorCode, String message) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+    
     public BusinessException(Exception ex) {
         super(ex);
     }

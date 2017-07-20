@@ -10,7 +10,7 @@ package br.cefetmg.LeMaitre.model.domain;
  * @author Thalesgsn
  */
 public class Item {
-    private Long codItem;
+    private Integer codItem;
 
     private Double vlrPrice;
 
@@ -20,18 +20,18 @@ public class Item {
 
     private char idtAvaliable;
 
-    private Integer codCategory;
+    private Integer seqCategory;
 
     public Item() { }
 
-    public Item(Long codItem, Double vlrPrice, String nomItem, String desItem,
+    public Item(Integer codItem, Double vlrPrice, String nomItem, String desItem,
             char idtAvaliable, Integer codCategory) {
         this.codItem = codItem;
         this.vlrPrice = vlrPrice;
         this.nomItem = nomItem;
         this.desItem = desItem;
         this.idtAvaliable = idtAvaliable;
-        this.codCategory = codCategory;
+        this.seqCategory = codCategory;
     }
 
 
@@ -41,7 +41,7 @@ public class Item {
      *
      * @return the value of codItem
      */
-    public Long getCodItem() {
+    public Integer getCodItem() {
         return codItem;
     }
 
@@ -50,7 +50,7 @@ public class Item {
      *
      * @param codItem new value of codItem
      */
-    public void setCodItem(Long codItem) {
+    public void setCodItem(Integer codItem) {
         this.codItem = codItem;
     }
     
@@ -127,20 +127,20 @@ public class Item {
     }
     
     /**
-     * Get the value of codCategory
+     * Get the value of seqCategory
      *
-     * @return the value of codCategory
+     * @return the value of seqCategory
      */
-    public Integer getCodCategory() {
-        return codCategory;
+    public Integer getSeqCategory() {
+        return seqCategory;
     }
 
     /**
-     * Set the value of codCategory
+     * Set the value of seqCategory
      *
-     * @param codCategory new value of codCategory
+     * @param seqCategory new value of seqCategory
      */
-    public void setCodCategory(Integer codCategory) {
-        this.codCategory = codCategory;
+    public void setSeqCategory(Integer seqCategory) {
+        this.seqCategory = seqCategory;
     }
 }

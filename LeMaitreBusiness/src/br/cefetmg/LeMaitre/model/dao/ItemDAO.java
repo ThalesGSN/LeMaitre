@@ -6,16 +6,19 @@
 package br.cefetmg.LeMaitre.model.dao;
 
 import br.cefetmg.LeMaitre.model.domain.Item;
-import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.List;
 
 /**
  *
  * @author Thalesgsn
  */
 public interface ItemDAO {
-    public Long insert(Item item) throws BusinessException, PersistenceException;
-    public boolean update(Item item) throws BusinessException, PersistenceException;
-    public boolean remove(Long itemID) throws PersistenceException;
-    public Item getItemByID(Long itemID) throws PersistenceException;
+    public Integer insert(Item item) throws PersistenceException;
+    public boolean update(Item item) throws PersistenceException;
+    public boolean remove(Integer itemID) throws PersistenceException;
+    public Item getItemByID(Integer itemID) throws PersistenceException;
+    public List<Item> listAllItems() throws PersistenceException;
+    public boolean thisItemIDExists(Integer itemID) throws PersistenceException;
+    
 }

@@ -12,22 +12,19 @@ package br.cefetmg.LeMaitre.model.domain;
 public class Order {
     private Long codIDBill;
     
-    private Long datUseBill;
-
-    private Long codItem;
+    private Integer codItem;
 
     private char idtStatus;
 
     private Double vlrPrice;
 
-    private Long codToken;
+    private String codToken;
 
     public Order() { }
 
-    public Order(Long codIDBill, Long datUseBill, Long codItem, char idtStatus,
-            Double vlrPrice, Long codToken) {
+    public Order(Long codIDBill, Integer codItem, char idtStatus,
+            Double vlrPrice, String codToken) {
         this.codIDBill = codIDBill;
-        this.datUseBill = datUseBill;
         this.codItem = codItem;
         this.idtStatus = idtStatus;
         this.vlrPrice = vlrPrice;
@@ -53,31 +50,13 @@ public class Order {
     public void setCodIDBill(Long codIDBill) {
         this.codIDBill = codIDBill;
     }
-
-    /**
-     * Get the value of datUseBill
-     *
-     * @return the value of datUseBill
-     */
-    public Long getDatUseBill() {
-        return datUseBill;
-    }
-
-    /**
-     * Set the value of datUseBill
-     *
-     * @param datUseBill new value of datUseBill
-     */
-    public void setDatUseBill(Long datUseBill) {
-        this.datUseBill = datUseBill;
-    }
     
     /**
      * Get the value of codItem
      *
      * @return the value of codItem
      */
-    public Long getCodItem() {
+    public Integer getCodItem() {
         return codItem;
     }
 
@@ -86,7 +65,7 @@ public class Order {
      *
      * @param codItem new value of codItem
      */
-    public void setCodItem(Long codItem) {
+    public void setCodItem(Integer codItem) {
         this.codItem = codItem;
     }
 
@@ -131,7 +110,7 @@ public class Order {
      *
      * @return the value of codToken
      */
-    public Long getCodToken() {
+    public String getCodToken() {
         return codToken;
     }
 
@@ -140,7 +119,7 @@ public class Order {
      *
      * @param codToken new value of codToken
      */
-    public void setCodToken(Long codToken) {
+    public void setCodToken(String codToken) {
         this.codToken = codToken;
     }
 }

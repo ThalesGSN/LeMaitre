@@ -9,12 +9,18 @@ package br.cefetmg.LeMaitre.model.exception;
  *
  * @author Jota Renan
  */
-public class PersistenceException extends Exception {
+public class PersistenceException extends Exception implements PersistenceErrorCodes{
     private int errorCode;
 
     public PersistenceException(String message) {
         super(message);
     }
+
+    public PersistenceException(int errorCode, String message) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+    
     
     public PersistenceException(Exception ex) {
         super(ex);

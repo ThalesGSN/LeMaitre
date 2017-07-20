@@ -8,14 +8,17 @@ package br.cefetmg.LeMaitre.model.service;
 import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.List;
 
 /**
  *
  * @author Thalesgsn
  */
 public interface ItemManagement {
-    public Long itemInsert(Item item) throws BusinessException, PersistenceException;
+    public Integer itemInsert(Item item) throws BusinessException, PersistenceException;
     public boolean itemUpdate(Item item) throws BusinessException, PersistenceException;
-    public boolean itemRemove(Long itemID) throws PersistenceException;
-    public Item getItemByID(Long itemID) throws PersistenceException;
+    public boolean itemRemove(Integer itemID) throws PersistenceException;
+    public Item getItemByID(Integer itemID) throws PersistenceException;
+    public List<Item> listAllItems() throws PersistenceException;
+    public boolean thisItemIDExists(Integer itemID) throws PersistenceException;
 }

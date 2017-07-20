@@ -14,8 +14,8 @@ import br.cefetmg.LeMaitre.model.exception.PersistenceException;
  * @author Thalesgsn
  */
 public interface CategoryManagement {
-    public Long categoryInsert(Category category) throws BusinessException, PersistenceException;
+    public Integer categoryInsert(Category category) throws BusinessException, PersistenceException;
     public boolean categoryUpdate(Category category) throws BusinessException, PersistenceException;
-    public boolean categoryRemove(Integer categoryID) throws PersistenceException;
-    public Category getCategoryByID(Integer categoryID) throws PersistenceException;
+    public boolean categoryRemove(Integer categorySEQ) throws PersistenceException;
+    public Category getCategoryByID(Integer categorySEQ) throws PersistenceException;
 }

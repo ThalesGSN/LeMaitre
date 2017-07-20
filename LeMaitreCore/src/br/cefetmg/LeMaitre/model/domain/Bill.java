@@ -50,7 +50,7 @@ public class Bill {
      *
      * @return the value of seqUse
      */
-    public Date getSeqUse() {
+    public Date getDatUse() {
         return datUse;
     }
 
@@ -59,7 +59,7 @@ public class Bill {
      *
      * @param seqUse new value of seqUse
      */
-    public void setSeqUse(Date seqUse) {
+    public void setDatUse(Date seqUse) {
         this.datUse = seqUse;
     }
     

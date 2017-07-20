@@ -10,35 +10,33 @@ package br.cefetmg.LeMaitre.model.domain;
  * @author Thalesgsn
  */
 public class Category {
-    private Integer codCategory;
+    private Integer seqCategory;
     
     private String nomCategory;
 
     public Category() { }
 
-    public Category(Integer codCategory, String nomCategory) {
-        this.codCategory = codCategory;
+    public Category(Integer seqCategory, String nomCategory) {
+        this.seqCategory = seqCategory;
         this.nomCategory = nomCategory;
     }
 
-    
-
     /**
-     * Get the value of codCategory
+     * Get the value of seqCategory
      *
-     * @return the value of codCategory
+     * @return the value of seqCategory
      */
-    public Integer getCodCategory() {
-        return codCategory;
+    public Integer getSeqCategory() {
+        return seqCategory;
     }
 
     /**
-     * Set the value of codCategory
+     * Set the value of seqCategory
      *
-     * @param codCategory new value of codCategory
+     * @param seqCategory new value of seqCategory
      */
-    public void setCodCategory(Integer codCategory) {
-        this.codCategory = codCategory;
+    public void setSeqCategory(Integer seqCategory) {
+        this.seqCategory = seqCategory;
     }
    
     /**
