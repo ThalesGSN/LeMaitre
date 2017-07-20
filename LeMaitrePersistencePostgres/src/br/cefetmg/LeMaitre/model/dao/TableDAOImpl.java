@@ -15,9 +15,9 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
-public class TableDAOImpl implements TableDAO{
+public class TableDAOImpl implements TableDAO {
     private static TableDAOImpl tableDAO = null;
 
     public static TableDAOImpl getInstance(){
@@ -33,8 +33,9 @@ public class TableDAOImpl implements TableDAO{
     @Override
     synchronized public Integer insert(Table table) throws PersistenceException {
         if (table == null) {
-            throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Table cannot be null");
+            throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Table cannot be null");
         }
+        
         Integer idTable = null;
         
         try {
@@ -70,8 +71,11 @@ public class TableDAOImpl implements TableDAO{
 
     @Override
     synchronized public boolean update(Table table) throws PersistenceException {
+        if (table == null) {
+            throw new PersistenceException(PersistenceException.UPDATE_OBJECT_ISNULL, "table cannot be null");
+        }
+        
         try {
-
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "UPDATE Table "
@@ -102,6 +106,9 @@ public class TableDAOImpl implements TableDAO{
 
     @Override
     synchronized public boolean remove(Integer tableID) throws PersistenceException {
+        if(tableID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -129,6 +136,9 @@ public class TableDAOImpl implements TableDAO{
 
     @Override
     synchronized public Table getTableByID(Integer tableID) throws PersistenceException {
+        if(tableID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -159,6 +169,9 @@ public class TableDAOImpl implements TableDAO{
 
     @Override
     synchronized public boolean thisTableIDExists(Integer tableID) throws PersistenceException {
+        if(tableID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 

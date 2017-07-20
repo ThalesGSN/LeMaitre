@@ -15,6 +15,8 @@ public class Table {
     private char idtStatus;
 
     private int nroSeat;
+    
+    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {};
 
     public Table() { }
 

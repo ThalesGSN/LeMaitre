@@ -20,7 +20,9 @@ public class Item {
 
     private char idtAvaliable;
 
-    private Integer seqCategory;
+    private Integer codCategory;
+    
+    public static final char[] IDT_AVALIABLE_POSSIBLE_VALUES = {};
 
     public Item() { }
 
@@ -31,7 +33,7 @@ public class Item {
         this.nomItem = nomItem;
         this.desItem = desItem;
         this.idtAvaliable = idtAvaliable;
-        this.seqCategory = codCategory;
+        this.codCategory = codCategory;
     }
 
 
@@ -127,20 +129,20 @@ public class Item {
     }
     
     /**
-     * Get the value of seqCategory
+     * Get the value of codCategory
      *
-     * @return the value of seqCategory
+     * @return the value of codCategory
      */
-    public Integer getSeqCategory() {
-        return seqCategory;
+    public Integer getCodCategory() {
+        return codCategory;
     }
 
     /**
-     * Set the value of seqCategory
+     * Set the value of codCategory
      *
-     * @param seqCategory new value of seqCategory
+     * @param codCategory new value of codCategory
      */
-    public void setSeqCategory(Integer seqCategory) {
-        this.seqCategory = seqCategory;
+    public void setCodCategory(Integer codCategory) {
+        this.codCategory = codCategory;
     }
 }

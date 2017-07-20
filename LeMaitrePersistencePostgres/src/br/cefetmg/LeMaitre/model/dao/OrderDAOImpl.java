@@ -19,9 +19,9 @@ import java.util.List;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
-public class OrderDAOImpl implements OrderDAO{
+public class OrderDAOImpl implements OrderDAO {
     private static OrderDAOImpl billDAO = null;
 
     public static OrderDAOImpl getInstance(){
@@ -37,7 +37,7 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     synchronized public boolean insert(Order order) throws PersistenceException {
         if (order == null) {
-            throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Order cannot be null");
+            throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Order cannot be null");
         }
         Long idBill = null;
         
@@ -73,6 +73,10 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     synchronized public boolean update(Order order) throws PersistenceException {
+        if (order == null) {
+            throw new PersistenceException(PersistenceException.UPDATE_OBJECT_ISNULL, "order cannot be null");
+        }
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -110,6 +114,9 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     synchronized public boolean remove(Long billID, Integer itemID) throws PersistenceException {
+        if(billID == null || itemID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -139,6 +146,9 @@ public class OrderDAOImpl implements OrderDAO{
  
     @Override
     synchronized public Order getOrderByID(Long billID, Integer itemID) throws PersistenceException {
+        if(billID == null || itemID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
        try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -174,7 +184,11 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     synchronized public List<Order> listOrdersByBillID(Long billID) throws PersistenceException {
+        if(billID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         ArrayList<Order> orders = null;
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -209,7 +223,11 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     synchronized public List<Item> listItemsByBillID(Long billID) throws PersistenceException {
+        if(billID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         ArrayList<Item> items = null;
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
             Statement stmt = connection.createStatement();
@@ -227,7 +245,7 @@ public class OrderDAOImpl implements OrderDAO{
                 item.setNomItem(rs.getString("B.NOM_Item"));
                 item.setDesItem(rs.getString("B.DES_item"));
                 item.setIdtAvaliable(rs.getString("B.IDT_available").charAt(0));
-                item.setSeqCategory(rs.getInt("B.SEQ_Category"));
+                item.setCodCategory(rs.getInt("B.SEQ_Category"));
                 
                 items.add(item);
             }

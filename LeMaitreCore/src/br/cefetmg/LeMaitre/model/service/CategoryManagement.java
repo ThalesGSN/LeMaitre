@@ -8,6 +8,7 @@ package br.cefetmg.LeMaitre.model.service;
 import br.cefetmg.LeMaitre.model.domain.Category;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.List;
 
 /**
  *
@@ -18,4 +19,6 @@ public interface CategoryManagement {
     public boolean categoryUpdate(Category category) throws BusinessException, PersistenceException;
     public boolean categoryRemove(Integer categorySEQ) throws PersistenceException;
     public Category getCategoryByID(Integer categorySEQ) throws PersistenceException;
+    public boolean thisCategoryIDExists(Integer categoryID) throws PersistenceException;
+    public List<Category> listAllCategories() throws PersistenceException;
 }

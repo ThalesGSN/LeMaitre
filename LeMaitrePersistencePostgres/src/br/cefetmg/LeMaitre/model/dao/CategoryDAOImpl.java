@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
 public class CategoryDAOImpl implements CategoryDAO {
     private static CategoryDAOImpl categoryDAO = null;
@@ -36,7 +36,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     @Override
     synchronized public Integer insert(Category category) throws PersistenceException {
         if (category == null) {
-            throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Category cannot be null");
+            throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Category cannot be null");
         }
         Integer idCategory = null;
         
@@ -72,8 +72,11 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     synchronized public boolean update(Category category) throws PersistenceException {
-        try {
+        if (category == null) {
+            throw new PersistenceException(PersistenceException.UPDATE_OBJECT_ISNULL, "category cannot be null");
+        }
 
+        try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "UPDATE Category "
@@ -102,6 +105,9 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     synchronized public boolean remove(Integer categoryID) throws PersistenceException {
+        if(categoryID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -129,6 +135,9 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     synchronized public Category getCategoryByID(Integer categoryID) throws PersistenceException {
+        if(categoryID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -158,6 +167,9 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     synchronized public boolean thisCategoryIDExists(Integer categoryID) throws PersistenceException {
+        if(categoryID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -183,6 +195,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     @Override
     synchronized public List<Category> listAllCategories() throws PersistenceException {
         ArrayList<Category> categories = null;
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
             Statement stmt = connection.createStatement();

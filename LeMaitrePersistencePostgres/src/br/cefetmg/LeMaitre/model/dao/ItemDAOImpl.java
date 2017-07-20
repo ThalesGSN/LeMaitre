@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
 public class ItemDAOImpl implements ItemDAO {
     private static ItemDAOImpl itemDAO = null;
@@ -36,7 +36,7 @@ public class ItemDAOImpl implements ItemDAO {
     @Override
     synchronized public Integer insert(Item item) throws PersistenceException {
         if (item == null) {
-            throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Item cannot be null");
+            throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Item cannot be null");
         }
         Integer idItem = null;
         
@@ -52,7 +52,7 @@ public class ItemDAOImpl implements ItemDAO {
             pstmt.setString(2, item.getNomItem());
             pstmt.setString(3, item.getDesItem());
             pstmt.setString(4, String.valueOf(item.getIdtAvaliable()));
-            pstmt.setInt(5, item.getSeqCategory());
+            pstmt.setInt(5, item.getCodCategory());
             
             ResultSet rs = pstmt.executeQuery();
 
@@ -76,8 +76,11 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     synchronized public boolean update(Item item) throws PersistenceException {
-        try {
-
+        if (item == null) {
+            throw new PersistenceException(PersistenceException.UPDATE_OBJECT_ISNULL, "item cannot be null");
+        }
+        
+        try {    
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "UPDATE Item "
@@ -93,7 +96,7 @@ public class ItemDAOImpl implements ItemDAO {
             pstmt.setString(2, item.getNomItem());
             pstmt.setString(3, item.getDesItem());
             pstmt.setString(4, String.valueOf(item.getIdtAvaliable()));
-            pstmt.setInt(5, item.getSeqCategory());
+            pstmt.setInt(5, item.getCodCategory());
             pstmt.setInt(6, item.getCodItem());
             int changedRows = pstmt.executeUpdate();
             
@@ -114,6 +117,9 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     synchronized public boolean remove(Integer itemID) throws PersistenceException {
+        if(itemID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -141,6 +147,9 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     synchronized public Item getItemByID(Integer itemID) throws PersistenceException {
+        if(itemID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -157,7 +166,7 @@ public class ItemDAOImpl implements ItemDAO {
                 item.setNomItem(rs.getString("NOM_Item"));
                 item.setDesItem(rs.getString("DES_item"));
                 item.setIdtAvaliable(rs.getString("IDT_available").charAt(0));
-                item.setSeqCategory(rs.getInt("SEQ_Category"));
+                item.setCodCategory(rs.getInt("SEQ_Category"));
             }
 
             rs.close();
@@ -171,44 +180,12 @@ public class ItemDAOImpl implements ItemDAO {
             throw new PersistenceException(ex);
         }  
     }
-
-     @Override
-    synchronized public List<Item> listAllItems() throws PersistenceException {
-        ArrayList<Item> items = null;
-        try {
-            Connection connection = ConnectionManager.getInstance().getConnection();
-            Statement stmt = connection.createStatement();
-            String sql = "SELECT * FROM Item;";
-            
-            ResultSet rs = stmt.executeQuery(sql);
-            
-            while(rs.next()){
-                Item item = new Item();
-                
-                item.setCodItem(rs.getInt("COD_Item"));
-                item.setVlrPrice(rs.getDouble("VLR_price"));
-                item.setNomItem(rs.getString("NOM_Item"));
-                item.setDesItem(rs.getString("DES_item"));
-                item.setIdtAvaliable(rs.getString("IDT_available").charAt(0));
-                item.setSeqCategory(rs.getInt("SEQ_Category"));
-                
-                items.add(item);
-            }
-
-            rs.close();
-            stmt.close();
-            connection.close();
-
-            return items;
-        } catch (ClassNotFoundException ex) {
-            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
-        } catch(SQLException ex){
-            throw new PersistenceException(ex);
-        }
-    }
     
     @Override
     synchronized public boolean thisItemIDExists(Integer itemID) throws PersistenceException {
+        if(itemID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -230,6 +207,43 @@ public class ItemDAOImpl implements ItemDAO {
             throw new PersistenceException(ex);
         }  
     }
+    
+    @Override
+    synchronized public List<Item> listAllItems() throws PersistenceException {
+        ArrayList<Item> items = null;
+        
+        try {
+            Connection connection = ConnectionManager.getInstance().getConnection();
+            Statement stmt = connection.createStatement();
+            String sql = "SELECT * FROM Item;";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while(rs.next()){
+                Item item = new Item();
+                
+                item.setCodItem(rs.getInt("COD_Item"));
+                item.setVlrPrice(rs.getDouble("VLR_price"));
+                item.setNomItem(rs.getString("NOM_Item"));
+                item.setDesItem(rs.getString("DES_item"));
+                item.setIdtAvaliable(rs.getString("IDT_available").charAt(0));
+                item.setCodCategory(rs.getInt("SEQ_Category"));
+                
+                items.add(item);
+            }
+
+            rs.close();
+            stmt.close();
+            connection.close();
+
+            return items;
+        } catch (ClassNotFoundException ex) {
+            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
+        } catch(SQLException ex){
+            throw new PersistenceException(ex);
+        }
+    }
+    
 
    
 }

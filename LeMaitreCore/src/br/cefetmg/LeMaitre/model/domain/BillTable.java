@@ -44,7 +44,7 @@ public class BillTable {
      *
      * @return the value of codIDTable
      */
-    public Integer getcodIDBillTable() {
+    public Integer getCodIDTable() {
         return codIDTable;
     }
 
@@ -53,7 +53,7 @@ public class BillTable {
      *
      * @param codIDTable new value of codIDTable
      */
-    public void setcodIDBillTable(Integer codIDTable) {
+    public void setCodIDTable(Integer codIDTable) {
         this.codIDTable = codIDTable;
     }
 }

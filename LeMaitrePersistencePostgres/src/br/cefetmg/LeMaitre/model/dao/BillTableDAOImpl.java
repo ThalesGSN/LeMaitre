@@ -19,9 +19,9 @@ import java.util.List;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
-public class BillTableDAOImpl implements BillTableDAO{
+public class BillTableDAOImpl implements BillTableDAO {
     private static BillTableDAOImpl billDAO = null;
 
     public static BillTableDAOImpl getInstance(){
@@ -37,7 +37,7 @@ public class BillTableDAOImpl implements BillTableDAO{
     @Override
     synchronized public boolean insert(BillTable billTable) throws PersistenceException {
         if (billTable == null) {
-            throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "BillTable cannot be null");
+            throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "BillTable cannot be null");
         }
         
         try {
@@ -49,7 +49,7 @@ public class BillTableDAOImpl implements BillTableDAO{
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, billTable.getCodIDBill());
-            pstmt.setInt(2, billTable.getcodIDBillTable());
+            pstmt.setInt(2, billTable.getCodIDTable());
             
             pstmt.executeQuery();
 
@@ -69,6 +69,9 @@ public class BillTableDAOImpl implements BillTableDAO{
 
     @Override
     synchronized public boolean remove(Long billID, Integer tableID) throws PersistenceException {
+        if(billID == null || tableID == null )
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -98,7 +101,11 @@ public class BillTableDAOImpl implements BillTableDAO{
  
     @Override
     synchronized public List<Table> listTablesByBillID(Long billID) throws PersistenceException {
+        if(billID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         ArrayList<Table> tables = null;
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -136,7 +143,11 @@ public class BillTableDAOImpl implements BillTableDAO{
 
     @Override
     synchronized public List<Bill> listBillsByTableID(Integer tableID) throws PersistenceException {
+        if(tableID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         ArrayList<Bill> bills = null;
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 

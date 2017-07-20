@@ -19,6 +19,8 @@ public class Employee {
     private String nomUsername;
 
     private String txtPassword;
+    
+    public static final char[] IDT_PROFILE_POSSIBLE_VALUES = {};
 
     public Employee() { }
 

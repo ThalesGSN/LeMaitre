@@ -12,13 +12,14 @@ import java.util.Date;
  * @author Thalesgsn
  */
 public class Bill {
-    
     private Long codID;
     
     private Date datUse;
 
     private char idtStatus;
 
+    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {};
+    
     public Bill() { }
 
     public Bill(Long codID, Date datUse, char idtStatus) {

@@ -20,9 +20,9 @@ import java.util.List;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
-public class ReservationDAOImpl implements ReservationDAO{
+public class ReservationDAOImpl implements ReservationDAO {
     private static ReservationDAOImpl reservationDAO = null;
 
     public static ReservationDAOImpl getInstance(){
@@ -38,9 +38,8 @@ public class ReservationDAOImpl implements ReservationDAO{
     @Override
     synchronized public boolean insert(Reservation reservation) throws PersistenceException {
         if (reservation == null) {
-            throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Reservation cannot be null");
+            throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Reservation cannot be null");
         }
-        Integer idReservation = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -54,16 +53,12 @@ public class ReservationDAOImpl implements ReservationDAO{
             pstmt.setInt(1, reservation.getCodIDTable());
             pstmt.setDate(2, (java.sql.Date) reservation.getDatReservation());
             pstmt.setTime(3, reservation.getDatHourReservation());
-            pstmt.setInt(4, reservation.getNropersons());
+            pstmt.setInt(4, reservation.getNroPersons());
             pstmt.setString(5, reservation.getTxtContactName());
             pstmt.setString(6, reservation.getTxtTelephone());
             pstmt.setString(7, reservation.getTxtCellphone());
             
             ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                idReservation = rs.getInt("SEQ_Reservation");
-            }
 
             rs.close();
             pstmt.close();
@@ -81,16 +76,22 @@ public class ReservationDAOImpl implements ReservationDAO{
 
     @Override
     synchronized public boolean update(Reservation reservation) throws PersistenceException {
+        if (reservation == null) {
+            throw new PersistenceException(PersistenceException.UPDATE_OBJECT_ISNULL, "reservation cannot be null");
+        }
+        
         try {
-
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "UPDATE Reservation "
-                    + " SET NRO_persons = ?, TXT_contact_name = ?, TXT_telephone = ?, TXT_cellphone = ?"
-                    + " WHERE COD_ID_Table = ?, DAT_reservation = ?, DAT_hour_reservation = ?;";
+                    + "     SET NRO_persons  = ?,"
+                    + "     TXT_contact_name = ?,"
+                    + "     TXT_telephone    = ?,"
+                    + "     TXT_cellphone    = ? "
+                    + "WHERE COD_ID_Table = ?, DAT_reservation = ?, DAT_hour_reservation = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, reservation.getNropersons());
+            pstmt.setInt(1, reservation.getNroPersons());
             pstmt.setString(2, reservation.getTxtContactName());
             pstmt.setString(3, reservation.getTxtTelephone());
             pstmt.setString(4, reservation.getTxtCellphone());
@@ -116,6 +117,9 @@ public class ReservationDAOImpl implements ReservationDAO{
 
     @Override
     synchronized public boolean remove(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException {
+        if(tableID == null || datReservation == null || hourReservation == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -145,6 +149,9 @@ public class ReservationDAOImpl implements ReservationDAO{
 
     @Override
     synchronized public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException {
+        if(tableID == null || datReservation == null || hourReservation == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -163,7 +170,7 @@ public class ReservationDAOImpl implements ReservationDAO{
                 reservation.setCodIDTable(tableID);
                 reservation.setDatReservation(datReservation);
                 reservation.setDatHourReservation(hourReservation);
-                reservation.setNropersons(rs.getInt("NRO_persons"));
+                reservation.setNroPersons(rs.getInt("NRO_persons"));
                 reservation.setTxtContactName(rs.getString("TXT_contact_name"));
                 reservation.setTxtCellphone("TXT_telephone");
                 reservation.setTxtCellphone("TXT_cellphone");
@@ -179,6 +186,48 @@ public class ReservationDAOImpl implements ReservationDAO{
         } catch(SQLException ex){
             throw new PersistenceException(ex);
         }  
+    }
+    
+    @Override
+    synchronized public List<Reservation> listReservationByTableID(Integer tableID) throws PersistenceException {
+        if(tableID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
+        ArrayList<Reservation> reservations = null;
+        
+        try {
+            Connection connection = ConnectionManager.getInstance().getConnection();
+            
+            String sql = "SELECT * FROM Reservation WHERE COD_ID_Table = ?;";
+            
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()){
+                Reservation reservation = new Reservation();
+                
+                reservation.setCodIDTable(rs.getInt("COD_ID_Table"));
+                reservation.setDatReservation(rs.getDate("DAT_reservation"));
+                reservation.setDatHourReservation(rs.getTime("DAT_hour_reservation"));
+                reservation.setNroPersons(rs.getInt("NRO_persons"));
+                reservation.setTxtContactName(rs.getString("TXT_contact_name"));
+                reservation.setTxtCellphone("TXT_telephone");
+                reservation.setTxtCellphone("TXT_cellphone");
+                
+                reservations.add(reservation);
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return reservations;
+        } catch (ClassNotFoundException ex) {
+            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
+        } catch(SQLException ex){
+            throw new PersistenceException(ex);
+        }
     }
 
     @Override
@@ -197,7 +246,7 @@ public class ReservationDAOImpl implements ReservationDAO{
                 reservation.setCodIDTable(rs.getInt("COD_ID_Table"));
                 reservation.setDatReservation(rs.getDate("DAT_reservation"));
                 reservation.setDatHourReservation(rs.getTime("DAT_hour_reservation"));
-                reservation.setNropersons(rs.getInt("NRO_persons"));
+                reservation.setNroPersons(rs.getInt("NRO_persons"));
                 reservation.setTxtContactName(rs.getString("TXT_contact_name"));
                 reservation.setTxtCellphone("TXT_telephone");
                 reservation.setTxtCellphone("TXT_cellphone");
@@ -207,44 +256,6 @@ public class ReservationDAOImpl implements ReservationDAO{
 
             rs.close();
             stmt.close();
-            connection.close();
-
-            return reservations;
-        } catch (ClassNotFoundException ex) {
-            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
-        } catch(SQLException ex){
-            throw new PersistenceException(ex);
-        }
-    }
-
-    @Override
-    synchronized public List<Reservation> listReservationByTableID(Integer tableID) throws PersistenceException {
-        ArrayList<Reservation> reservations = null;
-        try {
-            Connection connection = ConnectionManager.getInstance().getConnection();
-            
-            String sql = "SELECT * FROM Reservation WHERE COD_ID_Table = ?;";
-            
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            
-            ResultSet rs = pstmt.executeQuery();
-            
-            while(rs.next()){
-                Reservation reservation = new Reservation();
-                
-                reservation.setCodIDTable(rs.getInt("COD_ID_Table"));
-                reservation.setDatReservation(rs.getDate("DAT_reservation"));
-                reservation.setDatHourReservation(rs.getTime("DAT_hour_reservation"));
-                reservation.setNropersons(rs.getInt("NRO_persons"));
-                reservation.setTxtContactName(rs.getString("TXT_contact_name"));
-                reservation.setTxtCellphone("TXT_telephone");
-                reservation.setTxtCellphone("TXT_cellphone");
-                
-                reservations.add(reservation);
-            }
-
-            rs.close();
-            pstmt.close();
             connection.close();
 
             return reservations;

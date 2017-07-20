@@ -18,4 +18,5 @@ public interface BillManagement {
     public boolean billUpdate(Bill bill) throws BusinessException, PersistenceException;
     public boolean billRemove(Long billID) throws PersistenceException;
     public Bill getBillByID(Long billID) throws PersistenceException;
+    public boolean thisBillIDExists(Long billID) throws PersistenceException;
 }

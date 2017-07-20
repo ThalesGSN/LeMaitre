@@ -17,9 +17,8 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface BillTableManagement {
-    public Long BillTableInsert(BillTable billTable) throws BusinessException, PersistenceException;
-    public boolean BillTableUpdate(BillTable billTable) throws BusinessException, PersistenceException;
-    public boolean BillTableRemove(Long billID, Integer tableID) throws PersistenceException;
+    public boolean billTableInsert(BillTable billTable) throws BusinessException, PersistenceException;
+    public boolean billTableRemove(Long billID, Integer tableID) throws PersistenceException;
     public List<Bill> getBillsByTableID(Integer tableID) throws PersistenceException;
     public List<Table> getTablesByBillID(Long billID) throws PersistenceException;
     

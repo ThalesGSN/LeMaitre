@@ -9,14 +9,13 @@ import br.cefetmg.LeMaitre.model.domain.Bill;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import br.cefetmg.LeMaitre.util.db.ConnectionManager;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
 public class BillDAOImpl implements BillDAO {
     private static BillDAOImpl billDAO = null;
@@ -34,8 +33,9 @@ public class BillDAOImpl implements BillDAO {
     @Override
     synchronized public Long insert(Bill bill) throws PersistenceException {
         if (bill == null) {
-            throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Bill cannot be null");
+            throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "bill cannot be null");
         }
+        
         Long idBill = null;
         
         try {
@@ -72,12 +72,14 @@ public class BillDAOImpl implements BillDAO {
     @Override
     synchronized public boolean update(Bill bill) throws PersistenceException {
         try {
-
+            if (bill == null) {
+                throw new PersistenceException(PersistenceException.UPDATE_OBJECT_ISNULL, "bill cannot be null");
+            }
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "UPDATE Bill "
                     + " SET DAT_use = ?,"
-                    + "     IDT_status = ?,"
+                    + "     IDT_status = ?"
                     + " WHERE COD_ID = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -103,6 +105,9 @@ public class BillDAOImpl implements BillDAO {
 
     @Override
     synchronized public boolean remove(Long billID) throws PersistenceException {
+        if(billID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -130,6 +135,9 @@ public class BillDAOImpl implements BillDAO {
 
     @Override
     synchronized public Bill getBillByID(Long billID) throws PersistenceException {
+        if(billID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -159,7 +167,10 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    synchronized public boolean thisBillIDExists(Integer billID) throws PersistenceException {
+    synchronized public boolean thisBillIDExists(Long billID) throws PersistenceException {
+        if(billID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 

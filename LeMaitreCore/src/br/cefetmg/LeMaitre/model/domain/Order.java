@@ -20,6 +20,8 @@ public class Order {
 
     private String codToken;
 
+    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {};
+    
     public Order() { }
 
     public Order(Long codIDBill, Integer codItem, char idtStatus,

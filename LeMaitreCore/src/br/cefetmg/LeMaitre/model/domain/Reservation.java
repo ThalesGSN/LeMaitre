@@ -63,7 +63,7 @@ public class Reservation {
      *
      * @return the value of nroPersons
      */
-    public Integer getNropersons() {
+    public Integer getNroPersons() {
         return nroPersons;
     }
 
@@ -72,7 +72,7 @@ public class Reservation {
      *
      * @param nroPersons new value of nroPersons
      */
-    public void setNropersons(Integer nroPersons) {
+    public void setNroPersons(Integer nroPersons) {
         this.nroPersons = nroPersons;
     }
     

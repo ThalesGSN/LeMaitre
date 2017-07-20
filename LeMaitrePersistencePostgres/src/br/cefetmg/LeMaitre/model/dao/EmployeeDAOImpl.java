@@ -15,9 +15,9 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Temp
+ * @author Thalesgsn
  */
-public class EmployeeDAOImpl implements EmployeeDAO{
+public class EmployeeDAOImpl implements EmployeeDAO {
     private static EmployeeDAOImpl employeeDAO = null;
 
     public static EmployeeDAOImpl getInstance(){
@@ -31,11 +31,11 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     
     
     @Override
-    synchronized public Long insert(Employee employee) throws PersistenceException {
+    synchronized public Integer insert(Employee employee) throws PersistenceException {
         if (employee == null) {
-            throw new PersistenceException(PersistenceException.INSERTED_OBJECT_ISNULL, "Employee cannot be null");
+            throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Employee cannot be null");
         }
-        Long idEmployee = null;
+        Integer idEmployee = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -53,7 +53,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idEmployee = rs.getLong("COD_ID");
+                idEmployee = rs.getInt("COD_ID");
             }
 
             rs.close();
@@ -72,15 +72,18 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     synchronized public boolean update(Employee employee) throws PersistenceException {
-        try {
+        if (employee == null) {
+            throw new PersistenceException(PersistenceException.UPDATE_OBJECT_ISNULL, "employee cannot be null");
+        }
 
+        try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "UPDATE Employee "
                     + " SET NOM_name = ?,"
                     + " IDT_profile =  ?,"
                     + " NOM_username = ?,"
-                    + " TXT_password = ?"
+                    + " TXT_password = ? "
                     + " WHERE COD_ID = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -108,6 +111,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     synchronized public boolean remove(Integer employeeID) throws PersistenceException {
+        if(employeeID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
@@ -135,6 +141,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     synchronized public Employee getEmployeeByID(Integer employeeID) throws PersistenceException {
+        if(employeeID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 

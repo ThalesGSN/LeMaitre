@@ -17,10 +17,11 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface ReservationManagement {
-    public Long reservationInsert(Reservation reservation) throws BusinessException, PersistenceException;
+    public boolean reservationInsert(Reservation reservation) throws BusinessException, PersistenceException;
     public boolean reservationUpdate(Reservation reservation) throws BusinessException, PersistenceException;
     public boolean reservationRemove(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
     public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
     public List<Reservation> getReservationsByTableID(Integer tableID) throws PersistenceException;
+    public List<Reservation> getAllReservations() throws PersistenceException;
     
 }
