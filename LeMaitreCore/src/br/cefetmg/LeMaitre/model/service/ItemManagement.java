@@ -15,10 +15,10 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface ItemManagement {
-    public Integer itemInsert(Item item) throws BusinessException, PersistenceException;
+    public Long itemInsert(Item item) throws BusinessException, PersistenceException;
     public boolean itemUpdate(Item item) throws BusinessException, PersistenceException;
-    public boolean itemRemove(Integer itemID) throws PersistenceException;
-    public Item getItemByID(Integer itemID) throws PersistenceException;
-    public boolean containsThisItemID(Integer itemID) throws PersistenceException;
+    public boolean itemRemove(Long itemID) throws PersistenceException;
+    public Item getItemByID(Long itemID) throws PersistenceException;
+    public boolean containsThisItemID(Long itemID) throws PersistenceException;
     public List<Item> getAllItems() throws PersistenceException;
 }

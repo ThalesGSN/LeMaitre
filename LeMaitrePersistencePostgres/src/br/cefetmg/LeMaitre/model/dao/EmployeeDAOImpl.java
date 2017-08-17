@@ -31,11 +31,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     
     
     @Override
-    synchronized public Integer insert(Employee employee) throws PersistenceException {
+    synchronized public Long insert(Employee employee) throws PersistenceException {
         if (employee == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Employee cannot be null");
         }
-        Integer idEmployee = null;
+        Long idEmployee = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -53,7 +53,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idEmployee = rs.getInt("COD_ID");
+                idEmployee = rs.getLong("COD_ID");
             }
 
             rs.close();
@@ -91,7 +91,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             pstmt.setString(2, String.valueOf(employee.getidtProfile()));
             pstmt.setString(3, employee.getNomUsername());
             pstmt.setString(4, employee.getTxtPassword());
-            pstmt.setInt(5, employee.getCodID());
+            pstmt.setLong(5, employee.getCodID());
             int changedRows = pstmt.executeUpdate();
             
             pstmt.close();
@@ -110,7 +110,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    synchronized public boolean remove(Integer employeeID) throws PersistenceException {
+    synchronized public boolean remove(Long employeeID) throws PersistenceException {
         if(employeeID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -140,7 +140,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    synchronized public Employee getEmployeeByID(Integer employeeID) throws PersistenceException {
+    synchronized public Employee getEmployeeByID(Long employeeID) throws PersistenceException {
         if(employeeID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         

@@ -86,7 +86,7 @@ public class OrderManagementImpl implements  OrderManagement {
     }
 
     @Override
-    public boolean orderRemove(Long billID, Integer itemID) throws PersistenceException {
+    public boolean orderRemove(Long billID, Long itemID) throws PersistenceException {
         if(billID == null || itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameter can be null.");
         
@@ -94,7 +94,7 @@ public class OrderManagementImpl implements  OrderManagement {
     }
 
     @Override
-    public Order getOrderByID(Long billID, Integer itemID) throws PersistenceException {
+    public Order getOrderByID(Long billID, Long itemID) throws PersistenceException {
         if(billID == null || itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameter can be null.");
         

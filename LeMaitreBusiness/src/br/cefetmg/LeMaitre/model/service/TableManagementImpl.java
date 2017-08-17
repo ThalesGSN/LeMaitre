@@ -23,7 +23,7 @@ public class TableManagementImpl implements TableManagement {
     }
     
     @Override
-    public Integer tableInsert(Table table) throws BusinessException, PersistenceException {
+    public Long tableInsert(Table table) throws BusinessException, PersistenceException {
         if(table == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null table cannot be inserted.");
         
@@ -58,7 +58,7 @@ public class TableManagementImpl implements TableManagement {
     }
 
     @Override
-    public boolean tableRemove(Integer tableID) throws PersistenceException {
+    public boolean tableRemove(Long tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cannot be null.");
         
@@ -66,7 +66,7 @@ public class TableManagementImpl implements TableManagement {
     }
 
     @Override
-    public Table getTableByID(Integer tableID) throws PersistenceException {
+    public Table getTableByID(Long tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cannot be null.");
         
@@ -74,7 +74,7 @@ public class TableManagementImpl implements TableManagement {
     }
 
     @Override
-    public boolean containsThisTableID(Integer tableID) throws PersistenceException {
+    public boolean containsThisTableID(Long tableID) throws PersistenceException {
          if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cannot be null.");
         

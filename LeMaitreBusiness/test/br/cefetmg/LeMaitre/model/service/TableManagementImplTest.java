@@ -19,15 +19,13 @@ import static org.junit.Assert.*;
  */
 public class TableManagementImplTest {
     
+    private Table table;
+    private Integer codID;
+    private char idtStatus;
+    private int nroSeat;
+    
     public TableManagementImplTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
+        codID = 120;
     }
     
     @Before

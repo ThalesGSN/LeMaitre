@@ -34,11 +34,11 @@ public class CategoryDAOImpl implements CategoryDAO {
     
     
     @Override
-    synchronized public Integer insert(Category category) throws PersistenceException {
+    synchronized public Long insert(Category category) throws PersistenceException {
         if (category == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Category cannot be null");
         }
-        Integer idCategory = null;
+        Long idCategory = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -53,7 +53,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idCategory = rs.getInt("SEQ_Category");
+                idCategory = rs.getLong("SEQ_Category");
             }
 
             rs.close();
@@ -104,7 +104,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    synchronized public boolean remove(Integer categoryID) throws PersistenceException {
+    synchronized public boolean remove(Long categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -134,7 +134,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    synchronized public Category getCategoryByID(Integer categoryID) throws PersistenceException {
+    synchronized public Category getCategoryByID(Long categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -166,7 +166,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    synchronized public boolean containsThisCategoryID(Integer categoryID) throws PersistenceException {
+    synchronized public boolean containsThisCategoryID(Long categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -206,7 +206,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             while(rs.next()){
                 Category category = new Category();
                 
-                category.setSeqCategory(rs.getInt("SEQ_Category"));
+                category.setSeqCategory(rs.getLong("SEQ_Category"));
                 category.setNomCategory(rs.getString("NOM_Category"));
                 
                 categories.add(category);

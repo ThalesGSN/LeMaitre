@@ -10,13 +10,13 @@ package br.cefetmg.LeMaitre.model.domain;
  * @author Thalesgsn
  */
 public class Category {
-    private Integer seqCategory;
+    private Long seqCategory;
     
     private String nomCategory;
 
     public Category() { }
 
-    public Category(Integer seqCategory, String nomCategory) {
+    public Category(Long seqCategory, String nomCategory) {
         this.seqCategory = seqCategory;
         this.nomCategory = nomCategory;
     }
@@ -26,7 +26,7 @@ public class Category {
      *
      * @return the value of seqCategory
      */
-    public Integer getSeqCategory() {
+    public Long getSeqCategory() {
         return seqCategory;
     }
 
@@ -35,7 +35,7 @@ public class Category {
      *
      * @param seqCategory new value of seqCategory
      */
-    public void setSeqCategory(Integer seqCategory) {
+    public void setSeqCategory(Long seqCategory) {
         this.seqCategory = seqCategory;
     }
    

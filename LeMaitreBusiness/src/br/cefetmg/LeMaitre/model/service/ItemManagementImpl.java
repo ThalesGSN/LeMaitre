@@ -26,7 +26,7 @@ public class ItemManagementImpl implements ItemManagement {
     }
     
     @Override
-    public Integer itemInsert(Item item) throws BusinessException, PersistenceException {
+    public Long itemInsert(Item item) throws BusinessException, PersistenceException {
         if(item == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null item cannot be inserted.");
         
@@ -97,7 +97,7 @@ public class ItemManagementImpl implements ItemManagement {
     }
 
     @Override
-    public boolean itemRemove(Integer itemID) throws PersistenceException {
+    public boolean itemRemove(Long itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "itemID cannot be null.");
         
@@ -105,7 +105,7 @@ public class ItemManagementImpl implements ItemManagement {
     }
 
     @Override
-    public Item getItemByID(Integer itemID) throws PersistenceException {
+    public Item getItemByID(Long itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "itemID cannot be null.");
         
@@ -113,7 +113,7 @@ public class ItemManagementImpl implements ItemManagement {
     }
 
     @Override
-    public boolean containsThisItemID(Integer itemID) throws PersistenceException {
+    public boolean containsThisItemID(Long itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "itemID cannot be null.");
         

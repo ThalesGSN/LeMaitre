@@ -12,11 +12,11 @@ package br.cefetmg.LeMaitre.model.domain;
 public class BillTable {
     private Long codIDBill;
 
-    private Integer codIDTable;
+    private Long codIDTable;
 
     public BillTable() { }
 
-    public BillTable(Long codIDBill, Integer codIDTable) {
+    public BillTable(Long codIDBill, Long codIDTable) {
         this.codIDBill = codIDBill;
         this.codIDTable = codIDTable;
     }
@@ -44,7 +44,7 @@ public class BillTable {
      *
      * @return the value of codIDTable
      */
-    public Integer getCodIDTable() {
+    public Long getCodIDTable() {
         return codIDTable;
     }
 
@@ -53,7 +53,7 @@ public class BillTable {
      *
      * @param codIDTable new value of codIDTable
      */
-    public void setCodIDTable(Integer codIDTable) {
+    public void setCodIDTable(Long codIDTable) {
         this.codIDTable = codIDTable;
     }
 }

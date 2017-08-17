@@ -13,7 +13,7 @@ import java.util.Date;
  * @author Thalesgsn
  */
 public class Reservation {
-    private Integer codIDTable;
+    private Long codIDTable;
     
     private Integer nroPersons;
     
@@ -29,7 +29,7 @@ public class Reservation {
 
     public Reservation() { }
 
-    public Reservation(Integer codIDTable, Integer nroPersons, String txtContactName,
+    public Reservation(Long codIDTable, Integer nroPersons, String txtContactName,
             String txtTelephone, String txtCellphone, Date datReservation, Time datHourReservation) {
         this.codIDTable = codIDTable;
         this.nroPersons = nroPersons;
@@ -45,7 +45,7 @@ public class Reservation {
      *
      * @return the value of codID
      */
-    public Integer getCodIDTable() {
+    public Long getCodIDTable() {
         return codIDTable;
     }
 
@@ -54,7 +54,7 @@ public class Reservation {
      *
      * @param codIDTable new value of codIDTable
      */
-    public void setCodIDTable(Integer codIDTable) {
+    public void setCodIDTable(Long codIDTable) {
         this.codIDTable = codIDTable;
     }
 

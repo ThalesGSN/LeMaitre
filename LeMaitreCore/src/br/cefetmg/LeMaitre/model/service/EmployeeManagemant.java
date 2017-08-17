@@ -14,8 +14,8 @@ import br.cefetmg.LeMaitre.model.exception.PersistenceException;
  * @author Thalesgsn
  */
 public interface EmployeeManagemant {
-    public Integer employeeInsert(Employee employee) throws BusinessException, PersistenceException;
+    public Long employeeInsert(Employee employee) throws BusinessException, PersistenceException;
     public boolean employeeUpdate(Employee employee) throws BusinessException, PersistenceException;
-    public boolean employeeRemove(Integer employeeID) throws PersistenceException;
-    public Employee getEmployeeByID(Integer employeeID) throws PersistenceException;
+    public boolean employeeRemove(Long employeeID) throws PersistenceException;
+    public Employee getEmployeeByID(Long employeeID) throws PersistenceException;
 }

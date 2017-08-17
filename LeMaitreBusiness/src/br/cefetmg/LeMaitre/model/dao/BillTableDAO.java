@@ -17,8 +17,8 @@ import java.util.List;
  */
 public interface BillTableDAO {
     public boolean insert(BillTable billTable) throws PersistenceException;
-    public boolean remove(Long billID, Integer tableID) throws PersistenceException;
+    public boolean remove(Long billID, Long tableID) throws PersistenceException;
     public List<Table> listTablesByBillID(Long billID) throws PersistenceException;
-    public List<Bill> listBillsByTableID(Integer tableID) throws PersistenceException;
+    public List<Bill> listBillsByTableID(Long tableID) throws PersistenceException;
     
 }

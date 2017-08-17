@@ -10,7 +10,7 @@ package br.cefetmg.LeMaitre.model.domain;
  * @author Thalesgsn
  */
 public class Item {
-    private Integer codItem;
+    private Long codItem;
 
     private Double vlrPrice;
 
@@ -20,14 +20,14 @@ public class Item {
 
     private char idtAvaliable;
 
-    private Integer codCategory;
+    private Long codCategory;
     
     public static final char[] IDT_AVALIABLE_POSSIBLE_VALUES = {};
 
     public Item() { }
 
-    public Item(Integer codItem, Double vlrPrice, String nomItem, String desItem,
-            char idtAvaliable, Integer codCategory) {
+    public Item(Long codItem, Double vlrPrice, String nomItem, String desItem,
+            char idtAvaliable, Long codCategory) {
         this.codItem = codItem;
         this.vlrPrice = vlrPrice;
         this.nomItem = nomItem;
@@ -43,7 +43,7 @@ public class Item {
      *
      * @return the value of codItem
      */
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
@@ -52,7 +52,7 @@ public class Item {
      *
      * @param codItem new value of codItem
      */
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
     
@@ -133,7 +133,7 @@ public class Item {
      *
      * @return the value of codCategory
      */
-    public Integer getCodCategory() {
+    public Long getCodCategory() {
         return codCategory;
     }
 
@@ -142,7 +142,7 @@ public class Item {
      *
      * @param codCategory new value of codCategory
      */
-    public void setCodCategory(Integer codCategory) {
+    public void setCodCategory(Long codCategory) {
         this.codCategory = codCategory;
     }
 }

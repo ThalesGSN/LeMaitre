@@ -34,11 +34,11 @@ public class ItemDAOImpl implements ItemDAO {
     
     
     @Override
-    synchronized public Integer insert(Item item) throws PersistenceException {
+    synchronized public Long insert(Item item) throws PersistenceException {
         if (item == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Item cannot be null");
         }
-        Integer idItem = null;
+        Long idItem = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -52,12 +52,12 @@ public class ItemDAOImpl implements ItemDAO {
             pstmt.setString(2, item.getNomItem());
             pstmt.setString(3, item.getDesItem());
             pstmt.setString(4, String.valueOf(item.getIdtAvaliable()));
-            pstmt.setInt(5, item.getCodCategory());
+            pstmt.setLong(5, item.getCodCategory());
             
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idItem = rs.getInt("COD_Item");
+                idItem = rs.getLong("COD_Item");
             }
 
             rs.close();
@@ -96,8 +96,8 @@ public class ItemDAOImpl implements ItemDAO {
             pstmt.setString(2, item.getNomItem());
             pstmt.setString(3, item.getDesItem());
             pstmt.setString(4, String.valueOf(item.getIdtAvaliable()));
-            pstmt.setInt(5, item.getCodCategory());
-            pstmt.setInt(6, item.getCodItem());
+            pstmt.setLong(5, item.getCodCategory());
+            pstmt.setLong(6, item.getCodItem());
             int changedRows = pstmt.executeUpdate();
             
             pstmt.close();
@@ -116,7 +116,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    synchronized public boolean remove(Integer itemID) throws PersistenceException {
+    synchronized public boolean remove(Long itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -126,7 +126,7 @@ public class ItemDAOImpl implements ItemDAO {
             String sql = "DELETE FROM Item WHERE COD_Item = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, itemID);
+            pstmt.setLong(1, itemID);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -146,7 +146,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    synchronized public Item getItemByID(Integer itemID) throws PersistenceException {
+    synchronized public Item getItemByID(Long itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -156,17 +156,17 @@ public class ItemDAOImpl implements ItemDAO {
             String sql = "SELECT * FROM item WHERE COD_Item = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, itemID);
+            pstmt.setLong(1, itemID);
             ResultSet rs = pstmt.executeQuery();
 
             Item item = new Item();
             if (rs.next()) {                
-                item.setCodItem(rs.getInt("COD_Item"));
+                item.setCodItem(rs.getLong("COD_Item"));
                 item.setVlrPrice(rs.getDouble("VLR_price"));
                 item.setNomItem(rs.getString("NOM_Item"));
                 item.setDesItem(rs.getString("DES_item"));
                 item.setIdtAvaliable(rs.getString("IDT_available").charAt(0));
-                item.setCodCategory(rs.getInt("SEQ_Category"));
+                item.setCodCategory(rs.getLong("SEQ_Category"));
             }
 
             rs.close();
@@ -182,7 +182,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
     
     @Override
-    synchronized public boolean containsThisItemID(Integer itemID) throws PersistenceException {
+    synchronized public boolean containsThisItemID(Long itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -192,7 +192,7 @@ public class ItemDAOImpl implements ItemDAO {
             String sql = "SELECT 1 FROM Item WHERE COD_Item = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, itemID);
+            pstmt.setLong(1, itemID);
             ResultSet rs = pstmt.executeQuery();
             boolean status = rs.next();
 
@@ -222,12 +222,12 @@ public class ItemDAOImpl implements ItemDAO {
             while(rs.next()){
                 Item item = new Item();
                 
-                item.setCodItem(rs.getInt("COD_Item"));
+                item.setCodItem(rs.getLong("COD_Item"));
                 item.setVlrPrice(rs.getDouble("VLR_price"));
                 item.setNomItem(rs.getString("NOM_Item"));
                 item.setDesItem(rs.getString("DES_item"));
                 item.setIdtAvaliable(rs.getString("IDT_available").charAt(0));
-                item.setCodCategory(rs.getInt("SEQ_Category"));
+                item.setCodCategory(rs.getLong("SEQ_Category"));
                 
                 items.add(item);
             }

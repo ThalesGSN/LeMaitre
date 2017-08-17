@@ -49,7 +49,7 @@ public class BillTableDAOImpl implements BillTableDAO {
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, billTable.getCodIDBill());
-            pstmt.setInt(2, billTable.getCodIDTable());
+            pstmt.setLong(2, billTable.getCodIDTable());
             
             pstmt.executeQuery();
 
@@ -68,7 +68,7 @@ public class BillTableDAOImpl implements BillTableDAO {
 
 
     @Override
-    synchronized public boolean remove(Long billID, Integer tableID) throws PersistenceException {
+    synchronized public boolean remove(Long billID, Long tableID) throws PersistenceException {
         if(billID == null || tableID == null )
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -80,7 +80,7 @@ public class BillTableDAOImpl implements BillTableDAO {
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, billID);
-            pstmt.setInt(2, tableID);
+            pstmt.setLong(2, tableID);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -121,7 +121,7 @@ public class BillTableDAOImpl implements BillTableDAO {
             while(rs.next()){
                 Table table = new Table();
                 
-                table.setCodID(rs.getInt("ID"));
+                table.setCodID(rs.getLong("ID"));
                 table.setIdtStatus(rs.getString("STATUS").charAt(0));
                 table.setNroSeat(rs.getInt("SEATS"));
                 
@@ -142,7 +142,7 @@ public class BillTableDAOImpl implements BillTableDAO {
     }
 
     @Override
-    synchronized public List<Bill> listBillsByTableID(Integer tableID) throws PersistenceException {
+    synchronized public List<Bill> listBillsByTableID(Long tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -156,7 +156,7 @@ public class BillTableDAOImpl implements BillTableDAO {
                     + "WHERE COD_ID_Table = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, tableID);
+            pstmt.setLong(1, tableID);
             
             ResultSet rs = pstmt.executeQuery();
 

@@ -14,10 +14,10 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface CategoryDAO {
-    public Integer insert(Category category) throws PersistenceException;
+    public Long insert(Category category) throws PersistenceException;
     public boolean update(Category category) throws PersistenceException;
-    public boolean remove(Integer categorySEQ) throws PersistenceException;
-    public Category getCategoryByID(Integer categorySEQ) throws PersistenceException;
-    public boolean containsThisCategoryID(Integer categorySEQ) throws PersistenceException ;
+    public boolean remove(Long categorySEQ) throws PersistenceException;
+    public Category getCategoryByID(Long categorySEQ) throws PersistenceException;
+    public boolean containsThisCategoryID(Long categorySEQ) throws PersistenceException ;
     public List<Category> listAllCategories() throws PersistenceException;
 }

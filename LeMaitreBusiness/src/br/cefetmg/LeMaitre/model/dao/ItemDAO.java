@@ -14,11 +14,11 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface ItemDAO {
-    public Integer insert(Item item) throws PersistenceException;
+    public Long insert(Item item) throws PersistenceException;
     public boolean update(Item item) throws PersistenceException;
-    public boolean remove(Integer itemID) throws PersistenceException;
-    public Item getItemByID(Integer itemID) throws PersistenceException;
-    public boolean containsThisItemID(Integer itemID) throws PersistenceException;
+    public boolean remove(Long itemID) throws PersistenceException;
+    public Item getItemByID(Long itemID) throws PersistenceException;
+    public boolean containsThisItemID(Long itemID) throws PersistenceException;
     public List<Item> listAllItems() throws PersistenceException;
     
 }

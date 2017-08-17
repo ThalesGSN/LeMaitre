@@ -50,7 +50,7 @@ public class OrderDAOImpl implements OrderDAO {
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, order.getCodIDBill());
-            pstmt.setInt(2, order.getCodItem());
+            pstmt.setLong(2, order.getCodItem());
             pstmt.setString(3, String.valueOf(order.getIdtStatus()));
             pstmt.setDouble(4, order.getVlrPrice());
             pstmt.setString(5, order.getCodToken());
@@ -90,7 +90,7 @@ public class OrderDAOImpl implements OrderDAO {
             pstmt.setString(1, String.valueOf(order.getIdtStatus()));
             pstmt.setDouble(2, order.getVlrPrice());
             pstmt.setString(3, order.getCodToken());
-            pstmt.setInt(4, order.getCodItem());
+            pstmt.setLong(4, order.getCodItem());
             pstmt.setLong(5, order.getCodIDBill());
             
             int editedRows = pstmt.executeUpdate();
@@ -113,7 +113,7 @@ public class OrderDAOImpl implements OrderDAO {
     
 
     @Override
-    synchronized public boolean remove(Long billID, Integer itemID) throws PersistenceException {
+    synchronized public boolean remove(Long billID, Long itemID) throws PersistenceException {
         if(billID == null || itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -125,7 +125,7 @@ public class OrderDAOImpl implements OrderDAO {
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, billID);
-            pstmt.setInt(2, itemID);
+            pstmt.setLong(2, itemID);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -145,7 +145,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
  
     @Override
-    synchronized public Order getOrderByID(Long billID, Integer itemID) throws PersistenceException {
+    synchronized public Order getOrderByID(Long billID, Long itemID) throws PersistenceException {
         if(billID == null || itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -157,7 +157,7 @@ public class OrderDAOImpl implements OrderDAO {
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, billID);
-            pstmt.setInt(2, itemID);
+            pstmt.setLong(2, itemID);
             
             ResultSet rs = pstmt.executeQuery();
 
@@ -204,7 +204,7 @@ public class OrderDAOImpl implements OrderDAO {
             while(rs.next()){
                 Order order = new Order();
                 order.setCodIDBill(billID);
-                order.setCodItem(rs.getInt("COD_Item"));
+                order.setCodItem(rs.getLong("COD_Item"));
                 order.setIdtStatus(rs.getString("IDT_status").charAt(0));
                 order.setVlrPrice(rs.getDouble("VLR_price"));
                 order.setCodToken(rs.getString("COD_token"));
@@ -240,12 +240,12 @@ public class OrderDAOImpl implements OrderDAO {
             while(rs.next()){
                 Item item = new Item();
                 
-                item.setCodItem(rs.getInt("B.COD_Item"));
+                item.setCodItem(rs.getLong("B.COD_Item"));
                 item.setVlrPrice(rs.getDouble("B.VLR_price"));
                 item.setNomItem(rs.getString("B.NOM_Item"));
                 item.setDesItem(rs.getString("B.DES_item"));
                 item.setIdtAvaliable(rs.getString("B.IDT_available").charAt(0));
-                item.setCodCategory(rs.getInt("B.SEQ_Category"));
+                item.setCodCategory(rs.getLong("B.SEQ_Category"));
                 
                 items.add(item);
             }

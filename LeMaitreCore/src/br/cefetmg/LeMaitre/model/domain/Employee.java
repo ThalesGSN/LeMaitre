@@ -10,7 +10,7 @@ package br.cefetmg.LeMaitre.model.domain;
  * @author Thalesgsn
  */
 public class Employee {
-    private Integer codID;
+    private Long codID;
     
     private String nomName;
     
@@ -24,7 +24,7 @@ public class Employee {
 
     public Employee() { }
 
-    public Employee(Integer codID, String nomName, char idtProfile, String nomUsername, String txtPassword) {
+    public Employee(Long codID, String nomName, char idtProfile, String nomUsername, String txtPassword) {
         this.codID = codID;
         this.nomName = nomName;
         this.idtProfile = idtProfile;
@@ -37,7 +37,7 @@ public class Employee {
      *
      * @return the value of codID
      */
-    public Integer getCodID() {
+    public Long getCodID() {
         return codID;
     }
 
@@ -46,7 +46,7 @@ public class Employee {
      *
      * @param codID new value of codID
      */
-    public void setCodID(Integer codID) {
+    public void setCodID(Long codID) {
         this.codID = codID;
     }
 

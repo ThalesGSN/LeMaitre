@@ -22,7 +22,7 @@ public class EmployeeManagementImpl implements EmployeeManagemant {
     }
     
     @Override
-    public Integer employeeInsert(Employee employee) throws BusinessException, PersistenceException {
+    public Long employeeInsert(Employee employee) throws BusinessException, PersistenceException {
         if(employee == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null employee cannot be inserted.");
         
@@ -84,7 +84,7 @@ public class EmployeeManagementImpl implements EmployeeManagemant {
     }
 
     @Override
-    public boolean employeeRemove(Integer employeeID) throws PersistenceException {
+    public boolean employeeRemove(Long employeeID) throws PersistenceException {
         if(employeeID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "employeeID cannot be null.");
         
@@ -92,7 +92,7 @@ public class EmployeeManagementImpl implements EmployeeManagemant {
     }
 
     @Override
-    public Employee getEmployeeByID(Integer employeeID) throws PersistenceException {
+    public Employee getEmployeeByID(Long employeeID) throws PersistenceException {
         if(employeeID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "employeeID cannot be null.");
         

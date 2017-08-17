@@ -18,8 +18,8 @@ import java.util.List;
 public interface OrderManagement {
     public boolean orderInsert(Order order) throws BusinessException, PersistenceException;
     public boolean orderUpdate(Order order) throws BusinessException, PersistenceException;
-    public boolean orderRemove(Long billID, Integer itemID) throws PersistenceException;
-    public Order getOrderByID(Long billID, Integer itemID) throws PersistenceException;
+    public boolean orderRemove(Long billID, Long itemID) throws PersistenceException;
+    public Order getOrderByID(Long billID, Long itemID) throws PersistenceException;
     public List<Order> getOrdersByBillID(Long billID) throws PersistenceException;
     public List<Item> getItemsByBillID(Long billID) throws PersistenceException;
 }

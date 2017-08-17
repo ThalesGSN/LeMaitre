@@ -18,9 +18,9 @@ import java.util.List;
 public interface ReservationDAO {
     public boolean insert(Reservation reservation) throws PersistenceException;
     public boolean update(Reservation reservation) throws PersistenceException;
-    public boolean remove(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
-    public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
-    public List<Reservation> listReservationByTableID(Integer tableID) throws PersistenceException;
+    public boolean remove(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException;
+    public Reservation getReservationByID(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException;
+    public List<Reservation> listReservationByTableID(Long tableID) throws PersistenceException;
     public List<Reservation> listAllReservations() throws PersistenceException;
     
 }

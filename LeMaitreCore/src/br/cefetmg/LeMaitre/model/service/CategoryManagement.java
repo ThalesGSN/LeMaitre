@@ -15,10 +15,10 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface CategoryManagement {
-    public Integer categoryInsert(Category category) throws BusinessException, PersistenceException;
+    public Long categoryInsert(Category category) throws BusinessException, PersistenceException;
     public boolean categoryUpdate(Category category) throws BusinessException, PersistenceException;
-    public boolean categoryRemove(Integer categorySEQ) throws PersistenceException;
-    public Category getCategoryByID(Integer categorySEQ) throws PersistenceException;
-    public boolean containsThisCategoryID(Integer categoryID) throws PersistenceException;
+    public boolean categoryRemove(Long categorySEQ) throws PersistenceException;
+    public Category getCategoryByID(Long categorySEQ) throws PersistenceException;
+    public boolean containsThisCategoryID(Long categoryID) throws PersistenceException;
     public List<Category> listAllCategories() throws PersistenceException;
 }

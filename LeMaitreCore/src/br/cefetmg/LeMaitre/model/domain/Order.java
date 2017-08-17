@@ -12,7 +12,7 @@ package br.cefetmg.LeMaitre.model.domain;
 public class Order {
     private Long codIDBill;
     
-    private Integer codItem;
+    private Long codItem;
 
     private char idtStatus;
 
@@ -24,7 +24,7 @@ public class Order {
     
     public Order() { }
 
-    public Order(Long codIDBill, Integer codItem, char idtStatus,
+    public Order(Long codIDBill, Long codItem, char idtStatus,
             Double vlrPrice, String codToken) {
         this.codIDBill = codIDBill;
         this.codItem = codItem;
@@ -58,7 +58,7 @@ public class Order {
      *
      * @return the value of codItem
      */
-    public Integer getCodItem() {
+    public Long getCodItem() {
         return codItem;
     }
 
@@ -67,7 +67,7 @@ public class Order {
      *
      * @param codItem new value of codItem
      */
-    public void setCodItem(Integer codItem) {
+    public void setCodItem(Long codItem) {
         this.codItem = codItem;
     }
 

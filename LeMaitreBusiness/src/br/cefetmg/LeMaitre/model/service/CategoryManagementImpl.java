@@ -23,7 +23,7 @@ public class CategoryManagementImpl implements CategoryManagement {
     }
     
     @Override
-    public Integer categoryInsert(Category category) throws BusinessException, PersistenceException {
+    public Long categoryInsert(Category category) throws BusinessException, PersistenceException {
         if(category == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null category cannot be inserted.");
         
@@ -54,7 +54,7 @@ public class CategoryManagementImpl implements CategoryManagement {
     }
 
     @Override
-    public boolean categoryRemove(Integer categoryID) throws PersistenceException {
+    public boolean categoryRemove(Long categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "categoryID cannot be null.");
         
@@ -62,7 +62,7 @@ public class CategoryManagementImpl implements CategoryManagement {
     }
 
     @Override
-    public Category getCategoryByID(Integer categoryID) throws PersistenceException {
+    public Category getCategoryByID(Long categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "categoryID cannot be null.");
         
@@ -71,7 +71,7 @@ public class CategoryManagementImpl implements CategoryManagement {
 
     
     @Override
-    public boolean containsThisCategoryID(Integer categoryID) throws PersistenceException {
+    public boolean containsThisCategoryID(Long categoryID) throws PersistenceException {
          if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "categoryID cannot be null.");
         

@@ -10,7 +10,7 @@ package br.cefetmg.LeMaitre.model.domain;
  * @author Thalesgsn
  */
 public class Table {
-    private Integer codID;
+    private Long codID;
 
     private char idtStatus;
 
@@ -20,7 +20,7 @@ public class Table {
 
     public Table() { }
 
-    public Table(Integer codID, char idtStatus, int nroSeat) {
+    public Table(Long codID, char idtStatus, int nroSeat) {
         this.codID = codID;
         this.idtStatus = idtStatus;
         this.nroSeat = nroSeat;
@@ -31,7 +31,7 @@ public class Table {
      *
      * @return the value of codID
      */
-    public Integer getCodID() {
+    public Long getCodID() {
         return codID;
     }
 
@@ -40,7 +40,7 @@ public class Table {
      *
      * @param codID new value of codID
      */
-    public void setCodID(Integer codID) {
+    public void setCodID(Long codID) {
         this.codID = codID;
     }
 
