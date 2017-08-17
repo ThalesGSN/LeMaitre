@@ -8,6 +8,7 @@ package br.cefetmg.LeMaitre.model.service;
 import br.cefetmg.LeMaitre.model.domain.Bill;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.List;
 
 /**
  *
@@ -19,4 +20,5 @@ public interface BillManagement {
     public boolean billRemove(Long billID) throws PersistenceException;
     public Bill getBillByID(Long billID) throws PersistenceException;
     public boolean containsThisBillID(Long billID) throws PersistenceException;
+    public List<Bill> listAll() throws PersistenceException;
 }

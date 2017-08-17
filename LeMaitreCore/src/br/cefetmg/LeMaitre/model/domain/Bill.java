@@ -18,10 +18,15 @@ public class Bill {
 
     private char idtStatus;
 
-    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {};
+    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {'O', 'C'};
     
     public Bill() { }
 
+    public Bill(Date datUse, char idtStatus) {
+        this.datUse = datUse;
+        this.idtStatus = idtStatus;
+    }
+    
     public Bill(Long codID, Date datUse, char idtStatus) {
         this.codID = codID;
         this.datUse = datUse;

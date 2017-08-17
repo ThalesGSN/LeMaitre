@@ -12,6 +12,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -191,5 +195,34 @@ public class BillDAOImpl implements BillDAO {
         } catch(SQLException ex){
             throw new PersistenceException(ex);
         }  
+    }
+
+    @Override
+    public List<Bill> listAll() throws PersistenceException {
+        List list = new ArrayList();
+        
+        try {
+            Connection connection = ConnectionManager.getInstance().getConnection();
+                                   
+            String sql = "SELECT * FROM Bill;";
+            
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                list.add(rs);
+            }
+            
+            rs.close();
+            pstmt.close();
+            connection.close();
+                        
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BillDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BillDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
     }
 }

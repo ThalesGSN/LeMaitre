@@ -9,6 +9,7 @@ import br.cefetmg.LeMaitre.model.dao.BillDAO;
 import br.cefetmg.LeMaitre.model.domain.Bill;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.List;
 
 /**
  *
@@ -78,6 +79,11 @@ public class BillManagementImpl implements BillManagement {
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "billID cannot be null.");
         
         return DAO.containsThisBillID(billID);
+    }
+
+    @Override
+    public List<Bill> listAll() throws PersistenceException {
+        return DAO.listAll();
     }
     
 }

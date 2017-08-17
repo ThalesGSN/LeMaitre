@@ -7,6 +7,7 @@ package br.cefetmg.LeMaitre.model.dao;
 
 import br.cefetmg.LeMaitre.model.domain.Bill;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.List;
 
 /**
  *
@@ -18,4 +19,5 @@ public interface BillDAO {
     public boolean remove(Long billID) throws PersistenceException;
     public Bill getBillByID(Long billID) throws PersistenceException;
     public boolean containsThisBillID(Long billID) throws PersistenceException;
+    public List<Bill> listAll() throws PersistenceException;
 }
