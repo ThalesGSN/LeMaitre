@@ -84,10 +84,11 @@ public class BillManagementImplTest {
         try {
             bill = null;
             codID = billManagement.billInsert(bill);
+            fail("Failed to catch exception when inserting null bill");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillInsertNull test");
+            
         }
-        fail("Failed to catch exception when inserting null bill");
     }
     
     /**
@@ -98,10 +99,11 @@ public class BillManagementImplTest {
         try {
             bill.setDatUse(null);
             codID = billManagement.billInsert(bill);
+            fail("Failed to catch exception when inserting null date");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillInsertNullDatUse test");
         }
-        fail("Failed to catch exception when inserting null date");
+        
     }
     
     /**
@@ -112,10 +114,10 @@ public class BillManagementImplTest {
         try {
             bill.setIdtStatus('R');
             codID = billManagement.billInsert(bill);
+            fail("Failed to catch exception when inserting null idt");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillInsertInvalidIdt test");
         }
-        fail("Failed to catch exception when inserting null idt");
     }
 
     /**
@@ -127,10 +129,10 @@ public class BillManagementImplTest {
             codID = billManagement.billInsert(bill);
             bill.setCodID(codID);
             billManagement.billUpdate(bill);
+            System.out.println("Passed testBillUpdate test");
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to update correct bill");
         }
-        System.out.println("Passed testBillUpdate test");
     }
     
     /**
@@ -141,10 +143,10 @@ public class BillManagementImplTest {
         try {
             codID = billManagement.billInsert(bill);
             billManagement.billUpdate(bill);
+            fail("Failed to catch exception when updating  null id");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillUpdateNullId test");
         }
-        fail("Failed to catch exception when updating  null id");
     }
     
     /**
@@ -157,10 +159,10 @@ public class BillManagementImplTest {
             bill.setDatUse(null);
             bill.setCodID(codID);
             billManagement.billUpdate(bill);
+            fail("Failed to catch exception when updating null date");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillUpdateNullDatUse test");
         }
-        fail("Failed to catch exception when updating null date");
     }
     
     /**
@@ -173,10 +175,10 @@ public class BillManagementImplTest {
             bill.setIdtStatus('R');
             bill.setCodID(codID);
             billManagement.billUpdate(bill);
+            fail("Failed to catch exception when updating null idt");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillInsertInvalidIdt test");
         }
-        fail("Failed to catch exception when updating null idt");
     }
 
     /**
@@ -188,10 +190,10 @@ public class BillManagementImplTest {
             codID = billManagement.billInsert(bill);
             billManagement.billRemove(codID);
             codID = -1L;
+            System.out.println("Correctly removed bill");
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to remove correct bill");
         }
-        System.out.println("Correctly removed bill");
     }
 
     /**
@@ -203,30 +205,34 @@ public class BillManagementImplTest {
             codID = billManagement.billInsert(bill);
             billManagement.billRemove(codID);
             Bill newBill = billManagement.getBillByID(codID);
-            if (!newBill.getCodID().equals(codID)) {
+            if (newBill.getCodID() != codID) {
+                System.err.println(newBill.getCodID() + " -- " + codID);
                 fail("Failed to retrieve correct bill");
             }
+            System.out.println("Correctly retrieved bill");
         } catch (BusinessException | PersistenceException ex) {
+            System.out.println("br.cefetmg.LeMaitre.model.service.BillManagementImplTest.testGetBillByID()");
+            ex.printStackTrace();
             fail("Failed to retrieve correct bill");
+            
         }
-        System.out.println("Correctly retrieved bill");
     }
 
     /**
      * Test of containsThisBillID method, of class BillManagementImpl.
      */
     @Test
-    public void testThisBillIDExists() throws Exception {
+    public void testThisBillIDExists() {
         try {
             codID = billManagement.billInsert(bill);
             List list = billManagement.listAll();
             if (list.isEmpty()) {
                 fail("Failed to retrieve correct bill");
             }
+            System.out.println("Correctly retrieved bill");
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to retrieve correct bill");
         }
-        System.out.println("Correctly retrieved bill");
     }
     
 }
