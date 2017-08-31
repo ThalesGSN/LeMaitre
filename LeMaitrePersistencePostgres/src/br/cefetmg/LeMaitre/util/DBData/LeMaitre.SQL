@@ -5,12 +5,13 @@ Model: Le Maitre
 Database: PostgreSQL 9.4
 */
 
+
 -- Create tables section -------------------------------------------------
 
 -- Table Table
 
 CREATE TABLE "Table"(
- "COD_id" Integer NOT NULL,
+ "COD_id" BigSerial NOT NULL,
  "IDT_status" Character(1) NOT NULL,
  "NRO_seat" Integer NOT NULL
 )
@@ -28,7 +29,7 @@ ALTER TABLE "Table" ADD CONSTRAINT "Key1" PRIMARY KEY ("COD_id")
 -- Table Order
 
 CREATE TABLE "Order"(
- "COD_id" Bigint NOT NULL,
+ "COD_id" BigSerial NOT NULL,
  "COD_item" Bigint NOT NULL,
  "IDT_status" Character(1) NOT NULL,
  "VLR_price" Double precision NOT NULL,
@@ -48,7 +49,7 @@ ALTER TABLE "Order" ADD CONSTRAINT "Key2" PRIMARY KEY ("COD_id","COD_item")
 -- Table Bill
 
 CREATE TABLE "Bill"(
- "COD_id" Bigint NOT NULL,
+ "COD_id" BigSerial NOT NULL,
  "DAT_use" Date NOT NULL,
  "IDT_status" Character(1) NOT NULL
 )
@@ -67,7 +68,7 @@ CREATE TABLE "Item"(
  "NOM_item" Varchar NOT NULL,
  "DES_item" Varchar NOT NULL,
  "IDT_available" Character(1) NOT NULL,
- "COD_category" Integer NOT NULL
+ "COD_category" Bigint NOT NULL
 )
 ;
 
@@ -90,7 +91,7 @@ CREATE TABLE "Menu"(
 -- Table Employee
 
 CREATE TABLE "Employee"(
- "COD_id" Integer NOT NULL,
+ "COD_id" BigSerial NOT NULL,
  "NOM_name" Varchar NOT NULL,
  "IDT_profile" Character(1) NOT NULL,
  "NOM_username" Varchar NOT NULL,
@@ -109,7 +110,7 @@ ALTER TABLE "Employee" ADD CONSTRAINT "Key6" PRIMARY KEY ("COD_id")
 -- Table Reservation
 
 CREATE TABLE "Reservation"(
- "COD_id" Integer NOT NULL,
+ "COD_id" BigSerial NOT NULL,
  "DAT_reservation" Date NOT NULL,
  "DAT_hour_reservation" Time NOT NULL,
  "NRO_persons" Integer NOT NULL,
@@ -134,7 +135,7 @@ CREATE TABLE "Waiter"(
 
 CREATE TABLE "Bill_Table"(
  "COD_id_bill" Bigint NOT NULL,
- "COD_id_table" Integer NOT NULL
+ "COD_id_table" Bigint NOT NULL
 )
 ;
 
@@ -146,7 +147,7 @@ ALTER TABLE "Bill_Table" ADD CONSTRAINT "Key11" PRIMARY KEY ("COD_id_table","COD
 -- Table Category
 
 CREATE TABLE "Category"(
- "COD_category" Integer NOT NULL,
+ "COD_category" BigSerial NOT NULL,
  "NOM_category" Varchar NOT NULL
 )
 ;
@@ -175,7 +176,3 @@ ALTER TABLE "Order" ADD CONSTRAINT "Relationship12" FOREIGN KEY ("COD_id") REFER
 
 ALTER TABLE "Order" ADD CONSTRAINT "Relationship13" FOREIGN KEY ("COD_item") REFERENCES "Item" ("COD_item") ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
-
-
-
-
