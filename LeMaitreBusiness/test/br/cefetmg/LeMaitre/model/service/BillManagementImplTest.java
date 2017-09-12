@@ -9,10 +9,8 @@ import br.cefetmg.LeMaitre.model.dao.BillDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.Bill;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -203,15 +201,12 @@ public class BillManagementImplTest {
     public void testGetBillByID() {
         try {
             codID = billManagement.billInsert(bill);
-            billManagement.billRemove(codID);
             Bill newBill = billManagement.getBillByID(codID);
             if (newBill.getCodID() != codID) {
-                System.err.println(newBill.getCodID() + " -- " + codID);
                 fail("Failed to retrieve correct bill");
             }
             System.out.println("Correctly retrieved bill");
         } catch (BusinessException | PersistenceException ex) {
-            System.out.println("br.cefetmg.LeMaitre.model.service.BillManagementImplTest.testGetBillByID()");
             ex.printStackTrace();
             fail("Failed to retrieve correct bill");
             
