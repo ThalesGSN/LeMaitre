@@ -16,7 +16,7 @@ public class Table {
 
     private int nroSeat;
     
-    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {};
+    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {'O', 'F', 'R'};
 
     public Table() { }
 
@@ -26,6 +26,11 @@ public class Table {
         this.nroSeat = nroSeat;
     }
 
+    public Table(char idtStatus, int nroSeat) {
+        this.idtStatus = idtStatus;
+        this.nroSeat = nroSeat;
+    }
+    
     /**
      * Get the value of codID
      *

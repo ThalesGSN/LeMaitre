@@ -9,6 +9,7 @@ import br.cefetmg.LeMaitre.model.dao.TableDAO;
 import br.cefetmg.LeMaitre.model.domain.Table;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.List;
 
 /**
  *
@@ -79,6 +80,11 @@ public class TableManagementImpl implements TableManagement {
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cannot be null.");
         
         return DAO.containsThisTableID(tableID);
+    }
+
+    @Override
+    public List<Table> listAll() throws PersistenceException {
+        return DAO.listAll();
     }
     
 }

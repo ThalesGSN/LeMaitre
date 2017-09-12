@@ -173,7 +173,7 @@ public class BillManagementImplTest {
             bill.setIdtStatus('R');
             bill.setCodID(codID);
             billManagement.billUpdate(bill);
-            fail("Failed to catch exception when updating null idt");
+            fail("Failed to catch exception when updating invalid idt");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillInsertInvalidIdt test");
         }

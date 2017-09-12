@@ -7,6 +7,7 @@ package br.cefetmg.LeMaitre.model.dao;
 
 import br.cefetmg.LeMaitre.model.domain.Table;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.List;
 
 /**
  *
@@ -18,4 +19,5 @@ public interface TableDAO {
     public boolean remove(Long tableID) throws PersistenceException;
     public Table getTableByID(Long tableID) throws PersistenceException;
     public boolean containsThisTableID(Long tableID) throws PersistenceException;
+    public List<Table> listAll() throws PersistenceException;
 }

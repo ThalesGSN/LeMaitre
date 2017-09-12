@@ -12,6 +12,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,8 +45,8 @@ public class TableDAOImpl implements TableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "INSERT INTO Table "
-                    + "(IDT_status, DAT_use) "
+            String sql = "INSERT INTO \"table\" "
+                    + "(IDT_status, NRO_seat) "
                     + "    VALUES (?, ?) returning COD_ID;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -78,7 +82,7 @@ public class TableDAOImpl implements TableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "UPDATE Table "
+            String sql = "UPDATE \"table\" "
                     + " SET IDT_status = ?,"
                     + "     NRO_seat = ?"
                     + " WHERE COD_ID = ?;";
@@ -112,7 +116,7 @@ public class TableDAOImpl implements TableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "DELETE FROM Table WHERE COD_ID = ?;";
+            String sql = "DELETE FROM \"table\" WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, tableID);
@@ -142,7 +146,7 @@ public class TableDAOImpl implements TableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "SELECT * FROM table WHERE COD_ID = ?;";
+            String sql = "SELECT * FROM \"table\" WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, tableID);
@@ -175,7 +179,7 @@ public class TableDAOImpl implements TableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "SELECT 1 FROM Table WHERE COD_ID = ?;";
+            String sql = "SELECT 1 FROM \"table\" WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, tableID);
@@ -192,5 +196,34 @@ public class TableDAOImpl implements TableDAO {
         } catch(SQLException ex){
             throw new PersistenceException(ex);
         }  
+    }
+
+    @Override
+    public List<Table> listAll() throws PersistenceException {
+        List list = new ArrayList();
+        
+        try {
+            Connection connection = ConnectionManager.getInstance().getConnection();
+                                   
+            String sql = "SELECT * FROM \"table\"";
+            
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                list.add(rs);
+            }
+            
+            rs.close();
+            pstmt.close();
+            connection.close();
+                        
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BillDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BillDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
     }
 }
