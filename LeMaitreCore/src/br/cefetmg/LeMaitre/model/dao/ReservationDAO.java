@@ -16,11 +16,11 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface ReservationDAO {
-    public boolean insert(Reservation reservation) throws PersistenceException;
+    public void insert(Reservation reservation) throws PersistenceException;
     public boolean update(Reservation reservation) throws PersistenceException;
     public boolean remove(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException;
     public Reservation getReservationByID(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException;
     public List<Reservation> listReservationByTableID(Long tableID) throws PersistenceException;
-    public List<Reservation> listAllReservations() throws PersistenceException;
+    public List<Reservation> listAll() throws PersistenceException;
     
 }

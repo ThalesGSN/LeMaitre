@@ -176,10 +176,10 @@ public class TableManagementImplTest {
     }
 
     /**
-     * Test of containsThisTableID method, of class TableManagementImpl.
+     * Test of listAll() method, of class TableManagementImpl.
      */
     @Test
-    public void testThisTableIDExists() {
+    public void testListAll() {
         try {
             codID = tableManagement.tableInsert(table);
             List list = tableManagement.listAll();

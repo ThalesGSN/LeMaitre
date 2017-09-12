@@ -28,7 +28,7 @@ public class Reservation {
     private Time datHourReservation;
 
     public Reservation() { }
-
+    
     public Reservation(Long codIDTable, Integer nroPersons, String txtContactName,
             String txtTelephone, String txtCellphone, Date datReservation, Time datHourReservation) {
         this.codIDTable = codIDTable;
@@ -39,7 +39,7 @@ public class Reservation {
         this.datReservation = datReservation;
         this.datHourReservation = datHourReservation;
     }
-
+    
     /**
      * Get the value of codID
      *

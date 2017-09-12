@@ -28,7 +28,7 @@ public class ReservationManagementImpl implements ReservationManagement {
     }
     
     @Override
-    public boolean reservationInsert(Reservation reservation) throws BusinessException, PersistenceException {
+    public void reservationInsert(Reservation reservation) throws BusinessException, PersistenceException {
         if(reservation == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null reservation cannot be inserted.");
         
@@ -59,7 +59,7 @@ public class ReservationManagementImpl implements ReservationManagement {
         if(reservation.getTxtCellphone().isEmpty())
             throw new BusinessException(BusinessException.EMPTY_STRING, "Cellphone cannot be empty.");
         
-        return DAO.insert(reservation);
+        DAO.insert(reservation);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class ReservationManagementImpl implements ReservationManagement {
     }
 
     @Override
-    public List<Reservation> getAllReservations() throws PersistenceException {
-        return DAO.listAllReservations();
+    public List<Reservation> listAll() throws PersistenceException {
+        return DAO.listAll();
     }
 }

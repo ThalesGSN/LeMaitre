@@ -214,10 +214,10 @@ public class BillManagementImplTest {
     }
 
     /**
-     * Test of containsThisBillID method, of class BillManagementImpl.
+     * Test of listAll method, of class BillManagementImpl.
      */
     @Test
-    public void testThisBillIDExists() {
+    public void testListAll() {
         try {
             codID = billManagement.billInsert(bill);
             List list = billManagement.listAll();
