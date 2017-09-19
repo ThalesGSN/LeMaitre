@@ -79,7 +79,7 @@ public class CategoryManagementImpl implements CategoryManagement {
     }
     
     @Override
-    public List<Category> listAllCategories() throws PersistenceException {
+    public List<Category> listAll() throws PersistenceException {
         return DAO.listAllCategories();
     }
 }

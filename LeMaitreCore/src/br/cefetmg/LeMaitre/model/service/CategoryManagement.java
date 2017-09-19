@@ -20,5 +20,5 @@ public interface CategoryManagement {
     public boolean categoryRemove(Long categorySEQ) throws PersistenceException;
     public Category getCategoryByID(Long categorySEQ) throws PersistenceException;
     public boolean containsThisCategoryID(Long categoryID) throws PersistenceException;
-    public List<Category> listAllCategories() throws PersistenceException;
+    public List<Category> listAll() throws PersistenceException;
 }

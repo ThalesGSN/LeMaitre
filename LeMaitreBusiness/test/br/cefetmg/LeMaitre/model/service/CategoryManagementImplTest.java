@@ -5,12 +5,14 @@
  */
 package br.cefetmg.LeMaitre.model.service;
 
+import br.cefetmg.LeMaitre.model.dao.CategoryDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.Category;
+import br.cefetmg.LeMaitre.model.exception.BusinessException;
+import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import java.util.List;
+import java.util.Objects;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,113 +21,175 @@ import static org.junit.Assert.*;
  * @author Thalesgsn
  */
 public class CategoryManagementImplTest {
+    private Long codID;
+    
+    private final String nomCategory;
+    
+    private Category category;
+    
+    private final CategoryManagement categoryManagement;
     
     public CategoryManagementImplTest() {
+        nomCategory = "404 TEST";
+        categoryManagement = new CategoryManagementImpl(CategoryDAOImpl.getInstance());
+        category = new Category();
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+        
     @Before
     public void setUp() {
+        codID = -1L;
+        category.setNomCategory(nomCategory);
+        category.setSeqCategory(null);
     }
     
     @After
     public void tearDown() {
+        try {
+            if (codID != -1L) {
+                categoryManagement.categoryRemove(codID);
+            }
+        } catch (PersistenceException ex) {
+            System.out.println("Failed to remove category after test");
+        }
     }
 
     /**
      * Test of categoryInsert method, of class CategoryManagementImpl.
      */
     @Test
-    public void testCategoryInsert() throws Exception {
-        System.out.println("categoryInsert");
-        Category category = null;
-        CategoryManagementImpl instance = null;
-        Integer expResult = null;
-        Integer result = instance.categoryInsert(category);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testCategoryInsert() {
+        try {
+            codID = categoryManagement.categoryInsert(category);
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to insert correct category");
+        }
+        System.out.println("Passed testCategoryInsert test");
     }
+    
+    /**
+     * Test of categoryInsert method, of class CategoryManagementImpl.
+     */
+    @Test
+    public void testCategoryInsertNull() {
+        try {
+            category = null;
+            codID = categoryManagement.categoryInsert(category);
+            fail("Failed to catch exception when inserting null category");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testCategoryInsertNull test");
+            
+        }
+    }
+    
+    /**
+     * Test of categoryInsert method, of class CategoryManagementImpl.
+     */
+    @Test
+    public void testCategoryInsertNullNomCategory() {
+        try {
+            category.setNomCategory(null);
+            codID = categoryManagement.categoryInsert(category);
+            fail("Failed to catch exception when inserting null date");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testCategoryInsertNullDatUse test");
+        }
+        
+    }
+    
 
     /**
      * Test of categoryUpdate method, of class CategoryManagementImpl.
      */
     @Test
-    public void testCategoryUpdate() throws Exception {
-        System.out.println("categoryUpdate");
-        Category category = null;
-        CategoryManagementImpl instance = null;
-        boolean expResult = false;
-        boolean result = instance.categoryUpdate(category);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testCategoryUpdate() {
+        try {
+            codID = categoryManagement.categoryInsert(category);
+            category.setSeqCategory(codID);
+            categoryManagement.categoryUpdate(category);
+            System.out.println("Passed testCategoryUpdate test");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to update correct category");
+        }
+    }
+    
+    /**
+     * Test of categoryUpdate method, of class CategoryManagementImpl.
+     */
+    @Test
+    public void testCategoryUpdateNullId() {
+        try {
+            codID = categoryManagement.categoryInsert(category);
+            categoryManagement.categoryUpdate(category);
+            fail("Failed to catch exception when updating  null id");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testCategoryUpdateNullId test");
+        }
+    }
+    
+    /**
+     * Test of categoryUpdate method, of class CategoryManagementImpl.
+     */
+    @Test
+    public void testCategoryUpdateNullNomCategory() {
+        try {
+            codID = categoryManagement.categoryInsert(category);
+            category.setSeqCategory(codID);
+            category.setNomCategory(null);
+            categoryManagement.categoryUpdate(category);
+            fail("Failed to catch exception when updating null date");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testCategoryUpdateNullDatUse test");
+        }
     }
 
     /**
      * Test of categoryRemove method, of class CategoryManagementImpl.
      */
     @Test
-    public void testCategoryRemove() throws Exception {
-        System.out.println("categoryRemove");
-        Integer categoryID = null;
-        CategoryManagementImpl instance = null;
-        boolean expResult = false;
-        boolean result = instance.categoryRemove(categoryID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testCategoryRemove() {
+        try {
+            codID = categoryManagement.categoryInsert(category);
+            categoryManagement.categoryRemove(codID);
+            codID = -1L;
+            System.out.println("Correctly removed category");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to remove correct category");
+        }
     }
 
     /**
      * Test of getCategoryByID method, of class CategoryManagementImpl.
      */
     @Test
-    public void testGetCategoryByID() throws Exception {
-        System.out.println("getCategoryByID");
-        Integer categoryID = null;
-        CategoryManagementImpl instance = null;
-        Category expResult = null;
-        Category result = instance.getCategoryByID(categoryID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetCategoryByID() {
+        try {
+            codID = categoryManagement.categoryInsert(category);
+            Category newCategory = categoryManagement.getCategoryByID(codID);
+            if (!Objects.equals(newCategory.getSeqCategory(), codID)) {
+                fail("Failed to retrieve correct category");
+            }
+            System.out.println("Correctly retrieved category");
+        } catch (BusinessException | PersistenceException ex) {
+            ex.printStackTrace();
+            fail("Failed to retrieve correct category");
+            
+        }
     }
 
     /**
-     * Test of containsThisCategoryID method, of class CategoryManagementImpl.
+     * Test of listAll method, of class CategoryManagementImpl.
      */
     @Test
-    public void testThisCategoryIDExists() throws Exception {
-        System.out.println("thisCategoryIDExists");
-        Integer categoryID = null;
-        CategoryManagementImpl instance = null;
-        boolean expResult = false;
-        boolean result = instance.containsThisCategoryID(categoryID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testListAll() {
+        try {
+            codID = categoryManagement.categoryInsert(category);
+            List list = categoryManagement.listAll();
+            if (list.isEmpty()) {
+                fail("Failed to retrieve correct category");
+            }
+            System.out.println("Correctly retrieved category");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to retrieve correct category");
+        }
     }
-
-    /**
-     * Test of listAllCategories method, of class CategoryManagementImpl.
-     */
-    @Test
-    public void testListAllCategories() throws Exception {
-        System.out.println("listAllCategories");
-        CategoryManagementImpl instance = null;
-        List<Category> expResult = null;
-        List<Category> result = instance.listAllCategories();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }
