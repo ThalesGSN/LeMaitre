@@ -79,7 +79,9 @@ public class EmployeeManagementImplTest {
     }
 
     
-    
+    /**
+     * Test of employeeInsertNull method, of class EmployeeManagementImpl.
+     */
     @Test
     public void testEmployeeInsertNull() {
         try {
@@ -102,9 +104,7 @@ public class EmployeeManagementImplTest {
             System.out.println("Passed testEmployeeInsertInvalidIdt test");
         }
     }
-    
-    
-    
+
     /**
      * Test of employeeUpdate method, of class EmployeeManagementImpl.
      */
