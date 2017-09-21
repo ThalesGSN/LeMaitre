@@ -14,7 +14,7 @@ import br.cefetmg.LeMaitre.model.exception.PersistenceException;
  *
  * @author Thalesgsn
  */
-public class EmployeeManagementImpl implements EmployeeManagemant {
+public class EmployeeManagementImpl implements EmployeeManagement {
     EmployeeDAO DAO;
 
     public EmployeeManagementImpl(EmployeeDAO DAO) {

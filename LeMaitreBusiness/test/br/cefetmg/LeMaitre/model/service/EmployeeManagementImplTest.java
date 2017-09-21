@@ -5,7 +5,10 @@
  */
 package br.cefetmg.LeMaitre.model.service;
 
+import br.cefetmg.LeMaitre.model.dao.EmployeeDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.Employee;
+import br.cefetmg.LeMaitre.model.exception.BusinessException;
+import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,87 +18,204 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Thalesgsn
+ * @author Breno Mariz
  */
 public class EmployeeManagementImplTest {
     
+    private Employee employee;
+    private Long codID;
+    private String nomName;
+    private char idtProfile;
+    private String nomUsername;
+    private String txtPassword;
+    private EmployeeManagement employeeManagement;
+    
+    
     public EmployeeManagementImplTest() {
+        idtProfile = 'M';
+        codID = new Long(1);
+        nomName = new String("Dimas");
+        nomUsername = new String("didi");
+        txtPassword = new String("123456");
+        employee = new Employee(codID, nomName, idtProfile, nomUsername, txtPassword);
+        employeeManagement = new EmployeeManagementImpl(EmployeeDAOImpl.getInstance());
+
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
+
     
     @Before
     public void setUp() {
+        idtProfile = 'M'; // M = manager
+        codID = -1L;
+        txtPassword = new String("123456");
+        nomUsername = new String("didi");
+        employee.setidtProfile(idtProfile);
+        employee.setTxtPassword(txtPassword);
+        employee.setNomUsername(nomUsername);
     }
     
     @After
     public void tearDown() {
+        try {
+            if (codID != -1L) {
+                employeeManagement.employeeRemove(codID);
+            }
+        } catch (PersistenceException ex) {
+            System.out.println("Failed to remove employee after test");
+        }
     }
 
     /**
      * Test of employeeInsert method, of class EmployeeManagementImpl.
      */
     @Test
-    public void testEmployeeInsert() throws Exception {
-        System.out.println("employeeInsert");
-        Employee employee = null;
-        EmployeeManagementImpl instance = null;
-        Integer expResult = null;
-        Integer result = instance.employeeInsert(employee);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testEmployeeInsert() {
+        try {
+            codID = employeeManagement.employeeInsert(employee);
+        } catch (BusinessException | PersistenceException ex) {
+            fail ("Failed to insert employee");
+        }
+        System.out.println("Passed testEmployeeInsert test");
     }
 
+    
+    
+    @Test
+    public void testEmployeeInsertNull() {
+        try {
+            employee = null;
+            codID = employeeManagement.employeeInsert(employee);
+            fail("Failed to catch exception when inserting null employee");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testEmployeeInsertNull test");
+
+        }
+    }
+    
+    @Test
+    public void testEmployeeInsertInvalidIdt() {
+        try {
+            employee.setidtProfile('X');
+            codID = employeeManagement.employeeInsert(employee);
+            fail("Failed to catch exception when inserting invalid idt");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testEmployeeInsertInvalidIdt test");
+        }
+    }
+    
+    
+    
     /**
      * Test of employeeUpdate method, of class EmployeeManagementImpl.
      */
     @Test
-    public void testEmployeeUpdate() throws Exception {
-        System.out.println("employeeUpdate");
-        Employee employee = null;
-        EmployeeManagementImpl instance = null;
-        boolean expResult = false;
-        boolean result = instance.employeeUpdate(employee);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testEmployeeUpdate(){
+        try {
+            codID = employeeManagement.employeeInsert(employee);
+            employee.setCodID(codID);
+            employeeManagement.employeeUpdate(employee);
+            System.out.println("Passed testEmployeeUpdate test");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to update correct employee");
+        }
     }
 
+
+    @Test
+    public void testTableUpdateNullId() {
+        try {
+            codID = employeeManagement.employeeInsert(employee);
+            employeeManagement.employeeUpdate(employee);
+            fail("Failed to catch exception when updating  null id");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testEmployeeUpdateNullId test");
+        }
+    }
+    
+    @Test
+    public void testTableUpdateInvalidIdt() {
+        try {
+            codID = employeeManagement.employeeInsert(employee);
+            employee.setidtProfile('X');
+            employee.setCodID(codID);
+            employeeManagement.employeeUpdate(employee);
+            fail("Failed to catch exception when updating null idt");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testEmployeeInsertInvalidIdt test");
+        }
+    }
+    
     /**
      * Test of employeeRemove method, of class EmployeeManagementImpl.
      */
     @Test
-    public void testEmployeeRemove() throws Exception {
-        System.out.println("employeeRemove");
-        Integer employeeID = null;
-        EmployeeManagementImpl instance = null;
-        boolean expResult = false;
-        boolean result = instance.employeeRemove(employeeID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testEmployeeRemove(){
+        try {
+            codID = employeeManagement.employeeInsert(employee);
+            employeeManagement.employeeRemove(codID);
+            codID = -1L;
+            System.out.println("Correctly removed employee");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to remove correct employee");
+        }
     }
 
     /**
      * Test of getEmployeeByID method, of class EmployeeManagementImpl.
      */
     @Test
-    public void testGetEmployeeByID() throws Exception {
-        System.out.println("getEmployeeByID");
-        Integer employeeID = null;
-        EmployeeManagementImpl instance = null;
-        Employee expResult = null;
-        Employee result = instance.getEmployeeByID(employeeID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetEmployeeByID(){
+        try {
+            codID = employeeManagement.employeeInsert(employee);
+            Employee newEmployee = employeeManagement.getEmployeeByID(codID);
+            if (newEmployee.getCodID() != codID) {
+                fail("Failed to retrieve correct employee");
+            }
+            System.out.println("Correctly retrieved employee");
+        } catch (BusinessException | PersistenceException ex) {
+            ex.printStackTrace();
+            fail("Failed to retrieve correct employee");
+
+        }
+    }
+    
+    @Test
+    public void testTableUpdateNullnomName() {
+        try {
+            codID = employeeManagement.employeeInsert(employee);
+            employee.setNomName(null);
+            employee.setCodID(codID);
+            employeeManagement.employeeUpdate(employee);
+            fail("Failed to catch exception when updating  null id");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testEmployeeUpdateNullId test");
+        }
+    }
+    
+    @Test
+    public void testTableUpdateNullNomUserName() {
+        try {
+            codID = employeeManagement.employeeInsert(employee);
+            employee.setNomUsername(null);
+            employee.setCodID(codID);
+            employeeManagement.employeeUpdate(employee);
+            fail("Failed to catch exception when updating  null id");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testEmployeeUpdateNullId test");
+        }
+    }
+    
+    @Test
+    public void testTableUpdateNullPassword() {
+        try {
+            codID = employeeManagement.employeeInsert(employee);
+            employee.setTxtPassword(null);
+            employee.setCodID(codID);
+            employeeManagement.employeeUpdate(employee);
+            fail("Failed to catch exception when updating  null id");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testEmployeeUpdateNullId test");
+        }
     }
     
 }
