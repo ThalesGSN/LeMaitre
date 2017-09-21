@@ -39,7 +39,7 @@ public class CategoryManagementImplTest {
     public void setUp() {
         codID = -1L;
         category.setNomCategory(nomCategory);
-        category.setSeqCategory(null);
+        category.setSeqCategory(codID);
     }
     
     @After
@@ -48,7 +48,7 @@ public class CategoryManagementImplTest {
             if (codID != -1L) {
                 categoryManagement.categoryRemove(codID);
             }
-        } catch (PersistenceException ex) {
+        } catch (Exception ex) {
             System.out.println("Failed to remove category after test");
         }
     }
@@ -96,6 +96,17 @@ public class CategoryManagementImplTest {
         
     }
     
+    @Test
+    public void testCategoryInsertEmptyNomCategory() {
+        try {
+            category.setNomCategory("");
+            codID = categoryManagement.categoryInsert(category);
+            fail("Failed to catch exception when inserting Empty nomCategory");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testCategoryInsertEmptyNomCategory test");
+        }
+        
+    }
 
     /**
      * Test of categoryUpdate method, of class CategoryManagementImpl.
@@ -141,6 +152,20 @@ public class CategoryManagementImplTest {
             System.out.println("Passed testCategoryUpdateNullDatUse test");
         }
     }
+    
+    @Test
+    public void testCategoryUpdateEmptyNomCategory() {
+        try {
+            codID = categoryManagement.categoryInsert(category);
+            category.setSeqCategory(codID);
+            category.setNomCategory("");
+            categoryManagement.categoryUpdate(category);
+            fail("Failed to catch exception when inserting Empty nomCategory");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testCategoryInsertEmptyNomCategory test");
+        }
+        
+    }
 
     /**
      * Test of categoryRemove method, of class CategoryManagementImpl.
@@ -170,7 +195,7 @@ public class CategoryManagementImplTest {
             }
             System.out.println("Correctly retrieved category");
         } catch (BusinessException | PersistenceException ex) {
-            ex.printStackTrace();
+            
             fail("Failed to retrieve correct category");
             
         }
