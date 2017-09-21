@@ -68,7 +68,8 @@ CREATE TABLE Item(
  NOM_item Varchar NOT NULL,
  DES_item Varchar NOT NULL,
  IDT_available Character(1) NOT NULL,
- COD_category Bigint NOT NULL
+ COD_category Bigint NOT NULL,
+ IMG_item Varchar
 )
 ;
 
@@ -157,7 +158,7 @@ CREATE TABLE Category(
 ALTER TABLE Category ADD CONSTRAINT Key12 PRIMARY KEY (COD_category)
 ;
 
--- Create relationships section ------------------------------------------------- 
+-- Create relationships section -------------------------------------------------
 
 ALTER TABLE Bill_Table ADD CONSTRAINT Relationship5 FOREIGN KEY (COD_id_table) REFERENCES "table" (COD_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
