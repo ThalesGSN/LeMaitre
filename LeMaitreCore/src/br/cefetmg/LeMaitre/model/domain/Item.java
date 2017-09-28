@@ -18,7 +18,7 @@ public class Item {
 
     private String desItem;
 
-    private char idtAvaliable;
+    private boolean isAvaliable;
 
     private Long codCategory;
     
@@ -27,14 +27,15 @@ public class Item {
     public Item() { }
 
     public Item(Long codItem, Double vlrPrice, String nomItem, String desItem,
-            char idtAvaliable, Long codCategory) {
+            boolean isAvaliable, Long codCategory) {
         this.codItem = codItem;
         this.vlrPrice = vlrPrice;
         this.nomItem = nomItem;
         this.desItem = desItem;
-        this.idtAvaliable = idtAvaliable;
+        this.isAvaliable = isAvaliable;
         this.codCategory = codCategory;
     }
+
 
 
 
@@ -111,23 +112,25 @@ public class Item {
     }
     
     /**
-     * Get the value of idtAvaliable
+     * Get the value of isAvaliable
      *
-     * @return the value of idtAvaliable
+     * @return the value of isAvaliable
      */
-    public char getIdtAvaliable() {
-        return idtAvaliable;
+
+    public boolean isIsAvaliable() {
+        return isAvaliable;
     }
 
     /**
      * Set the value of idtAvaliable
      *
-     * @param idtAvaliable new value of idtAvaliable
+     * @param isAvaliable new value of idtAvaliable
      */
-    public void setIdtAvaliable(char idtAvaliable) {
-        this.idtAvaliable = idtAvaliable;
+        
+    public void setIsAvaliable(boolean isAvaliable) {
+        this.isAvaliable = isAvaliable;
     }
-    
+
     /**
      * Get the value of codCategory
      *

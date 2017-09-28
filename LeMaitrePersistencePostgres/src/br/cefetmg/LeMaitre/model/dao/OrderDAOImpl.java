@@ -35,7 +35,7 @@ public class OrderDAOImpl implements OrderDAO {
     
     
     @Override
-    synchronized public boolean insert(Order order) throws PersistenceException {
+    synchronized public Long insert(Order order) throws PersistenceException {
         if (order == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Order cannot be null");
         }
@@ -68,7 +68,7 @@ public class OrderDAOImpl implements OrderDAO {
                 throw new PersistenceException(PersistenceException.DUPLICATED_KEY, "Duplicated Key");
         }
 
-        return true;
+        return idBill;
     }
 
     @Override
@@ -244,7 +244,7 @@ public class OrderDAOImpl implements OrderDAO {
                 item.setVlrPrice(rs.getDouble("B.VLR_price"));
                 item.setNomItem(rs.getString("B.NOM_Item"));
                 item.setDesItem(rs.getString("B.DES_item"));
-                item.setIdtAvaliable(rs.getString("B.IDT_available").charAt(0));
+                item.setIsAvaliable(rs.getBoolean("B.IDT_available"));
                 item.setCodCategory(rs.getLong("B.SEQ_Category"));
                 
                 items.add(item);

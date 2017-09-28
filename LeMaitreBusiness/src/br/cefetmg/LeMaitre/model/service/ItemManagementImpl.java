@@ -45,11 +45,6 @@ public class ItemManagementImpl implements ItemManagement {
         if(item.getDesItem().isEmpty())
             throw new BusinessException(BusinessException.EMPTY_STRING, "desItem cannot be empty.");
         
-        if(String.copyValueOf(Item.IDT_AVALIABLE_POSSIBLE_VALUES)
-                .indexOf(item.getIdtAvaliable()) < 0){
-            throw new BusinessException(BusinessException.INVALID_IDT_VALUE, "idtAvaliable invalid value.");
-        }
-        
         if(item.getCodCategory() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
         
@@ -81,12 +76,7 @@ public class ItemManagementImpl implements ItemManagement {
         
         if(item.getDesItem().isEmpty())
             throw new BusinessException(BusinessException.EMPTY_STRING, "desItem cannot be empty.");
-        
-        if(String.copyValueOf(Item.IDT_AVALIABLE_POSSIBLE_VALUES)
-                .indexOf(item.getIdtAvaliable()) < 0){
-            throw new BusinessException(BusinessException.INVALID_IDT_VALUE, "idtAvaliable invalid value.");
-        }
-        
+       
         if(item.getCodCategory() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
         

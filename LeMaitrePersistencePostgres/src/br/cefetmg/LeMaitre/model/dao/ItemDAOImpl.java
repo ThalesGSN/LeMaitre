@@ -51,7 +51,7 @@ public class ItemDAOImpl implements ItemDAO {
             pstmt.setDouble(1, item.getVlrPrice());
             pstmt.setString(2, item.getNomItem());
             pstmt.setString(3, item.getDesItem());
-            pstmt.setString(4, String.valueOf(item.getIdtAvaliable()));
+            pstmt.setString(4, String.valueOf(item.isIsAvaliable()));
             pstmt.setLong(5, item.getCodCategory());
             
             ResultSet rs = pstmt.executeQuery();
@@ -95,7 +95,7 @@ public class ItemDAOImpl implements ItemDAO {
             pstmt.setDouble(1, item.getVlrPrice());
             pstmt.setString(2, item.getNomItem());
             pstmt.setString(3, item.getDesItem());
-            pstmt.setString(4, String.valueOf(item.getIdtAvaliable()));
+            pstmt.setString(4, String.valueOf(item.isIsAvaliable()));
             pstmt.setLong(5, item.getCodCategory());
             pstmt.setLong(6, item.getCodItem());
             int changedRows = pstmt.executeUpdate();
@@ -165,7 +165,7 @@ public class ItemDAOImpl implements ItemDAO {
                 item.setVlrPrice(rs.getDouble("VLR_price"));
                 item.setNomItem(rs.getString("NOM_Item"));
                 item.setDesItem(rs.getString("DES_item"));
-                item.setIdtAvaliable(rs.getString("IDT_available").charAt(0));
+                item.setIsAvaliable(rs.getBoolean("IDT_available"));
                 item.setCodCategory(rs.getLong("SEQ_Category"));
             }
 
@@ -226,7 +226,7 @@ public class ItemDAOImpl implements ItemDAO {
                 item.setVlrPrice(rs.getDouble("VLR_price"));
                 item.setNomItem(rs.getString("NOM_Item"));
                 item.setDesItem(rs.getString("DES_item"));
-                item.setIdtAvaliable(rs.getString("IDT_available").charAt(0));
+                item.setIsAvaliable(rs.getBoolean("IDT_available"));
                 item.setCodCategory(rs.getLong("SEQ_Category"));
                 
                 items.add(item);

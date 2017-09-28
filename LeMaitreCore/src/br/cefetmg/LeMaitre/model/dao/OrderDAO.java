@@ -15,7 +15,7 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface OrderDAO {
-    public boolean insert(Order order) throws PersistenceException;
+    public Long insert(Order order) throws PersistenceException;
     public boolean update(Order order) throws PersistenceException;
     public boolean remove(Long billID, Long itemID) throws PersistenceException;
     public Order getOrderByID(Long billID, Long itemID) throws PersistenceException;

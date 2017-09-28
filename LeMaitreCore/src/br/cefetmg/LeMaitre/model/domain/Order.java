@@ -20,7 +20,7 @@ public class Order {
 
     private String codToken;
 
-    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {};
+    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {'T', 'D', 'R'};
     
     public Order() { }
 

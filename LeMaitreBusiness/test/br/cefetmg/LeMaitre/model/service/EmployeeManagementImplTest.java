@@ -122,7 +122,7 @@ public class EmployeeManagementImplTest {
 
 
     @Test
-    public void testTableUpdateNullId() {
+    public void testEmployeeUpdateNullId() {
         try {
             codID = employeeManagement.employeeInsert(employee);
             employeeManagement.employeeUpdate(employee);

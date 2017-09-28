@@ -5,8 +5,11 @@
  */
 package br.cefetmg.LeMaitre.model.service;
 
+import br.cefetmg.LeMaitre.model.dao.OrderDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.domain.Order;
+import br.cefetmg.LeMaitre.model.exception.BusinessException;
+import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,23 +24,41 @@ import static org.junit.Assert.*;
  */
 public class OrderManagementImplTest {
     
+    private Order order;
+    private Long codIDBill;
+    private Long codItem;
+    private char idtStatus;
+    private Double vlrPrice;
+    private String codToken;
+    private OrderManagement orderManagement;
+    
     public OrderManagementImplTest() {
+        codIDBill = new Long(1);
+        codItem = new Long(1);
+        idtStatus = 'T';
+        vlrPrice = new Double(30.0);
+        codToken = new String("xxx");
+        order = new Order(codIDBill, codItem, idtStatus, vlrPrice, codToken);
+        orderManagement = new OrderManagementImpl(OrderDAOImpl.getInstance());
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
     
     @Before
     public void setUp() {
+        codIDBill = -1L;
+        codItem = -1L;
+        idtStatus = 'T'; //TODO
     }
     
     @After
     public void tearDown() {
+        try {
+            if (codIDBill != -1L && codItem != -1L) {
+                orderManagement.orderRemove(codIDBill, codItem);
+            }
+        } catch (PersistenceException ex) {
+            System.out.println("Failed to remove order after test");
+        }
     }
 
     /**
@@ -45,14 +66,13 @@ public class OrderManagementImplTest {
      */
     @Test
     public void testOrderInsert() throws Exception {
-        System.out.println("orderInsert");
-        Order order = null;
-        OrderManagementImpl instance = null;
-        boolean expResult = false;
-        boolean result = instance.orderInsert(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            codIDBill = orderManagement.orderInsert(order);
+            
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to insert order");
+        }
+        System.out.println("Passed testOrderInsert test");
     }
 
     /**

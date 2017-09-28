@@ -30,7 +30,7 @@ public class OrderManagementImpl implements  OrderManagement {
     }
     
     @Override
-    public boolean orderInsert(Order order) throws BusinessException, PersistenceException {
+    public Long orderInsert(Order order) throws BusinessException, PersistenceException {
         if(order == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null order cannot be inserted.");
         

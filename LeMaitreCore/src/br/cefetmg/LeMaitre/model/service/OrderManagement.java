@@ -16,7 +16,7 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface OrderManagement {
-    public boolean orderInsert(Order order) throws BusinessException, PersistenceException;
+    public Long orderInsert(Order order) throws BusinessException, PersistenceException;
     public boolean orderUpdate(Order order) throws BusinessException, PersistenceException;
     public boolean orderRemove(Long billID, Long itemID) throws PersistenceException;
     public Order getOrderByID(Long billID, Long itemID) throws PersistenceException;
