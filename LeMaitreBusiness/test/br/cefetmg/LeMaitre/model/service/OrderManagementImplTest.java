@@ -48,6 +48,7 @@ public class OrderManagementImplTest {
         codIDBill = -1L;
         codItem = -1L;
         idtStatus = 'T'; //TODO
+        codToken = "xxx";
     }
     
     @After
@@ -75,35 +76,58 @@ public class OrderManagementImplTest {
         System.out.println("Passed testOrderInsert test");
     }
 
+    @Test
+    public void testItemInsertNull() {
+        try {
+            order = null;
+            codIDBill = orderManagement.orderInsert(order);
+            fail("Failed to catch exception when inserting null ID");
+        } catch (BusinessException | PersistenceException ex) {
+            System.out.println("Passed testOrderInsertNull test");
+
+        }
+    }
     /**
      * Test of orderUpdate method, of class OrderManagementImpl.
      */
     @Test
-    public void testOrderUpdate() throws Exception {
-        System.out.println("orderUpdate");
-        Order order = null;
-        OrderManagementImpl instance = null;
-        boolean expResult = false;
-        boolean result = instance.orderUpdate(order);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testOrderUpdateBill() throws Exception {
+        try {
+            codIDBill = orderManagement.orderInsert(order);
+            order.setCodIDBill(codIDBill);
+            orderManagement.orderUpdate(order);
+            System.out.println("Passed testOrderUpdateBill test");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to update correct bill in the order");
+        }
     }
 
+    @Test
+    public void testOrderUpdateItem() throws Exception {
+        try {
+            codItem = orderManagement.orderInsert(order);
+            order.setCodItem(codItem);
+            orderManagement.orderUpdate(order);
+            System.out.println("Passed testOrderUpdateItem test");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to update correct item in the order");
+        }
+    }
+    
     /**
      * Test of orderRemove method, of class OrderManagementImpl.
      */
     @Test
     public void testOrderRemove() throws Exception {
-        System.out.println("orderRemove");
-        Long billID = null;
-        Integer itemID = null;
-        OrderManagementImpl instance = null;
-        boolean expResult = false;
-        boolean result = instance.orderRemove(billID, itemID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            codItem = orderManagement.orderInsert(order);
+            codIDBill = orderManagement.orderInsert(order);
+            orderManagement.orderRemove(codIDBill, codItem);
+            codItem = codIDBill = -1L;
+            System.out.println("Correctly removed order");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to remove correct order");
+        }
     }
 
     /**
@@ -111,45 +135,54 @@ public class OrderManagementImplTest {
      */
     @Test
     public void testGetOrderByID() throws Exception {
-        System.out.println("getOrderByID");
-        Long billID = null;
-        Integer itemID = null;
-        OrderManagementImpl instance = null;
-        Order expResult = null;
-        Order result = instance.getOrderByID(billID, itemID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            codIDBill = orderManagement.orderInsert(order);
+            codItem = orderManagement.orderInsert(order);
+            Order newOrder = orderManagement.getOrderByID(codIDBill, codItem);
+            if (newOrder.getCodItem() != codItem && newOrder.getCodIDBill() != codIDBill) {
+                fail("Failed to retrieve correct order");
+            }
+            System.out.println("Correctly retrieved order");
+        } catch (BusinessException | PersistenceException ex) {
+            ex.printStackTrace();
+            fail("Failed to retrieve correct order");
+        }
     }
+    
 
     /**
      * Test of getOrdersByBillID method, of class OrderManagementImpl.
      */
     @Test
     public void testGetOrdersByBillID() throws Exception {
-        System.out.println("getOrdersByBillID");
-        Long billID = null;
-        OrderManagementImpl instance = null;
-        List<Order> expResult = null;
-        List<Order> result = instance.getOrdersByBillID(billID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            codIDBill = orderManagement.orderInsert(order);
+            List list = orderManagement.getOrdersByBillID(codIDBill);
+            if (list.isEmpty()) {
+                fail("Failed to retrieve correct orders");
+            }
+            System.out.println("Correctly retrieved orders");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to retrieve correct orders");
+        }
     }
 
+    
     /**
      * Test of getItemsByBillID method, of class OrderManagementImpl.
      */
     @Test
     public void testGetItemsByBillID() throws Exception {
-        System.out.println("getItemsByBillID");
-        Long billID = null;
-        OrderManagementImpl instance = null;
-        List<Item> expResult = null;
-        List<Item> result = instance.getItemsByBillID(billID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            codIDBill = orderManagement.orderInsert(order);
+            List list = orderManagement.getItemsByBillID(codIDBill);
+            if (list.isEmpty()) {
+                fail("Failed to retrieve correct order items");
+            }
+            System.out.println("Correctly retrieved order items");
+        } catch (BusinessException | PersistenceException ex) {
+            fail("Failed to retrieve correct order items");
+        }
     }
     
 }
