@@ -132,12 +132,6 @@ CREATE TABLE  Reservation (
 ALTER TABLE  Reservation  ADD CONSTRAINT  Key9  PRIMARY KEY ( COD_ID_Table , DAT_reservation , DAT_hour_reservation )
 ;
 
--- table Waiter
-
-CREATE TABLE  Waiter (
-)
-;
-
 -- table Bill_Table
 
 CREATE TABLE  Bill_Table (
