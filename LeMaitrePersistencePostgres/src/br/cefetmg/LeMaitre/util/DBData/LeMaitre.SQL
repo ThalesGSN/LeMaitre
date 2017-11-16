@@ -11,7 +11,7 @@ Database: PostgreSQL 9.4
 -- table table
 
 CREATE TABLE  "table" (
-  COD_ID  Integer NOT NULL,
+  COD_ID  Serial NOT NULL,
   IDT_status  Character(1) NOT NULL,
   NRO_seat  Integer NOT NULL
 )
@@ -89,11 +89,6 @@ CREATE INDEX  IX_Relationship15  ON  Item  ( SEQ_Category , SEQ_Subcategory )
 ALTER TABLE  Item  ADD CONSTRAINT  Key4  PRIMARY KEY ( COD_Item )
 ;
 
--- table Menu
-
-CREATE TABLE  Menu (
-)
-;
 
 -- table Employee
 
