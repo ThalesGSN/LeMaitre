@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Thalesgsn
  */
 public class Bill {
-    private Long codID;
+    private String codToken;
     
     private Date datUse;
 
@@ -27,28 +27,28 @@ public class Bill {
         this.idtStatus = idtStatus;
     }
     
-    public Bill(Long codID, Date datUse, char idtStatus) {
-        this.codID = codID;
+    public Bill(String codID, Date datUse, char idtStatus) {
+        this.codToken = codID;
         this.datUse = datUse;
         this.idtStatus = idtStatus;
     }
 
     /**
-     * Get the value of codID
+     * Get the value of codToken
      *
-     * @return the value of codID
+     * @return the value of codToken
      */
-    public Long getCodID() {
-        return codID;
+    public String getCodToken() {
+        return codToken;
     }
 
     /**
-     * Set the value of codID
+     * Set the value of codToken
      *
-     * @param codID new value of codID
+     * @param codToken new value of codToken
      */
-    public void setCodID(Long codID) {
-        this.codID = codID;
+    public void setCodToken(String codToken) {
+        this.codToken = codToken;
     }
 
     /**

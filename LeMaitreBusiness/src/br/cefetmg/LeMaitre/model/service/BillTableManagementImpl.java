@@ -52,15 +52,18 @@ public class BillTableManagementImpl implements BillTableManagement {
     }
 
     @Override
-    public boolean billTableRemove(Long billID, Long tableID) throws PersistenceException {
-        if(billID == null || tableID == null )
-            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+    public boolean billTableRemove(String codToken, Integer tableID) throws PersistenceException {
+        if(codToken == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Token cant be null");
         
-        return DAO.remove(billID, tableID);
+        if(tableID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cant be null");
+        
+        return DAO.remove(codToken, tableID);
     }
 
     @Override
-    public List<Bill> getBillsByTableID(Long tableID) throws PersistenceException {
+    public List<Bill> getBillsByTableID(Integer tableID) throws PersistenceException {
         if(tableID == null )
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cant be null");
         
@@ -68,11 +71,11 @@ public class BillTableManagementImpl implements BillTableManagement {
     }
 
     @Override
-    public List<Table> getTablesByBillID(Long billID) throws PersistenceException {
-        if(billID == null)
+    public List<Table> getTablesByToken(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cant be null");
         
-        return DAO.listTablesByBillID(billID);
+        return DAO.listTablesByToken(codToken);
     }
     
 }

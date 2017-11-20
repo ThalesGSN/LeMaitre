@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,25 +36,26 @@ public class OrderDAOImpl implements OrderDAO {
     
     
     @Override
-    synchronized public Long insert(Order order) throws PersistenceException {
+    synchronized public Date insert(Order order) throws PersistenceException {
         if (order == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Order cannot be null");
         }
-        Long idBill = null;
+        Date datOrder = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "INSERT INTO Order "
-                    + "(COD_ID_Bill, COD_Item, IDT_status, VLR_price, COD_token) "
-                    + "    VALUES (?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO \"order\" (\n"
+                    + "	cod_id_bill, cod_item, idt_status, vlr_price, qtd_item)\n"
+                    + "	VALUES (?, ?, ?, ?, ?) Returning dat_order;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, order.getCodIDBill());
-            pstmt.setLong(2, order.getCodItem());
+            pstmt.setString(1, order.getCodToken());
+            pstmt.setObject(2, order.getDatOrder());
+            pstmt.setInt(3, order.getCodItem());
             pstmt.setString(3, String.valueOf(order.getIdtStatus()));
-            pstmt.setDouble(4, order.getVlrPrice());
-            pstmt.setString(5, order.getCodToken());
+            pstmt.setDouble(5, order.getVlrPrice());
+            pstmt.setInt(6, order.getQtdItem());
             
             
             pstmt.executeQuery();
@@ -68,7 +70,7 @@ public class OrderDAOImpl implements OrderDAO {
                 throw new PersistenceException(PersistenceException.DUPLICATED_KEY, "Duplicated Key");
         }
 
-        return idBill;
+        return datOrder;
     }
 
     @Override
@@ -90,8 +92,8 @@ public class OrderDAOImpl implements OrderDAO {
             pstmt.setString(1, String.valueOf(order.getIdtStatus()));
             pstmt.setDouble(2, order.getVlrPrice());
             pstmt.setString(3, order.getCodToken());
-            pstmt.setLong(4, order.getCodItem());
-            pstmt.setLong(5, order.getCodIDBill());
+            pstmt.setInt(4, order.getCodItem());
+            pstmt.setString(5, order.getCodToken());
             
             int editedRows = pstmt.executeUpdate();
 
@@ -113,8 +115,8 @@ public class OrderDAOImpl implements OrderDAO {
     
 
     @Override
-    synchronized public boolean remove(Long billID, Long itemID) throws PersistenceException {
-        if(billID == null || itemID == null)
+    synchronized public boolean remove(String codToken, Date datOrder) throws PersistenceException {
+        if(codToken == null || datOrder == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         try {
@@ -124,8 +126,8 @@ public class OrderDAOImpl implements OrderDAO {
                     + "WHERE COD_ID_Bill = ? AND COD_Item = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
-            pstmt.setLong(2, itemID);
+            pstmt.setString(1, codToken);
+            pstmt.setObject(2, datOrder);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -145,30 +147,31 @@ public class OrderDAOImpl implements OrderDAO {
     }
  
     @Override
-    synchronized public Order getOrderByID(Long billID, Long itemID) throws PersistenceException {
-        if(billID == null || itemID == null)
+    synchronized public Order getOrderByID(String codToken, Date datOrder) throws PersistenceException {
+        if(codToken == null || datOrder == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
        try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "SELECT * FROM Order "
-                    + "WHERE COD_ID_Bill = ? AND COD_Item = ?;";
+            String sql = "SELECT cod_item, idt_status, vlr_price, qtd_item\n"
+                    + "	FROM \"order\" cod_id_bill = ? AND dat_order = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
-            pstmt.setLong(2, itemID);
+            pstmt.setString(1, codToken);
+            pstmt.setObject(2, datOrder);
             
             ResultSet rs = pstmt.executeQuery();
 
             Order order = new Order();
             
             if(rs.next()){
-             order.setCodIDBill(billID);
-             order.setCodItem(itemID);
+             order.setCodToken(codToken);
+             order.setDatOrder(datOrder);
+             order.setCodItem(rs.getInt("cod_item"));
              order.setIdtStatus(rs.getString("IDT_status").charAt(0));
              order.setVlrPrice(rs.getDouble("VLR_price"));
-             order.setCodToken(rs.getString("COD_token"));
+             order.setQtdItem(rs.getInt("qtd_item"));
             }
             
             pstmt.close();
@@ -183,8 +186,8 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    synchronized public List<Order> listOrdersByBillID(Long billID) throws PersistenceException {
-        if(billID == null)
+    synchronized public List<Order> listOrdersByToken(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         ArrayList<Order> orders = null;
@@ -196,15 +199,15 @@ public class OrderDAOImpl implements OrderDAO {
                     + "WHERE COD_ID_Bill = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
+            pstmt.setString(1, codToken);
             
             ResultSet rs = pstmt.executeQuery();
 
             
             while(rs.next()){
                 Order order = new Order();
-                order.setCodIDBill(billID);
-                order.setCodItem(rs.getLong("COD_Item"));
+                order.setCodToken(codToken);
+                order.setCodItem(rs.getInt("COD_Item"));
                 order.setIdtStatus(rs.getString("IDT_status").charAt(0));
                 order.setVlrPrice(rs.getDouble("VLR_price"));
                 order.setCodToken(rs.getString("COD_token"));
@@ -222,8 +225,8 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    synchronized public List<Item> listItemsByBillID(Long billID) throws PersistenceException {
-        if(billID == null)
+    synchronized public List<Item> listItemsByToken(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         ArrayList<Item> items = null;
@@ -240,12 +243,12 @@ public class OrderDAOImpl implements OrderDAO {
             while(rs.next()){
                 Item item = new Item();
                 
-                item.setCodItem(rs.getLong("B.COD_Item"));
+                item.setCodItem(rs.getInt("B.COD_Item"));
                 item.setVlrPrice(rs.getDouble("B.VLR_price"));
                 item.setNomItem(rs.getString("B.NOM_Item"));
                 item.setDesItem(rs.getString("B.DES_item"));
                 item.setIsAvaliable(rs.getBoolean("B.IDT_available"));
-                item.setCodCategory(rs.getLong("B.SEQ_Category"));
+                item.setCodCategory(rs.getInt("B.SEQ_Category"));
                 
                 items.add(item);
             }

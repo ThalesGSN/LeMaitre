@@ -18,8 +18,8 @@ import java.util.List;
  */
 public interface BillTableManagement {
     public boolean billTableInsert(BillTable billTable) throws BusinessException, PersistenceException;
-    public boolean billTableRemove(Long billID, Long tableID) throws PersistenceException;
-    public List<Bill> getBillsByTableID(Long tableID) throws PersistenceException;
-    public List<Table> getTablesByBillID(Long billID) throws PersistenceException;
+    public boolean billTableRemove(String codToken, Integer tableID) throws PersistenceException;
+    public List<Bill> getBillsByTableID(Integer tableID) throws PersistenceException;
+    public List<Table> getTablesByToken(String codToken) throws PersistenceException;
     
 }

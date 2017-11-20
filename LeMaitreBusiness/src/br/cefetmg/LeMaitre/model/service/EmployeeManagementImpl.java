@@ -15,14 +15,14 @@ import br.cefetmg.LeMaitre.model.exception.PersistenceException;
  * @author Thalesgsn
  */
 public class EmployeeManagementImpl implements EmployeeManagement {
-    EmployeeDAO DAO;
+    private EmployeeDAO DAO;
 
     public EmployeeManagementImpl(EmployeeDAO DAO) {
         this.DAO = DAO;
     }
     
     @Override
-    public Long employeeInsert(Employee employee) throws BusinessException, PersistenceException {
+    public Integer employeeInsert(Employee employee) throws BusinessException, PersistenceException {
         if(employee == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null employee cannot be inserted.");
         
@@ -84,7 +84,7 @@ public class EmployeeManagementImpl implements EmployeeManagement {
     }
 
     @Override
-    public boolean employeeRemove(Long employeeID) throws PersistenceException {
+    public boolean employeeRemove(Integer employeeID) throws PersistenceException {
         if(employeeID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "employeeID cannot be null.");
         
@@ -92,7 +92,7 @@ public class EmployeeManagementImpl implements EmployeeManagement {
     }
 
     @Override
-    public Employee getEmployeeByID(Long employeeID) throws PersistenceException {
+    public Employee getEmployeeByID(Integer employeeID) throws PersistenceException {
         if(employeeID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "employeeID cannot be null.");
         

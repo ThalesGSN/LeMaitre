@@ -13,8 +13,8 @@ import br.cefetmg.LeMaitre.model.exception.PersistenceException;
  * @author Thalesgsn
  */
 public interface EmployeeDAO {
-    public Long insert(Employee employee) throws PersistenceException;
+    public Integer insert(Employee employee) throws PersistenceException;
     public boolean update(Employee employee) throws PersistenceException;
-    public boolean remove(Long employeeID) throws PersistenceException;
-    public Employee getEmployeeByID(Long employeeID) throws PersistenceException;
+    public boolean remove(Integer employeeID) throws PersistenceException;
+    public Employee getEmployeeByID(Integer employeeID) throws PersistenceException;
 }

@@ -34,30 +34,34 @@ public class ItemDAOImpl implements ItemDAO {
     
     
     @Override
-    synchronized public Long insert(Item item) throws PersistenceException {
+    synchronized public Integer insert(Item item) throws PersistenceException {
         if (item == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Item cannot be null");
         }
-        Long idItem = null;
+        Integer idItem = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "INSERT INTO Item "
-                    + "(VLR_price, NOM_item, DES_item, IDT_available, SEQ_Category) "
-                    + "    VALUES (?, ?, ?, ?, ?) returning COD_Item;";
+            String sql = "INSERT INTO item(\n"
+                    + "	 vlr_price, nom_item, des_item, idt_available,"
+                    + " seq_category, seq_subcategory)\n"
+                    + "	VALUES ( ?, ?, ?, ?, ?, ?) returning cod_item;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
+            
             pstmt.setDouble(1, item.getVlrPrice());
             pstmt.setString(2, item.getNomItem());
             pstmt.setString(3, item.getDesItem());
-            pstmt.setString(4, String.valueOf(item.isIsAvaliable()));
-            pstmt.setLong(5, item.getCodCategory());
+            pstmt.setBoolean(4, item.isAvaliable());
+            pstmt.setObject(5, item.getCodCategory());
+            pstmt.setObject(6, item.getSeqSubcategory());
+            
             
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idItem = rs.getLong("COD_Item");
+                idItem = rs.getInt("cod_item");
             }
 
             rs.close();
@@ -67,10 +71,12 @@ public class ItemDAOImpl implements ItemDAO {
         } catch (ClassNotFoundException ex) {
             throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
         } catch(SQLException ex){
+            System.out.println(ex.getMessage());
             if(ex.getErrorCode() == 1062)
                 throw new PersistenceException(PersistenceException.DUPLICATED_KEY, "Duplicated Key");
         }
 
+   
         return idItem;
     }
 
@@ -95,9 +101,9 @@ public class ItemDAOImpl implements ItemDAO {
             pstmt.setDouble(1, item.getVlrPrice());
             pstmt.setString(2, item.getNomItem());
             pstmt.setString(3, item.getDesItem());
-            pstmt.setString(4, String.valueOf(item.isIsAvaliable()));
-            pstmt.setLong(5, item.getCodCategory());
-            pstmt.setLong(6, item.getCodItem());
+            pstmt.setBoolean(4, item.isAvaliable());
+            pstmt.setObject(5, item.getCodCategory());
+            pstmt.setObject(6, item.getCodItem());
             int changedRows = pstmt.executeUpdate();
             
             pstmt.close();
@@ -116,7 +122,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    synchronized public boolean remove(Long itemID) throws PersistenceException {
+    synchronized public boolean remove(Integer itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -126,7 +132,7 @@ public class ItemDAOImpl implements ItemDAO {
             String sql = "DELETE FROM Item WHERE COD_Item = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, itemID);
+            pstmt.setInt(1, itemID);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -146,7 +152,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    synchronized public Item getItemByID(Long itemID) throws PersistenceException {
+    synchronized public Item getItemByID(Integer itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -156,17 +162,17 @@ public class ItemDAOImpl implements ItemDAO {
             String sql = "SELECT * FROM item WHERE COD_Item = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, itemID);
+            pstmt.setInt(1, itemID);
             ResultSet rs = pstmt.executeQuery();
 
             Item item = new Item();
             if (rs.next()) {                
-                item.setCodItem(rs.getLong("COD_Item"));
+                item.setCodItem(rs.getInt("COD_Item"));
                 item.setVlrPrice(rs.getDouble("VLR_price"));
                 item.setNomItem(rs.getString("NOM_Item"));
                 item.setDesItem(rs.getString("DES_item"));
                 item.setIsAvaliable(rs.getBoolean("IDT_available"));
-                item.setCodCategory(rs.getLong("SEQ_Category"));
+                item.setCodCategory(rs.getInt("SEQ_Category"));
             }
 
             rs.close();
@@ -182,7 +188,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
     
     @Override
-    synchronized public boolean containsThisItemID(Long itemID) throws PersistenceException {
+    synchronized public boolean containsThisItemID(Integer itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -192,7 +198,7 @@ public class ItemDAOImpl implements ItemDAO {
             String sql = "SELECT 1 FROM Item WHERE COD_Item = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, itemID);
+            pstmt.setInt(1, itemID);
             ResultSet rs = pstmt.executeQuery();
             boolean status = rs.next();
 
@@ -218,16 +224,16 @@ public class ItemDAOImpl implements ItemDAO {
             String sql = "SELECT * FROM Item;";
             
             ResultSet rs = stmt.executeQuery(sql);
-            
+            items = new ArrayList();
             while(rs.next()){
                 Item item = new Item();
                 
-                item.setCodItem(rs.getLong("COD_Item"));
+                item.setCodItem(rs.getInt("COD_Item"));
                 item.setVlrPrice(rs.getDouble("VLR_price"));
                 item.setNomItem(rs.getString("NOM_Item"));
                 item.setDesItem(rs.getString("DES_item"));
                 item.setIsAvaliable(rs.getBoolean("IDT_available"));
-                item.setCodCategory(rs.getLong("SEQ_Category"));
+                item.setCodCategory(rs.getInt("SEQ_Category"));
                 
                 items.add(item);
             }

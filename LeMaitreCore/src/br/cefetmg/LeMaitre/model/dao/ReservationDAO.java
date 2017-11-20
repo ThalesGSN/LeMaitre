@@ -5,6 +5,7 @@
  */
 package br.cefetmg.LeMaitre.model.dao;
 
+import br.cefetmg.LeMaitre.model.domain.Category;
 import br.cefetmg.LeMaitre.model.domain.Reservation;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import java.sql.Time;
@@ -18,9 +19,9 @@ import java.util.List;
 public interface ReservationDAO {
     public void insert(Reservation reservation) throws PersistenceException;
     public boolean update(Reservation reservation) throws PersistenceException;
-    public boolean remove(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException;
-    public Reservation getReservationByID(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException;
-    public List<Reservation> listReservationByTableID(Long tableID) throws PersistenceException;
+    public boolean remove(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
+    public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
+    public List<Reservation> listReservationByTableID(Integer tableID) throws PersistenceException;
     public List<Reservation> listAll() throws PersistenceException;
     
 }

@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * @author Thalesgsn
  */
 public class CategoryManagementImplTest {
-    private Long codID;
+    private Integer codID;
     
     private final String nomCategory;
     
@@ -37,7 +37,7 @@ public class CategoryManagementImplTest {
         
     @Before
     public void setUp() {
-        codID = -1L;
+        codID = -1;
         category.setNomCategory(nomCategory);
         category.setSeqCategory(codID);
     }
@@ -175,7 +175,7 @@ public class CategoryManagementImplTest {
         try {
             codID = categoryManagement.categoryInsert(category);
             categoryManagement.categoryRemove(codID);
-            codID = -1L;
+            codID = -1;
             System.out.println("Correctly removed category");
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to remove correct category");
@@ -213,7 +213,7 @@ public class CategoryManagementImplTest {
                 fail("Failed to retrieve correct category");
             }
             System.out.println("Correctly retrieved category");
-        } catch (BusinessException | PersistenceException ex) {
+        } catch (BusinessException | PersistenceException | NullPointerException ex) {
             fail("Failed to retrieve correct category");
         }
     }

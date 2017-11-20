@@ -38,7 +38,7 @@ public class OrderManagementImplTest {
         idtStatus = 'T';
         vlrPrice = new Double(30.0);
         codToken = new String("xxx");
-        order = new Order(codIDBill, codItem, idtStatus, vlrPrice, codToken);
+        order = new Order;
         orderManagement = new OrderManagementImpl(OrderDAOImpl.getInstance());
     }
     
@@ -139,7 +139,7 @@ public class OrderManagementImplTest {
             codIDBill = orderManagement.orderInsert(order);
             codItem = orderManagement.orderInsert(order);
             Order newOrder = orderManagement.getOrderByID(codIDBill, codItem);
-            if (newOrder.getCodItem() != codItem && newOrder.getCodIDBill() != codIDBill) {
+            if (newOrder.getCodItem() != codItem && newOrder.getCodToken() != codIDBill) {
                 fail("Failed to retrieve correct order");
             }
             System.out.println("Correctly retrieved order");
@@ -151,13 +151,13 @@ public class OrderManagementImplTest {
     
 
     /**
-     * Test of getOrdersByBillID method, of class OrderManagementImpl.
+     * Test of getOrdersByToken method, of class OrderManagementImpl.
      */
     @Test
     public void testGetOrdersByBillID() throws Exception {
         try {
             codIDBill = orderManagement.orderInsert(order);
-            List list = orderManagement.getOrdersByBillID(codIDBill);
+            List list = orderManagement.getOrdersByToken(codIDBill);
             if (list.isEmpty()) {
                 fail("Failed to retrieve correct orders");
             }
@@ -169,13 +169,13 @@ public class OrderManagementImplTest {
 
     
     /**
-     * Test of getItemsByBillID method, of class OrderManagementImpl.
+     * Test of getItemsByToken method, of class OrderManagementImpl.
      */
     @Test
     public void testGetItemsByBillID() throws Exception {
         try {
             codIDBill = orderManagement.orderInsert(order);
-            List list = orderManagement.getItemsByBillID(codIDBill);
+            List list = orderManagement.getItemsByToken(codIDBill);
             if (list.isEmpty()) {
                 fail("Failed to retrieve correct order items");
             }

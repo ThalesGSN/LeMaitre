@@ -47,7 +47,7 @@ public class BillManagementImplTest {
         codID = -1L;
         bill.setDatUse(datUse);
         bill.setIdtStatus(idtStatus);
-        bill.setCodID(null);
+        bill.setCodToken(null);
     }
     
     @After
@@ -202,7 +202,7 @@ public class BillManagementImplTest {
         try {
             codID = billManagement.billInsert(bill);
             Bill newBill = billManagement.getBillByID(codID);
-            if (newBill.getCodID() != codID) {
+            if (newBill.getCodToken() != codID) {
                 fail("Failed to retrieve correct bill");
             }
             System.out.println("Correctly retrieved bill");

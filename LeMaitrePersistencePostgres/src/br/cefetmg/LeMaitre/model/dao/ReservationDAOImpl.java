@@ -50,7 +50,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                     + "    VALUES (?, ?, ?, ?, ?, ?, ?);";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, reservation.getCodIDTable());
+            pstmt.setInt(1, reservation.getCodIDTable());
             pstmt.setDate(2, (java.sql.Date) reservation.getDatReservation());
             pstmt.setTime(3, reservation.getDatHourReservation());
             pstmt.setInt(4, reservation.getNroPersons());
@@ -94,7 +94,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             pstmt.setString(2, reservation.getTxtContactName());
             pstmt.setString(3, reservation.getTxtTelephone());
             pstmt.setString(4, reservation.getTxtCellphone());
-            pstmt.setLong(5, reservation.getCodIDTable());
+            pstmt.setInt(5, reservation.getCodIDTable());
             pstmt.setDate(6, (java.sql.Date) reservation.getDatReservation());
             pstmt.setTime(7, reservation.getDatHourReservation());
             int changedRows = pstmt.executeUpdate();
@@ -115,7 +115,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 
     @Override
-    synchronized public boolean remove(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException {
+    synchronized public boolean remove(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException {
         if(tableID == null || datReservation == null || hourReservation == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -125,7 +125,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             String sql = "DELETE FROM Reservation WHERE COD_ID = ? AND DAT_reservation = ? AND DAT_HOUR_reservation = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, tableID);
+            pstmt.setInt(1, tableID);
             pstmt.setDate(2, (java.sql.Date) datReservation);
             pstmt.setTime(3, hourReservation);
             
@@ -147,7 +147,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 
     @Override
-    synchronized public Reservation getReservationByID(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException {
+    synchronized public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException {
         if(tableID == null || datReservation == null || hourReservation == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -158,7 +158,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                     + "WHERE COD_id = ? AND DAT_reservation = ? AND DAT_hour_reservation = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, tableID);
+            pstmt.setInt(1, tableID);
             pstmt.setDate(2, (java.sql.Date) datReservation);
             pstmt.setTime(3, hourReservation);
             ResultSet rs = pstmt.executeQuery();
@@ -188,7 +188,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
     
     @Override
-    synchronized public List<Reservation> listReservationByTableID(Long tableID) throws PersistenceException {
+    synchronized public List<Reservation> listReservationByTableID(Integer tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -206,7 +206,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             while(rs.next()){
                 Reservation reservation = new Reservation();
                 
-                reservation.setCodIDTable(rs.getLong("COD_id"));
+                reservation.setCodIDTable(rs.getInt("COD_id"));
                 reservation.setDatReservation(rs.getDate("DAT_reservation"));
                 reservation.setDatHourReservation(rs.getTime("DAT_hour_reservation"));
                 reservation.setNroPersons(rs.getInt("NRO_persons"));
@@ -243,7 +243,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             while(rs.next()){
                 reservation = new Reservation();
                 
-                reservation.setCodIDTable(rs.getLong("COD_id"));
+                reservation.setCodIDTable(rs.getInt("COD_id"));
                 reservation.setDatReservation(rs.getDate("DAT_reservation"));
                 reservation.setDatHourReservation(rs.getTime("DAT_hour_reservation"));
                 reservation.setNroPersons(rs.getInt("NRO_persons"));

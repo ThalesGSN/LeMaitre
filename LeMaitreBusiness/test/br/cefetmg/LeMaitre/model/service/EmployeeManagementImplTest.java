@@ -9,6 +9,7 @@ import br.cefetmg.LeMaitre.model.dao.EmployeeDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.Employee;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.Objects;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,7 +24,7 @@ import static org.junit.Assert.*;
 public class EmployeeManagementImplTest {
     
     private Employee employee;
-    private Long codID;
+    private Integer codID;
     private String nomName;
     private char idtProfile;
     private String nomUsername;
@@ -33,7 +34,7 @@ public class EmployeeManagementImplTest {
     
     public EmployeeManagementImplTest() {
         idtProfile = 'M';
-        codID = new Long(1);
+        codID = new Integer(1);
         nomName = new String("Dimas");
         nomUsername = new String("didi");
         txtPassword = new String("123456");
@@ -46,7 +47,7 @@ public class EmployeeManagementImplTest {
     @Before
     public void setUp() {
         idtProfile = 'M'; // M = manager
-        codID = -1L;
+        codID = -1;
         txtPassword = new String("123456");
         nomUsername = new String("didi");
         employee.setidtProfile(idtProfile);
@@ -153,7 +154,7 @@ public class EmployeeManagementImplTest {
         try {
             codID = employeeManagement.employeeInsert(employee);
             employeeManagement.employeeRemove(codID);
-            codID = -1L;
+            codID = -1;
             System.out.println("Correctly removed employee");
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to remove correct employee");
@@ -168,7 +169,7 @@ public class EmployeeManagementImplTest {
         try {
             codID = employeeManagement.employeeInsert(employee);
             Employee newEmployee = employeeManagement.getEmployeeByID(codID);
-            if (newEmployee.getCodID() != codID) {
+            if (!Objects.equals(newEmployee.getCodID(), codID)) {
                 fail("Failed to retrieve correct employee");
             }
             System.out.println("Correctly retrieved employee");

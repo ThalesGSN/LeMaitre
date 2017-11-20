@@ -12,6 +12,7 @@ import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.domain.Order;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  * @author Thalesgsn
  */
 public class OrderManagementImpl implements  OrderManagement {
-    OrderDAO DAO;
+    private OrderDAO DAO;
     private final BillManagement billManagement;
     private final ItemManagement itemManagement;
 
@@ -30,21 +31,21 @@ public class OrderManagementImpl implements  OrderManagement {
     }
     
     @Override
-    public Long orderInsert(Order order) throws BusinessException, PersistenceException {
+    public Date orderInsert(Order order) throws BusinessException, PersistenceException {
         if(order == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null order cannot be inserted.");
         
-        if(order.getCodIDBill() == null)
+        if(order.getCodToken() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codIDBill cannot be null.");
         
-        if(!billManagement.containsThisBillID(order.getCodIDBill()))
-            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "billID doesn't exist in the persistence");
+        if(!billManagement.containsThisBillID(order.getCodToken()))
+            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "codToken doesn't exist in the persistence");
         
         if(order.getCodItem() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
         
         if(!itemManagement.containsThisItemID(order.getCodItem()))
-            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "itemID doesn't exist in the persistence");
+            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "datOrder doesn't exist in the persistence");
         
         if(String.copyValueOf(Order.IDT_STATUS_POSSIBLE_VALUES)
                 .indexOf(order.getIdtStatus()) < 0){
@@ -62,17 +63,17 @@ public class OrderManagementImpl implements  OrderManagement {
         if(order == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null order cannot be inserted.");
         
-        if(order.getCodIDBill() == null)
+        if(order.getCodToken() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codIDBill cannot be null.");
         
-        if(!billManagement.containsThisBillID(order.getCodIDBill()))
-            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "billID doesn't exist in the persistence");
+        if(!billManagement.containsThisBillID(order.getCodToken()))
+            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "codToken doesn't exist in the persistence");
         
         if(order.getCodItem() == null)
             throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
         
         if(!itemManagement.containsThisItemID(order.getCodItem()))
-            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "itemID doesn't exist in the persistence");
+            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "datOrder doesn't exist in the persistence");
         
         if(String.copyValueOf(Order.IDT_STATUS_POSSIBLE_VALUES)
                 .indexOf(order.getIdtStatus()) < 0){
@@ -86,34 +87,34 @@ public class OrderManagementImpl implements  OrderManagement {
     }
 
     @Override
-    public boolean orderRemove(Long billID, Long itemID) throws PersistenceException {
-        if(billID == null || itemID == null)
+    public boolean orderRemove(String codToken, Date datOrder) throws PersistenceException {
+        if(codToken == null || datOrder == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameter can be null.");
         
-        return DAO.remove(billID, itemID);
+        return DAO.remove(codToken, datOrder);
     }
 
     @Override
-    public Order getOrderByID(Long billID, Long itemID) throws PersistenceException {
-        if(billID == null || itemID == null)
+    public Order getOrderByID(String codToken, Date datOrder) throws PersistenceException {
+        if(codToken == null || datOrder == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameter can be null.");
         
-        return DAO.getOrderByID(billID, itemID);
+        return DAO.getOrderByID(codToken, datOrder);
     }
 
     @Override
-    public List<Order> getOrdersByBillID(Long billID) throws PersistenceException {
-        if(billID == null)
-            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "billID cannot be null.");
+    public List<Order> getOrdersByToken(String codToken) throws PersistenceException {
+        if(codToken == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "codToken cannot be null.");
         
-        return DAO.listOrdersByBillID(billID);
+        return DAO.listOrdersByToken(codToken);
     }
 
     @Override
-    public List<Item> getItemsByBillID(Long billID) throws PersistenceException {
-        if(billID == null)
-            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "billID cannot be null.");
+    public List<Item> getItemsByToken(String codToken) throws PersistenceException {
+        if(codToken == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "codToken cannot be null.");
         
-        return DAO.listItemsByBillID(billID);
+        return DAO.listItemsByToken(codToken);
     }
 }

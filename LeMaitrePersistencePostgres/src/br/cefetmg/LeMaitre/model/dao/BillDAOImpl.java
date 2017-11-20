@@ -35,12 +35,12 @@ public class BillDAOImpl implements BillDAO {
     
     
     @Override
-    synchronized public Long insert(Bill bill) throws PersistenceException {
+    synchronized public String insert(Bill bill) throws PersistenceException {
         if (bill == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "bill cannot be null");
         }
         
-        Long idBill = null;
+        String idBill = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -56,7 +56,7 @@ public class BillDAOImpl implements BillDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idBill = rs.getLong("COD_ID");
+                idBill = rs.getString("cod_token");
             }
 
             rs.close();
@@ -89,7 +89,7 @@ public class BillDAOImpl implements BillDAO {
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setDate(1, (java.sql.Date) bill.getDatUse());
             pstmt.setString(2, String.valueOf(bill.getIdtStatus()));
-            pstmt.setLong(3, bill.getCodID());
+            pstmt.setString(3, bill.getCodToken());
             int changedRows = pstmt.executeUpdate();
             
             pstmt.close();
@@ -108,8 +108,8 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    synchronized public boolean remove(Long billID) throws PersistenceException {
-        if(billID == null)
+    synchronized public boolean remove(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         try {
@@ -118,7 +118,7 @@ public class BillDAOImpl implements BillDAO {
             String sql = "DELETE FROM Bill WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
+            pstmt.setString(1, codToken);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -138,8 +138,8 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    synchronized public Bill getBillByID(Long billID) throws PersistenceException {
-        if(billID == null)
+    synchronized public Bill getBillByID(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         try {
@@ -148,12 +148,12 @@ public class BillDAOImpl implements BillDAO {
             String sql = "SELECT * FROM bill WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
+            pstmt.setString(1, codToken);
             ResultSet rs = pstmt.executeQuery();
 
             Bill bill = new Bill();
             if (rs.next()) {
-                bill.setCodID(billID);
+                bill.setCodToken(codToken);
                 bill.setDatUse(rs.getDate("DAT_use"));
                 bill.setIdtStatus(rs.getString("IDT_status").charAt(0));
             }
@@ -171,8 +171,8 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    synchronized public boolean containsThisBillID(Long billID) throws PersistenceException {
-        if(billID == null)
+    synchronized public boolean containsThisBillID(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         try {
@@ -181,7 +181,7 @@ public class BillDAOImpl implements BillDAO {
             String sql = "SELECT 1 FROM Bill WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
+            pstmt.setString(1, codToken);
             ResultSet rs = pstmt.executeQuery();
             boolean status = rs.next();
 

@@ -9,6 +9,7 @@ import br.cefetmg.LeMaitre.model.dao.TableDAO;
 import br.cefetmg.LeMaitre.model.domain.Table;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,15 +17,14 @@ import java.util.List;
  * @author Thalesgsn
  */
 public class TableManagementImpl implements TableManagement {
-
-    TableDAO DAO;
+    private TableDAO DAO;
 
     public TableManagementImpl(TableDAO DAO) {
         this.DAO = DAO;
     }
     
     @Override
-    public Long tableInsert(Table table) throws BusinessException, PersistenceException {
+    public Integer tableInsert(Table table) throws BusinessException, PersistenceException {
         if(table == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null table cannot be inserted.");
         
@@ -59,7 +59,7 @@ public class TableManagementImpl implements TableManagement {
     }
 
     @Override
-    public boolean tableRemove(Long tableID) throws PersistenceException {
+    public boolean tableRemove(Integer tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cannot be null.");
         
@@ -67,7 +67,7 @@ public class TableManagementImpl implements TableManagement {
     }
 
     @Override
-    public Table getTableByID(Long tableID) throws PersistenceException {
+    public Table getTableByID(Integer tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cannot be null.");
         
@@ -75,7 +75,7 @@ public class TableManagementImpl implements TableManagement {
     }
 
     @Override
-    public boolean containsThisTableID(Long tableID) throws PersistenceException {
+    public boolean containsThisTableID(Integer tableID) throws PersistenceException {
          if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "tableID cannot be null.");
         

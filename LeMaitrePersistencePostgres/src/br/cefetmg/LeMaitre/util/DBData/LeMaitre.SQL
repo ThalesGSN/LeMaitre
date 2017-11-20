@@ -11,7 +11,7 @@ Database: PostgreSQL 9.4
 -- table table
 
 CREATE TABLE  "table" (
-  COD_ID  Integer NOT NULL,
+  COD_ID  Serial NOT NULL,
   IDT_status  Character(1) NOT NULL,
   NRO_seat  Integer NOT NULL
 )

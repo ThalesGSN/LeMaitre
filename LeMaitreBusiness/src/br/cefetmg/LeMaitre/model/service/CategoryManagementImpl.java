@@ -7,6 +7,7 @@ package br.cefetmg.LeMaitre.model.service;
 
 import br.cefetmg.LeMaitre.model.dao.CategoryDAO;
 import br.cefetmg.LeMaitre.model.domain.Category;
+import br.cefetmg.LeMaitre.model.domain.Subcategory;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import java.util.List;
@@ -16,14 +17,14 @@ import java.util.List;
  * @author Thalesgsn
  */
 public class CategoryManagementImpl implements CategoryManagement {
-    CategoryDAO DAO;
+    private CategoryDAO DAO;
 
     public CategoryManagementImpl(CategoryDAO DAO) {
         this.DAO = DAO;
     }
     
     @Override
-    public Long categoryInsert(Category category) throws BusinessException, PersistenceException {
+    public Integer categoryInsert(Category category) throws BusinessException, PersistenceException {
         if(category == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null category cannot be inserted.");
         
@@ -54,7 +55,7 @@ public class CategoryManagementImpl implements CategoryManagement {
     }
 
     @Override
-    public boolean categoryRemove(Long categoryID) throws PersistenceException {
+    public boolean categoryRemove(Integer categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "categoryID cannot be null.");
         
@@ -62,7 +63,7 @@ public class CategoryManagementImpl implements CategoryManagement {
     }
 
     @Override
-    public Category getCategoryByID(Long categoryID) throws PersistenceException {
+    public Category getCategoryByID(Integer categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "categoryID cannot be null.");
         
@@ -71,15 +72,24 @@ public class CategoryManagementImpl implements CategoryManagement {
 
     
     @Override
-    public boolean containsThisCategoryID(Long categoryID) throws PersistenceException {
+    public boolean containsThisCategoryID(Integer categoryID) throws PersistenceException {
          if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "categoryID cannot be null.");
         
         return DAO.containsThisCategoryID(categoryID);
+    }
+
+    @Override
+    public List<Subcategory> listAllSubcategories(Integer categoryID) throws PersistenceException {
+        if(categoryID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "categoryID cannot be null.");
+        
+        return DAO.listAllSubcategories(categoryID);
     }
     
     @Override
     public List<Category> listAll() throws PersistenceException {
         return DAO.listAllCategories();
     }
+
 }

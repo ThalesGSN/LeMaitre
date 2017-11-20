@@ -31,18 +31,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     
     
     @Override
-    synchronized public Long insert(Employee employee) throws PersistenceException {
+    synchronized public Integer insert(Employee employee) throws PersistenceException {
         if (employee == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Employee cannot be null");
         }
-        Long idEmployee = null;
+        Integer idEmployee = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "INSERT INTO Employee "
-                    + "(NOM_name, IDT_profile, NOM_username, TXT_password) "
-                    + "    VALUES (?, ?, ?, ?) returning COD_ID;";
+            String sql = "INSERT INTO employee(\n"
+                    + "	 nom_name, idt_profile, nom_username, txt_password)\n"
+                    + "	VALUES (?, ?, ?, ?) returning cod_id;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, employee.getNomName());
@@ -53,7 +53,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idEmployee = rs.getLong("COD_ID");
+                idEmployee = rs.getInt("cod_id");
             }
 
             rs.close();
@@ -65,8 +65,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         } catch(SQLException ex){
             if(ex.getErrorCode() == 1062)
                 throw new PersistenceException(PersistenceException.DUPLICATED_KEY, "Duplicated Key");
+            System.out.println("br.cefetmg.LeMaitre.model.dao.EmployeeDAOImpl.insert() " + ex.getMessage());
         }
-
         return idEmployee;
     }
 
@@ -91,7 +91,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             pstmt.setString(2, String.valueOf(employee.getidtProfile()));
             pstmt.setString(3, employee.getNomUsername());
             pstmt.setString(4, employee.getTxtPassword());
-            pstmt.setLong(5, employee.getCodID());
+            pstmt.setInt(5, employee.getCodID());
             int changedRows = pstmt.executeUpdate();
             
             pstmt.close();
@@ -110,17 +110,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    synchronized public boolean remove(Long employeeID) throws PersistenceException {
+    synchronized public boolean remove(Integer employeeID) throws PersistenceException {
         if(employeeID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "DELETE FROM Employee WHERE COD_ID = ?;";
+            String sql = "DELETE FROM employee\n"
+                    + "	WHERE cod_id = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, employeeID);
+            pstmt.setInt(1, employeeID);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -140,7 +141,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    synchronized public Employee getEmployeeByID(Long employeeID) throws PersistenceException {
+    synchronized public Employee getEmployeeByID(Integer employeeID) throws PersistenceException {
         if(employeeID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -150,7 +151,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             String sql = "SELECT * FROM employee WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, employeeID);
+            pstmt.setInt(1, employeeID);
             ResultSet rs = pstmt.executeQuery();
 
             Employee employee = new Employee();

@@ -5,52 +5,72 @@
  */
 package br.cefetmg.LeMaitre.model.domain;
 
+import java.util.Date;
+
 /**
  *
  * @author Thalesgsn
  */
 public class Order {
-    private Long codIDBill;
+    private String codToken;
     
-    private Long codItem;
+    private Date datOrder;
+    
+    private Integer codItem;
 
     private char idtStatus;
 
     private Double vlrPrice;
 
-    private String codToken;
+    private Integer qtdItem;
 
     public static final char[] IDT_STATUS_POSSIBLE_VALUES = {'T', 'D', 'R'};
     
     public Order() { }
 
-    public Order(Long codIDBill, Long codItem, char idtStatus,
-            Double vlrPrice, String codToken) {
-        this.codIDBill = codIDBill;
+    public Order(String codIDBill, Date datOrder, Integer codItem, char idtStatus, Double vlrPrice, Integer qtdItem) {
+        this.codToken = codIDBill;
+        this.datOrder = datOrder;
         this.codItem = codItem;
         this.idtStatus = idtStatus;
         this.vlrPrice = vlrPrice;
+        this.qtdItem = qtdItem;
+    }
+
+    /**
+     * Get the value of codToken
+     *
+     * @return the value of codToken
+     */
+    public String getCodToken() {
+        return codToken;
+    }
+
+    /**
+     * Set the value of codToken
+     *
+     * @param codToken new value of codToken
+     */
+    public void setCodToken(String codToken) {
         this.codToken = codToken;
     }
-
-
-
+    
     /**
-     * Get the value of codIDBill
+     * Get the value of datOrder
      *
-     * @return the value of codIDBill
+     * @return the value of datOrder
      */
-    public Long getCodIDBill() {
-        return codIDBill;
+    public Date getDatOrder() {
+        return datOrder;
     }
 
     /**
-     * Set the value of codIDBill
+     * Set the value of datOrder
      *
-     * @param codIDBill new value of codIDBill
+     * @param datOrder new value of datOrder
      */
-    public void setCodIDBill(Long codIDBill) {
-        this.codIDBill = codIDBill;
+    public void setDatOrder(Date datOrder) {
+        this.datOrder = datOrder;
     }
     
     /**
@@ -58,7 +78,7 @@ public class Order {
      *
      * @return the value of codItem
      */
-    public Long getCodItem() {
+    public Integer getCodItem() {
         return codItem;
     }
 
@@ -67,7 +87,7 @@ public class Order {
      *
      * @param codItem new value of codItem
      */
-    public void setCodItem(Long codItem) {
+    public void setCodItem(Integer codItem) {
         this.codItem = codItem;
     }
 
@@ -108,20 +128,20 @@ public class Order {
     }
     
     /**
-     * Get the value of codToken
+     * Get the value of qtdItem
      *
-     * @return the value of codToken
+     * @return the value of qtdItem
      */
-    public String getCodToken() {
-        return codToken;
+    public Integer getQtdItem() {
+        return qtdItem;
     }
 
     /**
-     * Set the value of codToken
+     * Set the value of qtdItem
      *
-     * @param codToken new value of codToken
+     * @param qtdItem new value of qtdItem
      */
-    public void setCodToken(String codToken) {
-        this.codToken = codToken;
+    public void setQtdItem(Integer qtdItem) {
+        this.qtdItem = qtdItem;
     }
 }

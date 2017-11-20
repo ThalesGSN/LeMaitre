@@ -10,7 +10,7 @@ package br.cefetmg.LeMaitre.model.domain;
  * @author Thalesgsn
  */
 public class Item {
-    private Long codItem;
+    private Integer codItem;
 
     private Double vlrPrice;
 
@@ -20,31 +20,28 @@ public class Item {
 
     private boolean isAvaliable;
 
-    private Long codCategory;
+    private Integer seqCategory;
     
-    public static final char[] IDT_AVALIABLE_POSSIBLE_VALUES = {};
+    private Integer seqSubcategory;
 
     public Item() { }
 
-    public Item(Long codItem, Double vlrPrice, String nomItem, String desItem,
-            boolean isAvaliable, Long codCategory) {
+    public Item(Integer codItem, Double vlrPrice, String nomItem, String desItem, boolean isAvaliable, Integer seqCategory, Integer seqSubcategory) {
         this.codItem = codItem;
         this.vlrPrice = vlrPrice;
         this.nomItem = nomItem;
         this.desItem = desItem;
         this.isAvaliable = isAvaliable;
-        this.codCategory = codCategory;
+        this.seqCategory = seqCategory;
+        this.seqSubcategory = seqSubcategory;
     }
-
-
-
 
     /**
      * Get the value of codItem
      *
      * @return the value of codItem
      */
-    public Long getCodItem() {
+    public Integer getCodItem() {
         return codItem;
     }
 
@@ -53,7 +50,7 @@ public class Item {
      *
      * @param codItem new value of codItem
      */
-    public void setCodItem(Long codItem) {
+    public void setCodItem(Integer codItem) {
         this.codItem = codItem;
     }
     
@@ -117,7 +114,7 @@ public class Item {
      * @return the value of isAvaliable
      */
 
-    public boolean isIsAvaliable() {
+    public boolean isAvaliable() {
         return isAvaliable;
     }
 
@@ -136,8 +133,8 @@ public class Item {
      *
      * @return the value of codCategory
      */
-    public Long getCodCategory() {
-        return codCategory;
+    public Integer getCodCategory() {
+        return seqCategory;
     }
 
     /**
@@ -145,7 +142,25 @@ public class Item {
      *
      * @param codCategory new value of codCategory
      */
-    public void setCodCategory(Long codCategory) {
-        this.codCategory = codCategory;
+    public void setCodCategory(Integer codCategory) {
+        this.seqCategory = codCategory;
+    }
+    
+    /**
+     * Get the value of seqSubcategory
+     *
+     * @return the value of seqSubcategory
+     */
+    public Integer getSeqSubcategory() {
+        return seqSubcategory;
+    }
+
+    /**
+     * Set the value of seqSubcategory
+     *
+     * @param seqSubcategory new value of seqSubcategory
+     */
+    public void setSeqSubcategory(Integer seqSubcategory) {
+        this.seqSubcategory = seqSubcategory;
     }
 }
