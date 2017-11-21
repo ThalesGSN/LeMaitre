@@ -35,11 +35,11 @@ public class BillTableManagementImplTest {
     private final TableManagement tableManagement= new TableManagementImpl(TableDAOImpl.getInstance());
     
     private final Bill bill;
-    private Long codBill;
+    private String codBill;
    
     
     private final Table table;
-    private Long codTable;
+    private int codTable;
     
     private final BillTable billTable;
    
@@ -179,8 +179,7 @@ public class BillTableManagementImplTest {
     @Test
     public void testGetTablesByBillID() throws Exception {
         try {
-            
-            management.getTablesByBillID(codBill);    
+            management.getTablesByToken(codBill);    
         } catch (PersistenceException ex) {
             fail("Failed to update correct billTable");
         }
@@ -192,7 +191,7 @@ public class BillTableManagementImplTest {
     @Test
     public void testGetTablesByNullBillID() throws Exception {
         try {
-            management.getTablesByBillID(null);
+            management.getTablesByToken(null);
             fail("Failed to catch exception when geting bills");
         } catch ( PersistenceException ex) {
             System.out.println("Passed testGetBillsByNullTableID test");

@@ -5,7 +5,7 @@
  */
 package br.cefetmg.LeMaitre.model.domain;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -14,7 +14,7 @@ import java.util.Date;
 public class Order {
     private String codToken;
     
-    private Date datOrder;
+    private Timestamp datOrder;
     
     private Integer codItem;
 
@@ -28,7 +28,7 @@ public class Order {
     
     public Order() { }
 
-    public Order(String codIDBill, Date datOrder, Integer codItem, char idtStatus, Double vlrPrice, Integer qtdItem) {
+    public Order(String codIDBill, Timestamp datOrder, Integer codItem, char idtStatus, Double vlrPrice, Integer qtdItem) {
         this.codToken = codIDBill;
         this.datOrder = datOrder;
         this.codItem = codItem;
@@ -60,7 +60,7 @@ public class Order {
      *
      * @return the value of datOrder
      */
-    public Date getDatOrder() {
+    public Timestamp getDatOrder() {
         return datOrder;
     }
 
@@ -69,7 +69,7 @@ public class Order {
      *
      * @param datOrder new value of datOrder
      */
-    public void setDatOrder(Date datOrder) {
+    public void setDatOrder(Timestamp datOrder) {
         this.datOrder = datOrder;
     }
     

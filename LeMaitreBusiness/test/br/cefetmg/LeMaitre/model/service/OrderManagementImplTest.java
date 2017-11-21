@@ -6,15 +6,12 @@
 package br.cefetmg.LeMaitre.model.service;
 
 import br.cefetmg.LeMaitre.model.dao.OrderDAOImpl;
-import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.domain.Order;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import java.util.List;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -38,7 +35,7 @@ public class OrderManagementImplTest {
         idtStatus = 'T';
         vlrPrice = new Double(30.0);
         codToken = new String("xxx");
-        order = new Order;
+        order = new Order();
         orderManagement = new OrderManagementImpl(OrderDAOImpl.getInstance());
     }
     
@@ -183,6 +180,6 @@ public class OrderManagementImplTest {
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to retrieve correct order items");
         }
-    }
+    } 
     
 }

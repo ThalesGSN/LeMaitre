@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
  */
 public class BillManagementImplTest {
     
-    private Long codID;
+    private String codID;
     
     private Date datUse;
     
@@ -44,7 +44,7 @@ public class BillManagementImplTest {
     public void setUp() {
         datUse = date;
         idtStatus = 'O';
-        codID = -1L;
+        codID = null;
         bill.setDatUse(datUse);
         bill.setIdtStatus(idtStatus);
         bill.setCodToken(null);
@@ -53,7 +53,7 @@ public class BillManagementImplTest {
     @After
     public void tearDown() {
         try {
-            if (codID != -1L) {
+            if (codID != null) {
                 billManagement.billRemove(codID);
             }
         } catch (PersistenceException ex) {
@@ -125,7 +125,7 @@ public class BillManagementImplTest {
     public void testBillUpdate() {
         try {
             codID = billManagement.billInsert(bill);
-            bill.setCodID(codID);
+            bill.setCodToken(codID);
             billManagement.billUpdate(bill);
             System.out.println("Passed testBillUpdate test");
         } catch (BusinessException | PersistenceException ex) {
@@ -155,7 +155,7 @@ public class BillManagementImplTest {
         try {
             codID = billManagement.billInsert(bill);
             bill.setDatUse(null);
-            bill.setCodID(codID);
+            bill.setCodToken(codID);
             billManagement.billUpdate(bill);
             fail("Failed to catch exception when updating null date");
         } catch (BusinessException | PersistenceException ex) {
@@ -171,7 +171,7 @@ public class BillManagementImplTest {
         try {
             codID = billManagement.billInsert(bill);
             bill.setIdtStatus('R');
-            bill.setCodID(codID);
+            bill.setCodToken(codID);
             billManagement.billUpdate(bill);
             fail("Failed to catch exception when updating invalid idt");
         } catch (BusinessException | PersistenceException ex) {
@@ -187,7 +187,7 @@ public class BillManagementImplTest {
         try {
             codID = billManagement.billInsert(bill);
             billManagement.billRemove(codID);
-            codID = -1L;
+            codID = null;
             System.out.println("Correctly removed bill");
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to remove correct bill");
