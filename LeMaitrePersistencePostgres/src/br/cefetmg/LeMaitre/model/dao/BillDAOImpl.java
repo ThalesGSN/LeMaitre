@@ -45,9 +45,9 @@ public class BillDAOImpl implements BillDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "INSERT INTO Bill "
-                    + "(DAT_use, IDT_status) "
-                    + "    VALUES (?, ?) returning COD_ID;";
+            String sql = "INSERT INTO bill(\n"
+                    + "	 dat_use, idt_status)\n"
+                    + "	VALUES ( ?, ?) returning cod_token;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setDate(1,(java.sql.Date) bill.getDatUse());
@@ -68,6 +68,7 @@ public class BillDAOImpl implements BillDAO {
         } catch(SQLException ex){
             if(ex.getErrorCode() == 1062)
                 throw new PersistenceException(PersistenceException.DUPLICATED_KEY, "Duplicated Key");
+            throw new PersistenceException(PersistenceException.DUPLICATED_KEY, ex.getMessage());
         }
 
         return idBill;
@@ -82,9 +83,9 @@ public class BillDAOImpl implements BillDAO {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "UPDATE Bill "
-                    + " SET DAT_use = ?,"
-                    + "     IDT_status = ?"
-                    + " WHERE COD_ID = ?;";
+                    + " SET dat_use = ?,"
+                    + "     idt_status = ?"
+                    + " WHERE cod_token = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setDate(1, (java.sql.Date) bill.getDatUse());
@@ -115,7 +116,7 @@ public class BillDAOImpl implements BillDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "DELETE FROM Bill WHERE COD_ID = ?;";
+            String sql = "DELETE FROM Bill WHERE cod_token = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, codToken);
@@ -145,7 +146,7 @@ public class BillDAOImpl implements BillDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "SELECT * FROM bill WHERE COD_ID = ?;";
+            String sql = "SELECT * FROM bill WHERE cod_token = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, codToken);
@@ -178,7 +179,7 @@ public class BillDAOImpl implements BillDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "SELECT 1 FROM Bill WHERE COD_ID = ?;";
+            String sql = "SELECT 1 FROM Bill WHERE cod_token = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, codToken);

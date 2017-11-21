@@ -43,9 +43,9 @@ public class BillTableDAOImpl implements BillTableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "INSERT INTO BillTable "
-                    + "(COD_ID_Bill, COD_ID_Table) "
-                    + "    VALUES (?, ?);";
+            String sql = "INSERT INTO bill_table(\n"
+                    + "	cod_id_bill, cod_id_table)\n" +
+                      " 	VALUES (?, ?);";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, billTable.getCodIDBill());
@@ -75,8 +75,8 @@ public class BillTableDAOImpl implements BillTableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "DELETE FROM BillTable "
-                    + "WHERE COD_ID_Bill = ? AND COD_ID_Table = ?;";
+            String sql = "DELETE FROM public.bill_table\n" +
+            "	WHERE cod_id_bill = ? AND cod_id_table = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, codToken);
@@ -88,8 +88,10 @@ public class BillTableDAOImpl implements BillTableDAO {
             connection.close();
 
             if(removedRows == 1){
+                
                 return true;
             } 
+            System.err.println(removedRows);
             throw new PersistenceException(PersistenceException.NOT_A_DELETE, "Something went wrong when delete.");
 
         } catch (ClassNotFoundException ex) {
@@ -109,15 +111,17 @@ public class BillTableDAOImpl implements BillTableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "SELECT A.COD_ID_Table AS ID, B.IDT_status AS STATUS, B.NRO_seat AS SEATS"
-                    + "FROM BillTable A JOIN Bill B ON A.COD_ID_Bill = B.COD_ID "
+            String sql = "SELECT A.COD_ID_Table AS ID, B.IDT_status AS STATUS, B.nro_seat AS SEATS\n"
+                    + "FROM Bill_Table A JOIN \"table\" B ON A.COD_ID_table = B.cod_id\n"
                     + "WHERE COD_ID_Bill = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, codToken);
             
             ResultSet rs = pstmt.executeQuery();
-
+            
+            tables = new ArrayList();
+            
             while(rs.next()){
                 Table table = new Table();
                 
@@ -132,13 +136,14 @@ public class BillTableDAOImpl implements BillTableDAO {
             connection.close();
 
              
-            throw new PersistenceException(PersistenceException.NOT_A_DELETE, "Something went wrong when delete.");
+            
 
         } catch (ClassNotFoundException ex) {
             throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
         } catch(SQLException ex){
             throw new PersistenceException(ex);
         }
+        return tables;
     }
 
     @Override

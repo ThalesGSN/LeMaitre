@@ -56,7 +56,6 @@ public class TableDAOImpl implements TableDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                System.out.println("br.cefetmg.LeMaitre.model.dao.TableDAOImpl.insert()");
                 idTable = rs.getInt("cod_id");
             }
 

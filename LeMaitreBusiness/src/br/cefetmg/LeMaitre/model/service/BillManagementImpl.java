@@ -44,10 +44,10 @@ public class BillManagementImpl implements BillManagement {
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null bill cannot be inserted.");
         
         if(bill.getCodToken() == null)
-            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "CodID cannot be null.");
+            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "Token cannot be null.");
         
         if(bill.getDatUse() == null)
-            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "CodID cannot be null.");
+            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "Date cannot be null.");
         
         if(String.copyValueOf(Bill.IDT_STATUS_POSSIBLE_VALUES)
                 .indexOf(bill.getIdtStatus()) < 0){
