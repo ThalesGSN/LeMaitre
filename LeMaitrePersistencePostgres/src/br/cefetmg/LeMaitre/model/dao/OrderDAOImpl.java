@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,7 @@ public class OrderDAOImpl implements OrderDAO {
     
     
     @Override
-    synchronized public Date insert(Order order) throws PersistenceException {
+    public synchronized boolean insert(Order order) throws PersistenceException {
         if (order == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Order cannot be null");
         }
@@ -46,8 +47,8 @@ public class OrderDAOImpl implements OrderDAO {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "INSERT INTO \"order\" (\n"
-                    + "	cod_id_bill, cod_item, idt_status, vlr_price, qtd_item)\n"
-                    + "	VALUES (?, ?, ?, ?, ?) Returning dat_order;";
+                    + "	cod_id_bill, cod_item, idt_status, vlr_price, qtd_item, dat_order)\n"
+                    + "	VALUES (?, ?, ?, ?, ?);";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, order.getCodToken());
@@ -56,7 +57,7 @@ public class OrderDAOImpl implements OrderDAO {
             pstmt.setString(3, String.valueOf(order.getIdtStatus()));
             pstmt.setDouble(5, order.getVlrPrice());
             pstmt.setInt(6, order.getQtdItem());
-            
+            pstmt.setTimestamp(7, order.getDatOrder());    
             
             pstmt.executeQuery();
 
@@ -70,7 +71,7 @@ public class OrderDAOImpl implements OrderDAO {
                 throw new PersistenceException(PersistenceException.DUPLICATED_KEY, "Duplicated Key");
         }
 
-        return datOrder;
+        return true;
     }
 
     @Override
@@ -115,7 +116,7 @@ public class OrderDAOImpl implements OrderDAO {
     
 
     @Override
-    synchronized public boolean remove(String codToken, Date datOrder) throws PersistenceException {
+    synchronized public boolean remove(String codToken, Timestamp datOrder) throws PersistenceException {
         if(codToken == null || datOrder == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -127,7 +128,7 @@ public class OrderDAOImpl implements OrderDAO {
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, codToken);
-            pstmt.setObject(2, datOrder);
+            pstmt.setTimestamp(2, datOrder);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -147,7 +148,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
  
     @Override
-    synchronized public Order getOrderByID(String codToken, Date datOrder) throws PersistenceException {
+    synchronized public Order getOrderByID(String codToken, Timestamp datOrder) throws PersistenceException {
         if(codToken == null || datOrder == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -159,7 +160,7 @@ public class OrderDAOImpl implements OrderDAO {
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, codToken);
-            pstmt.setObject(2, datOrder);
+            pstmt.setTimestamp(2, datOrder);
             
             ResultSet rs = pstmt.executeQuery();
 

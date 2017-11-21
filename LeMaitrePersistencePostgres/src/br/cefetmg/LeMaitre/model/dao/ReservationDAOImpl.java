@@ -45,7 +45,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             Connection connection = ConnectionManager.getInstance().getConnection();
                        
             String sql = "INSERT INTO Reservation "
-                    + "(COD_id, DAT_reservation, DAT_hour_reservation, "
+                    + "(COD_id_table, DAT_reservation, DAT_hour_reservation, "
                     + "NRO_persons, TXT_contact_name, TXT_telephone, TXT_cellphone) "
                     + "    VALUES (?, ?, ?, ?, ?, ?, ?);";
 
@@ -87,7 +87,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                     + "     TXT_contact_name = ?,"
                     + "     TXT_telephone    = ?,"
                     + "     TXT_cellphone    = ? "
-                    + "WHERE COD_id = ? AND DAT_reservation = ? AND DAT_hour_reservation = ?;";
+                    + "WHERE COD_id_table = ? AND DAT_reservation = ? AND DAT_hour_reservation = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, reservation.getNroPersons());
@@ -122,7 +122,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "DELETE FROM Reservation WHERE COD_ID = ? AND DAT_reservation = ? AND DAT_HOUR_reservation = ?;";
+            String sql = "DELETE FROM Reservation WHERE COD_id_table = ? AND DAT_reservation = ? AND DAT_HOUR_reservation = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, tableID);
@@ -155,7 +155,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "SELECT * FROM reservation "
-                    + "WHERE COD_id = ? AND DAT_reservation = ? AND DAT_hour_reservation = ?;";
+                    + "WHERE COD_id_table = ? AND DAT_reservation = ? AND DAT_hour_reservation = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, tableID);
@@ -197,7 +197,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
             
-            String sql = "SELECT * FROM Reservation WHERE COD_id = ?;";
+            String sql = "SELECT * FROM Reservation WHERE COD_id_table = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             
@@ -206,7 +206,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             while(rs.next()){
                 Reservation reservation = new Reservation();
                 
-                reservation.setCodIDTable(rs.getInt("COD_id"));
+                reservation.setCodIDTable(rs.getInt("COD_id_table"));
                 reservation.setDatReservation(rs.getDate("DAT_reservation"));
                 reservation.setDatHourReservation(rs.getTime("DAT_hour_reservation"));
                 reservation.setNroPersons(rs.getInt("NRO_persons"));
@@ -243,7 +243,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             while(rs.next()){
                 reservation = new Reservation();
                 
-                reservation.setCodIDTable(rs.getInt("COD_id"));
+                reservation.setCodIDTable(rs.getInt("COD_id_table"));
                 reservation.setDatReservation(rs.getDate("DAT_reservation"));
                 reservation.setDatHourReservation(rs.getTime("DAT_hour_reservation"));
                 reservation.setNroPersons(rs.getInt("NRO_persons"));

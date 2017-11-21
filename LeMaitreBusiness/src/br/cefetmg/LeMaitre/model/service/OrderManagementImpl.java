@@ -12,7 +12,7 @@ import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.domain.Order;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -31,7 +31,7 @@ public class OrderManagementImpl implements  OrderManagement {
     }
     
     @Override
-    public Date orderInsert(Order order) throws BusinessException, PersistenceException {
+    public boolean orderInsert(Order order) throws BusinessException, PersistenceException {
         if(order == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null order cannot be inserted.");
         
@@ -87,7 +87,7 @@ public class OrderManagementImpl implements  OrderManagement {
     }
 
     @Override
-    public boolean orderRemove(String codToken, Date datOrder) throws PersistenceException {
+    public boolean orderRemove(String codToken, Timestamp datOrder) throws PersistenceException {
         if(codToken == null || datOrder == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameter can be null.");
         
@@ -95,7 +95,7 @@ public class OrderManagementImpl implements  OrderManagement {
     }
 
     @Override
-    public Order getOrderByID(String codToken, Date datOrder) throws PersistenceException {
+    public Order getOrderByID(String codToken, Timestamp datOrder) throws PersistenceException {
         if(codToken == null || datOrder == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameter can be null.");
         

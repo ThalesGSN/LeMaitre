@@ -181,7 +181,6 @@ public class BillTableManagementImplTest {
     @Test
     public void testGetTablesByBillID() throws Exception {
         try {
-            
             management.getTablesByToken(codBill);    
         } catch (PersistenceException ex) {
             System.out.println(ex.getMessage());

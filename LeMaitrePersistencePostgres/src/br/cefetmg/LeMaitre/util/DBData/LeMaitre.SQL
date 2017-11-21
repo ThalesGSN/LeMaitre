@@ -30,7 +30,7 @@ ALTER TABLE  "table"  ADD CONSTRAINT  Key1  PRIMARY KEY ( COD_ID )
 
 CREATE TABLE  "order" (
   COD_ID_Bill  Varchar NOT NULL,
-  DAT_order  Date NOT NULL,
+  DAT_order  Timestamp NOT NULL,
   COD_Item  Integer NOT NULL,
   IDT_status  Character(1) NOT NULL,
   VLR_price  Double precision NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE  Item (
   VLR_price  Double precision NOT NULL,
   NOM_item  Varchar NOT NULL,
   DES_item  Varchar NOT NULL,
-  IDT_available  Character(1) NOT NULL,
+  IDT_available  boolean NOT NULL,
   SEQ_Category  Integer,
   SEQ_Subcategory  Integer
 )
@@ -89,16 +89,11 @@ CREATE INDEX  IX_Relationship15  ON  Item  ( SEQ_Category , SEQ_Subcategory )
 ALTER TABLE  Item  ADD CONSTRAINT  Key4  PRIMARY KEY ( COD_Item )
 ;
 
--- table Menu
-
-CREATE TABLE  Menu (
-)
-;
 
 -- table Employee
 
 CREATE TABLE  Employee (
-  COD_ID  Integer NOT NULL,
+  COD_ID  Serial NOT NULL,
   NOM_name  Varchar NOT NULL,
   IDT_profile  Character(1) NOT NULL,
   NOM_username  Varchar NOT NULL,
@@ -175,7 +170,7 @@ ALTER TABLE  Subcategory  ADD CONSTRAINT  Key13  PRIMARY KEY ( SEQ_Category , SE
 -- table Image
 
 CREATE TABLE  Image (
-  COD_image  BigSerial NOT NULL,
+  COD_image  Serial NOT NULL,
   DES_location  Varchar NOT NULL
 )
 ;
@@ -189,7 +184,7 @@ ALTER TABLE  Image  ADD CONSTRAINT  Key14  PRIMARY KEY ( COD_image )
 
 CREATE TABLE  Item_Image (
   COD_Item  Integer NOT NULL,
-  COD_image  Bigint NOT NULL
+  COD_image  Integer NOT NULL
 )
 ;
 

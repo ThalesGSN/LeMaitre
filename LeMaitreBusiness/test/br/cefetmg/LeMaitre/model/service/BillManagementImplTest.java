@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 public class BillManagementImplTest {
     
     private String Token;
-    
+
     private Date datUse;
     
     private Date date;
