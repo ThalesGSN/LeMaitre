@@ -60,7 +60,7 @@ public class BillResource {
         orderManagement = new OrderManagementImpl(OrderDAOImpl.getInstance());
         
         
-        try {
+        /*try {
             bill = billManagement.getBillByID(billId);
             //bill.setListOrder(orderManagement.getOrdersByBillID(billId));
         } catch (PersistenceException ex) {
@@ -70,14 +70,8 @@ public class BillResource {
         Gson gson = new Gson();
                       
         return gson.toJson(bill) + " - " + gson.toJson(orderManagement.getOrdersByBillID(bill.getCodID()));
+        */
+        return "";
     }
 
-    /**
-     * PUT method for updating or creating an instance of BillResource
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(String content) {
-    }
 }
