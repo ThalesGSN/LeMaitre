@@ -20,7 +20,7 @@ public class Order {
 
     private char idtStatus;
 
-    private Double vlrPrice;
+    private double vlrPrice;
 
     private Integer qtdItem;
 
@@ -28,7 +28,7 @@ public class Order {
     
     public Order() { }
 
-    public Order(String codIDBill, Timestamp datOrder, Integer codItem, char idtStatus, Double vlrPrice, Integer qtdItem) {
+    public Order(String codIDBill, Timestamp datOrder, Integer codItem, char idtStatus, double vlrPrice, Integer qtdItem) {
         this.codToken = codIDBill;
         this.datOrder = datOrder;
         this.codItem = codItem;
@@ -114,7 +114,7 @@ public class Order {
      *
      * @return the value of vlrPrice
      */
-    public Double getVlrPrice() {
+    public double getVlrPrice() {
         return vlrPrice;
     }
 
@@ -123,7 +123,7 @@ public class Order {
      *
      * @param vlrPrice new value of vlrPrice
      */
-    public void setVlrPrice(Double vlrPrice) {
+    public void setVlrPrice(double vlrPrice) {
         this.vlrPrice = vlrPrice;
     }
     

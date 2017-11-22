@@ -20,7 +20,7 @@ import java.util.List;
  * @author Thalesgsn
  */
 public class OrderManagementImpl implements  OrderManagement {
-    private OrderDAO DAO;
+    private final OrderDAO DAO;
     private final BillManagement billManagement;
     private final ItemManagement itemManagement;
 
@@ -31,12 +31,12 @@ public class OrderManagementImpl implements  OrderManagement {
     }
     
     @Override
-    public boolean orderInsert(Order order) throws BusinessException, PersistenceException {
+    public Timestamp orderInsert(Order order) throws BusinessException, PersistenceException {
         if(order == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null order cannot be inserted.");
         
         if(order.getCodToken() == null)
-            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codIDBill cannot be null.");
+            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "Token cannot be null.");
         
         if(!billManagement.containsThisBillID(order.getCodToken()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "codToken doesn't exist in the persistence");
@@ -64,7 +64,7 @@ public class OrderManagementImpl implements  OrderManagement {
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null order cannot be inserted.");
         
         if(order.getCodToken() == null)
-            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codIDBill cannot be null.");
+            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "Token cannot be null.");
         
         if(!billManagement.containsThisBillID(order.getCodToken()))
             throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "codToken doesn't exist in the persistence");

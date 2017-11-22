@@ -17,7 +17,7 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface OrderManagement {
-    public boolean orderInsert(Order order) throws BusinessException, PersistenceException;
+    public Timestamp orderInsert(Order order) throws BusinessException, PersistenceException;
     public boolean orderUpdate(Order order) throws BusinessException, PersistenceException;
     public boolean orderRemove(String codToken, Timestamp datOrder) throws PersistenceException;
     public Order getOrderByID(String codToken, Timestamp datOrder) throws PersistenceException;

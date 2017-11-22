@@ -9,6 +9,7 @@ import br.cefetmg.LeMaitre.model.domain.Bill;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import br.cefetmg.LeMaitre.util.db.ConnectionManager;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,7 +51,9 @@ public class BillDAOImpl implements BillDAO {
                     + "	VALUES ( ?, ?) returning cod_token;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setDate(1,(java.sql.Date) bill.getDatUse());
+            
+            Date dateAux = new  Date(bill.getDatUse().getTime());
+            pstmt.setDate(1,dateAux);
             pstmt.setString(2, String.valueOf(bill.getIdtStatus()));
             
             ResultSet rs = pstmt.executeQuery();
