@@ -32,7 +32,6 @@ public class ApplicationConfig extends Application {
         resources.add(br.cefetmg.LeMaitre.servlet.BillResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.CategoryResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.ItemResource.class);
-        resources.add(br.cefetmg.LeMaitre.servlet.OrderResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.ReservationResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.TableResource.class);
     }
