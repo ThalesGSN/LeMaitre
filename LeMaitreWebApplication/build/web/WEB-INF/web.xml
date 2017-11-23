@@ -4,9 +4,17 @@
         <servlet-name>TableCreate</servlet-name>
         <servlet-class>br.cefetmg.LeMaitre.servlet.TableCreate</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TableUpdate</servlet-name>
+        <servlet-class>br.cefetmg.LeMaitre.servlet.TableUpdate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TableCreate</servlet-name>
         <url-pattern>/TableCreate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TableUpdate</servlet-name>
+        <url-pattern>/TableUpdate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

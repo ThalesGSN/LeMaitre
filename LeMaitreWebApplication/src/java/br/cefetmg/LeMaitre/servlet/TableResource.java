@@ -5,17 +5,27 @@
  */
 package br.cefetmg.LeMaitre.servlet;
 
+import br.cefetmg.LeMaitre.model.dao.TableDAO;
 import br.cefetmg.LeMaitre.model.dao.TableDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.Table;
+import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import br.cefetmg.LeMaitre.model.service.TableManagement;
 import br.cefetmg.LeMaitre.model.service.TableManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
+import br.cefetmg.LeMaitre.util.ServletUtil;
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
@@ -32,6 +42,7 @@ public class TableResource {
     private TableManagement tableManagement;
     private Gson gson;
     private Result result;
+    private ServletUtil util;
     
     /**
      * Creates a new instance of TableResource

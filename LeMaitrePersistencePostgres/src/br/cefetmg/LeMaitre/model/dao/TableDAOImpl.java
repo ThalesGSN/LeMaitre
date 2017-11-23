@@ -206,7 +206,7 @@ public class TableDAOImpl implements TableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
                                    
-            String sql = "SELECT * FROM \"table\"";
+            String sql = "SELECT * FROM \"table\" ORDER BY COD_id";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();

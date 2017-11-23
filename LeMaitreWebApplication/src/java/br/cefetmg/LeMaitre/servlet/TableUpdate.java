@@ -25,9 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author Paula Ribeiro
- * url: http://localhost:8080/LeMaitreWebApplication/TableCreate
+ * url: http://localhost:8080/LeMaitreWebApplication/TableUpdate
  */
-public class TableCreate extends HttpServlet {
+public class TableUpdate extends HttpServlet {
 
     private TableManagement tableManagement;
     private Result result;
@@ -62,11 +62,12 @@ public class TableCreate extends HttpServlet {
             TableDAO tableDAO = TableDAOImpl.getInstance();
             tableManagement = new TableManagementImpl(tableDAO);
             
-            int id = tableManagement.tableInsert(table);
-            table.setCodID(id);
+            boolean flag = tableManagement.tableUpdate(table);
             
-            result.setStatusOK();
-            result.setContent(table);
+            if (flag) {
+                result.setStatusOK();
+                result.setContent(table);
+            }
             
         } catch (BusinessException | PersistenceException ex) {
             result.setContent(ex.getMessage());
@@ -84,5 +85,4 @@ public class TableCreate extends HttpServlet {
         Table table = gson.fromJson(str, Table.class);
         return table;
     }
-
 }
