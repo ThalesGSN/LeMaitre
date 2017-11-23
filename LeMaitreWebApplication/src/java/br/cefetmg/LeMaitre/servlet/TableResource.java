@@ -45,7 +45,7 @@ public class TableResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}")
+    @Path("{id}")
     public String getTable(@PathParam("id") String id) {
         try {
             result = new Result();
