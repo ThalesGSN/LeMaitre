@@ -46,7 +46,7 @@ public class ItemResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("get/{id}")
+    @Path("{id}")
     public String getItem(@PathParam("id") String id) {
         try {
             result = new Result();
@@ -74,7 +74,6 @@ public class ItemResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("get")
     public String getItems() {
         try {
             result = new Result();
@@ -101,7 +100,7 @@ public class ItemResource {
     
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("delete/{id}")
+    @Path("{id}")
     public String deleteItem(@PathParam("id") String id) {
         
         try {
