@@ -5,16 +5,16 @@
  */
 package br.cefetmg.LeMaitre.servlet;
 
-import br.cefetmg.LeMaitre.model.dao.TableDAOImpl;
-import br.cefetmg.LeMaitre.model.domain.Table;
+import br.cefetmg.LeMaitre.model.dao.ItemDAOImpl;
+import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
-import br.cefetmg.LeMaitre.model.service.TableManagement;
-import br.cefetmg.LeMaitre.model.service.TableManagementImpl;
+import br.cefetmg.LeMaitre.model.service.ItemManagement;
+import br.cefetmg.LeMaitre.model.service.ItemManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
 import com.google.gson.Gson;
 import java.util.List;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -26,41 +26,42 @@ import javax.ws.rs.core.MediaType;
  * @author Paula Ribeiro
  * url: http://localhost:8080/LeMaitreWebApplication/webresources/table/
  */
-@Path("table")
-public class TableResource {
+@Path("item")
+public class ItemResource {
 
-    private TableManagement tableManagement;
+    private ItemManagement itemManagement;
     private Gson gson;
     private Result result;
-    
+
     /**
-     * Creates a new instance of TableResource
+     * Creates a new instance of ItemResource
      */
-    public TableResource() {}
-   
+    public ItemResource() {
+    }
+
     /**
-     * Retrieves representation of an instance of br.cefetmg.LeMaitre.servlet.TableResource
+     * Retrieves representation of an instance of br.cefetmg.LeMaitre.servlet.ItemResource
      * @param id
      * @return an instance of java.lang.String
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("get/{id}")
-    public String getTable(@PathParam("id") String id) {
+    public String getItem(@PathParam("id") String id) {
         try {
             result = new Result();
-            tableManagement = new TableManagementImpl(TableDAOImpl.getInstance());
+            itemManagement = new ItemManagementImpl(ItemDAOImpl.getInstance());
             gson = new Gson();
-            int tableId = new Integer(id);
+            int itemId = new Integer(id);
             
-            Table table = tableManagement.getTableByID(tableId);
+            Item item = itemManagement.getItemByID(itemId);
             
-            if (table.getCodID() == null) {
+            if (item.getCodItem() == null) {
                 result.setStatusDOESNOTEXIST();
             }
             else {
                 result.setStatusOK();
-                result.setContent(table);
+                result.setContent(item);
             }
                         
         } catch (PersistenceException ex) {
@@ -74,20 +75,20 @@ public class TableResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("get")
-    public String getTables() {
+    public String getItems() {
         try {
             result = new Result();
-            tableManagement = new TableManagementImpl(TableDAOImpl.getInstance());
+            itemManagement = new ItemManagementImpl(ItemDAOImpl.getInstance());
             gson = new Gson();
             
-            List<Table> tables = tableManagement.listAll();
+            List<Item> items = itemManagement.getAllItems();
             
-            if (tables.isEmpty()) {
+            if (items.isEmpty()) {
                 result.setStatusDOESNOTEXIST();
             }
             else {
                 result.setStatusOK();
-                result.setContent(tables);
+                result.setContent(items);
             }
                         
         } catch (PersistenceException ex) {
@@ -101,15 +102,15 @@ public class TableResource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("delete/{id}")
-    public String deleteTable(@PathParam("id") String id) {
+    public String deleteItem(@PathParam("id") String id) {
         
         try {
             result = new Result();
-            tableManagement = new TableManagementImpl(TableDAOImpl.getInstance());
+            itemManagement = new ItemManagementImpl(ItemDAOImpl.getInstance());
             gson = new Gson();
-            int tableId = new Integer(id);
+            int itemId = new Integer(id);
             
-            boolean bool = tableManagement.tableRemove(tableId);
+            boolean bool = itemManagement.itemRemove(itemId);
             
             if (bool) {
                 result.setStatusOK();
@@ -125,5 +126,4 @@ public class TableResource {
         
         return gson.toJson(result);
     }
-    
 }
