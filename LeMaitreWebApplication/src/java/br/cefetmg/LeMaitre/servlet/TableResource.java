@@ -12,6 +12,7 @@ import br.cefetmg.LeMaitre.model.service.TableManagement;
 import br.cefetmg.LeMaitre.model.service.TableManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
 import com.google.gson.Gson;
+import java.util.Collection;
 import java.util.List;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;

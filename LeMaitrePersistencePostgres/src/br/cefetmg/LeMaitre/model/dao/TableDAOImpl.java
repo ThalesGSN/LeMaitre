@@ -212,7 +212,11 @@ public class TableDAOImpl implements TableDAO {
             ResultSet rs = pstmt.executeQuery();
             
             while (rs.next()) {
-                list.add(rs);
+                Table table = new Table();
+                table.setCodID(rs.getInt("COD_id"));
+                table.setIdtStatus(rs.getString("IDT_status").charAt(0));
+                table.setNroSeat(rs.getInt("NRO_seat"));
+                list.add(table);
             }
             
             rs.close();
