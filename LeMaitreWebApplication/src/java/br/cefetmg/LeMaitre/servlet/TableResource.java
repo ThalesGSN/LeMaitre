@@ -45,7 +45,7 @@ public class TableResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("get/{id}")
+    @Path("/{id}")
     public String getTable(@PathParam("id") String id) {
         try {
             result = new Result();
@@ -73,7 +73,6 @@ public class TableResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("get")
     public String getTables() {
         try {
             result = new Result();
@@ -100,7 +99,7 @@ public class TableResource {
     
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("delete/{id}")
+    @Path("/{id}")
     public String deleteTable(@PathParam("id") String id) {
         
         try {
