@@ -15,10 +15,10 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface BillManagement {
-    public Long billInsert(Bill bill) throws BusinessException, PersistenceException;
+    public String billInsert(Bill bill) throws BusinessException, PersistenceException;
     public boolean billUpdate(Bill bill) throws BusinessException, PersistenceException;
-    public boolean billRemove(Long billID) throws PersistenceException;
-    public Bill getBillByID(Long billID) throws PersistenceException;
-    public boolean containsThisBillID(Long billID) throws PersistenceException;
+    public boolean billRemove(String billID) throws PersistenceException;
+    public Bill getBillByID(String billID) throws PersistenceException;
+    public boolean containsThisBillID(String billID) throws PersistenceException;
     public List<Bill> listAll() throws PersistenceException;
 }

@@ -7,20 +7,15 @@ package br.cefetmg.LeMaitre.servlet;
 
 import br.cefetmg.LeMaitre.model.dao.TableDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.Table;
-import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import br.cefetmg.LeMaitre.model.service.TableManagement;
 import br.cefetmg.LeMaitre.model.service.TableManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import java.util.List;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
-import static javax.ws.rs.HttpMethod.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
@@ -55,7 +50,7 @@ public class TableResource {
             result = new Result();
             tableManagement = new TableManagementImpl(TableDAOImpl.getInstance());
             gson = new Gson();
-            long tableId = new Long(id);
+            int tableId = new Integer(id);
             
             Table table = tableManagement.getTableByID(tableId);
             
@@ -111,7 +106,7 @@ public class TableResource {
             result = new Result();
             tableManagement = new TableManagementImpl(TableDAOImpl.getInstance());
             gson = new Gson();
-            long tableId = new Long(id);
+            int tableId = new Integer(id);
             
             boolean bool = tableManagement.tableRemove(tableId);
             
@@ -130,30 +125,4 @@ public class TableResource {
         return gson.toJson(result);
     }
     
-    @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("create")
-    public String createTable(JsonObject tableJson) {
-        Table table = new Table();
-        table.setIdtStatus(tableJson.get("idtStatus").getAsCharacter());
-        table.setNroSeat(tableJson.get("nroSeat").getAsInt());
-        
-        Long id = null;
-        
-        try {
-            id = tableManagement.tableInsert(table);
-            if (id == null) {
-                result.setStatusBADREQUEST();
-            }
-            else {
-                result.setStatusOK();
-            }
-        } catch (BusinessException | PersistenceException ex) {
-            result.setStatusBADREQUEST();
-            result.setContent(ex);
-        }     
-        
-        return gson.toJson(result);
-    }
 }

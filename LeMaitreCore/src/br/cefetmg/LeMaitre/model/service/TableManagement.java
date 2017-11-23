@@ -15,10 +15,10 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface TableManagement {
-    public Long tableInsert(Table table) throws BusinessException, PersistenceException;
+    public Integer tableInsert(Table table) throws BusinessException, PersistenceException;
     public boolean tableUpdate(Table table) throws BusinessException, PersistenceException;
-    public boolean tableRemove(Long tableID) throws PersistenceException;
-    public Table getTableByID(Long tableID) throws PersistenceException;
-    public boolean containsThisTableID(Long tableID) throws PersistenceException;
+    public boolean tableRemove(Integer tableID) throws PersistenceException;
+    public Table getTableByID(Integer tableID) throws PersistenceException;
+    public boolean containsThisTableID(Integer tableID) throws PersistenceException;
     public List<Table> listAll() throws PersistenceException;
 }

@@ -6,6 +6,7 @@
 package br.cefetmg.LeMaitre.model.dao;
 
 import br.cefetmg.LeMaitre.model.domain.Category;
+import br.cefetmg.LeMaitre.model.domain.Subcategory;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import br.cefetmg.LeMaitre.util.db.ConnectionManager;
 import java.sql.Connection;
@@ -34,11 +35,11 @@ public class CategoryDAOImpl implements CategoryDAO {
     
     
     @Override
-    synchronized public Long insert(Category category) throws PersistenceException {
+    synchronized public Integer insert(Category category) throws PersistenceException {
         if (category == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Category cannot be null");
         }
-        Long idCategory = null;
+        Integer idCategory = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
@@ -53,7 +54,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idCategory = rs.getLong("SEQ_Category");
+                idCategory = rs.getInt("SEQ_Category");
             }
 
             rs.close();
@@ -104,7 +105,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    synchronized public boolean remove(Long categoryID) throws PersistenceException {
+    synchronized public boolean remove(Integer categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -134,7 +135,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    synchronized public Category getCategoryByID(Long categoryID) throws PersistenceException {
+    synchronized public Category getCategoryByID(Integer categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -144,7 +145,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             String sql = "SELECT * FROM category WHERE SEQ_Category = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, categoryID);
+            pstmt.setInt(1, categoryID);
             ResultSet rs = pstmt.executeQuery();
 
             Category category = new Category();
@@ -166,7 +167,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    synchronized public boolean containsThisCategoryID(Long categoryID) throws PersistenceException {
+    synchronized public boolean containsThisCategoryID(Integer categoryID) throws PersistenceException {
         if(categoryID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -176,7 +177,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             String sql = "SELECT 1 FROM Category WHERE SEQ_Category = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, categoryID);
+            pstmt.setInt(1, categoryID);
             ResultSet rs = pstmt.executeQuery();
             boolean status = rs.next();
 
@@ -203,10 +204,11 @@ public class CategoryDAOImpl implements CategoryDAO {
             
             ResultSet rs = stmt.executeQuery(sql);
             
+            categories = new ArrayList();
             while(rs.next()){
                 Category category = new Category();
                 
-                category.setSeqCategory(rs.getLong("SEQ_Category"));
+                category.setSeqCategory(rs.getInt("SEQ_Category"));
                 category.setNomCategory(rs.getString("NOM_Category"));
                 
                 categories.add(category);
@@ -220,6 +222,48 @@ public class CategoryDAOImpl implements CategoryDAO {
         } catch (ClassNotFoundException ex) {
             throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
         } catch(SQLException ex){
+            throw new PersistenceException(ex);
+        }
+    }
+
+    @Override
+    public List<Subcategory> listAllSubcategories(Integer categoryID) throws PersistenceException {
+         if (categoryID == null) {
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        }
+
+        ArrayList<Subcategory> subcategories = null;
+
+        try {
+            Connection connection = ConnectionManager.getInstance().getConnection();
+
+            String sql = "SELECT seq_subcategory, nom_subcategory\n"
+                    + "	FROM subcategory where seq_category = ?;";
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setLong(1, categoryID);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Subcategory subcategory = new Subcategory();
+
+                subcategory.setSeqCategory(categoryID);
+                subcategory.setSeqCategory(rs.getInt("seq_subcategory"));
+                subcategory.setNomSubcategory(rs.getString("nom_subcategory"));
+
+
+                subcategories.add(subcategory);
+            }
+
+            pstmt.close();
+            connection.close();
+
+            throw new PersistenceException(PersistenceException.NOT_A_DELETE, "Something went wrong when delete.");
+
+        } catch (ClassNotFoundException ex) {
+            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
+        } catch (SQLException ex) {
             throw new PersistenceException(ex);
         }
     }

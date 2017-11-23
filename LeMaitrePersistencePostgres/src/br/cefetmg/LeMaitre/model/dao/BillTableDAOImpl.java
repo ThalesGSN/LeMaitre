@@ -43,13 +43,13 @@ public class BillTableDAOImpl implements BillTableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "INSERT INTO BillTable "
-                    + "(COD_ID_Bill, COD_ID_Table) "
-                    + "    VALUES (?, ?);";
+            String sql = "INSERT INTO bill_table(\n"
+                    + "	cod_id_bill, cod_id_table)\n" +
+                      " 	VALUES (?, ?);";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billTable.getCodIDBill());
-            pstmt.setLong(2, billTable.getCodIDTable());
+            pstmt.setString(1, billTable.getCodIDBill());
+            pstmt.setInt(2, billTable.getCodIDTable());
             
             pstmt.executeQuery();
 
@@ -68,19 +68,19 @@ public class BillTableDAOImpl implements BillTableDAO {
 
 
     @Override
-    synchronized public boolean remove(Long billID, Long tableID) throws PersistenceException {
-        if(billID == null || tableID == null )
+    synchronized public boolean remove(String codToken, Integer tableID) throws PersistenceException {
+        if(codToken == null || tableID == null )
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "DELETE FROM BillTable "
-                    + "WHERE COD_ID_Bill = ? AND COD_ID_Table = ?;";
+            String sql = "DELETE FROM public.bill_table\n" +
+            "	WHERE cod_id_bill = ? AND cod_id_table = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
-            pstmt.setLong(2, tableID);
+            pstmt.setString(1, codToken);
+            pstmt.setInt(2, tableID);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -88,8 +88,10 @@ public class BillTableDAOImpl implements BillTableDAO {
             connection.close();
 
             if(removedRows == 1){
+                
                 return true;
             } 
+            System.err.println(removedRows);
             throw new PersistenceException(PersistenceException.NOT_A_DELETE, "Something went wrong when delete.");
 
         } catch (ClassNotFoundException ex) {
@@ -100,8 +102,8 @@ public class BillTableDAOImpl implements BillTableDAO {
     }
  
     @Override
-    synchronized public List<Table> listTablesByBillID(Long billID) throws PersistenceException {
-        if(billID == null)
+    synchronized public List<Table> listTablesByToken(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         ArrayList<Table> tables = null;
@@ -109,19 +111,21 @@ public class BillTableDAOImpl implements BillTableDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "SELECT A.COD_ID_Table AS ID, B.IDT_status AS STATUS, B.NRO_seat AS SEATS"
-                    + "FROM BillTable A JOIN Bill B ON A.COD_ID_Bill = B.COD_ID "
+            String sql = "SELECT A.COD_ID_Table AS ID, B.IDT_status AS STATUS, B.nro_seat AS SEATS\n"
+                    + "FROM Bill_Table A JOIN \"table\" B ON A.COD_ID_table = B.cod_id\n"
                     + "WHERE COD_ID_Bill = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
+            pstmt.setString(1, codToken);
             
             ResultSet rs = pstmt.executeQuery();
-
+            
+            tables = new ArrayList();
+            
             while(rs.next()){
                 Table table = new Table();
                 
-                table.setCodID(rs.getLong("ID"));
+                table.setCodID(rs.getInt("ID"));
                 table.setIdtStatus(rs.getString("STATUS").charAt(0));
                 table.setNroSeat(rs.getInt("SEATS"));
                 
@@ -132,17 +136,18 @@ public class BillTableDAOImpl implements BillTableDAO {
             connection.close();
 
              
-            throw new PersistenceException(PersistenceException.NOT_A_DELETE, "Something went wrong when delete.");
+            
 
         } catch (ClassNotFoundException ex) {
             throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
         } catch(SQLException ex){
             throw new PersistenceException(ex);
         }
+        return tables;
     }
 
     @Override
-    synchronized public List<Bill> listBillsByTableID(Long tableID) throws PersistenceException {
+    synchronized public List<Bill> listBillsByTableID(Integer tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -156,14 +161,14 @@ public class BillTableDAOImpl implements BillTableDAO {
                     + "WHERE COD_ID_Table = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, tableID);
+            pstmt.setInt(1, tableID);
             
             ResultSet rs = pstmt.executeQuery();
 
             while(rs.next()){
                 Bill bill = new Bill();
                 
-                bill.setCodID(rs.getLong("ID"));
+                bill.setCodToken(rs.getString("ID"));
                 bill.setDatUse(rs.getDate("DAT"));
                 bill.setIdtStatus(rs.getString("STATUS").charAt(0));
                 

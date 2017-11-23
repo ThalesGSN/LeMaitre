@@ -30,7 +30,7 @@ public class ReservationManagementImplTest {
     
     private boolean inserted;
     
-    private Long codIDTable;
+    private Integer codIDTable;
     
     private Integer nroPersons;
     
@@ -56,7 +56,7 @@ public class ReservationManagementImplTest {
     
     public ReservationManagementImplTest() {
         try {
-            codIDTable = tableManagement.tableInsert(new Table('F', 4));
+            codIDTable = tableManagement.tableInsert(new Table('O', 3));
         } catch (BusinessException | PersistenceException ex) {
             Logger.getLogger(ReservationManagementImplTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,7 +69,7 @@ public class ReservationManagementImplTest {
         datReservation = date;
         time = new Time(now.getHour(), now.getMinute(), now.getSecond());
         datHourReservation = time;
-        reservation = new Reservation(codIDTable, nroPersons, txtContactName, txtCellphone, txtTelephone, datReservation, datHourReservation);
+        reservation = new Reservation(codIDTable, datReservation, datHourReservation, nroPersons, txtContactName, txtTelephone, txtCellphone);
         reservationManagement = new ReservationManagementImpl(ReservationDAOImpl.getInstance());
     }
         

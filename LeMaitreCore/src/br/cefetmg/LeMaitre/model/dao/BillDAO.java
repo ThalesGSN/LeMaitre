@@ -14,10 +14,10 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface BillDAO {
-    public Long insert(Bill bill) throws PersistenceException;
+    public String insert(Bill bill) throws PersistenceException;
     public boolean update(Bill bill) throws PersistenceException;
-    public boolean remove(Long billID) throws PersistenceException;
-    public Bill getBillByID(Long billID) throws PersistenceException;
-    public boolean containsThisBillID(Long billID) throws PersistenceException;
+    public boolean remove(String codToken) throws PersistenceException;
+    public Bill getBillByID(String codToken) throws PersistenceException;
+    public boolean containsThisBillID(String codToken) throws PersistenceException;
     public List<Bill> listAll() throws PersistenceException;
 }

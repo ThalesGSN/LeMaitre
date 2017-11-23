@@ -19,9 +19,9 @@ import java.util.List;
 public interface ReservationManagement {
     public void reservationInsert(Reservation reservation) throws BusinessException, PersistenceException;
     public boolean reservationUpdate(Reservation reservation) throws BusinessException, PersistenceException;
-    public boolean reservationRemove(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException;
-    public Reservation getReservationByID(Long tableID, Date datReservation, Time hourReservation) throws PersistenceException;
-    public List<Reservation> getReservationsByTableID(Long tableID) throws PersistenceException;
+    public boolean reservationRemove(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
+    public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
+    public List<Reservation> getReservationsByTableID(Integer tableID) throws PersistenceException;
     public List<Reservation> listAll() throws PersistenceException;
     
 }

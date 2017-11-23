@@ -10,6 +10,8 @@ import br.cefetmg.LeMaitre.model.dao.ItemDAOImpl;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,33 +26,32 @@ import static org.junit.Assert.*;
 public class ItemManagementImplTest {
     
     private Item item;
-    private Long codItem;
+    private Integer codItem;
     private double vlrPrice;
     private String nomItem;
     private String desItem;
     private boolean isAvailable;
-    private Long codCategory;
+    
     private ItemManagement itemManagement;
 
     
     public ItemManagementImplTest() {
-        codItem = new Long(1);
+        codItem = 1;
         vlrPrice = 1.0;
         nomItem = new String("Brócolis");
         desItem = new String("Verde e crocante");
         isAvailable = true;
-        codCategory = new Long(1);
 
-        item = new Item(codItem, vlrPrice, nomItem, desItem, isAvailable, codCategory);
+        item = new Item(codItem, vlrPrice, nomItem, desItem, isAvailable, null, null);
         itemManagement = new ItemManagementImpl(ItemDAOImpl.getInstance());
     }
 
     
     @Before
     public void setUp() {
-        codItem = -1L;
-        nomItem = new String("Brócolis");
-        desItem = new String("Verde e crocante");
+        codItem = -1;
+        nomItem = "Brócolis";
+        desItem = "Verde e crocante";
         item.setNomItem(nomItem);
         item.setDesItem(desItem);
         item.setCodItem(null);
@@ -58,12 +59,12 @@ public class ItemManagementImplTest {
     
     @After
     public void tearDown() {
-        try {
-            if (codItem != -1L) {
+        if (codItem != -1L) {
+            try {
                 itemManagement.itemRemove(codItem);
+            } catch (PersistenceException ex) {
+                Logger.getLogger(ItemManagementImplTest.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (PersistenceException ex) {
-            System.out.println("Failed to remove item after test");
         }
     }
 
@@ -74,7 +75,9 @@ public class ItemManagementImplTest {
     public void testItemInsert() throws Exception {
         try {
             codItem = itemManagement.itemInsert(item);
-        } catch (BusinessException | PersistenceException ex) {
+        } catch (BusinessException | PersistenceException | NullPointerException ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
             fail("Failed to insert item");
         }
         System.out.println("Passed testItemInsert test");
@@ -141,7 +144,7 @@ public class ItemManagementImplTest {
         try {
             codItem = itemManagement.itemInsert(item);
             itemManagement.itemRemove(codItem);
-            codItem = -1L;
+            codItem = -1;
             System.out.println("Correctly removed item");
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to remove correct item");
@@ -187,7 +190,7 @@ public class ItemManagementImplTest {
     public void testItemUpdateNulldesItem() {
         try {
             codItem = itemManagement.itemInsert(item);
-            item.setDesItem(desItem);
+            item.setDesItem(null);
             item.setCodItem(codItem);
             itemManagement.itemUpdate(item);
             fail("Failed to catch exception when updating  null desItem");

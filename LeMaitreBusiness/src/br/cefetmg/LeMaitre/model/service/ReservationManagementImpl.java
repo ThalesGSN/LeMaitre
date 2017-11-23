@@ -19,7 +19,7 @@ import java.util.List;
  * @author Thalesgsn
  */
 public class ReservationManagementImpl implements ReservationManagement {
-    ReservationDAO DAO;
+    private ReservationDAO DAO;
     private final TableManagement tableManagement;
 
     public ReservationManagementImpl(ReservationDAO DAO) {
@@ -98,7 +98,7 @@ public class ReservationManagementImpl implements ReservationManagement {
     }
 
     @Override
-    public boolean reservationRemove(Long tableID, Date datReservation, Time hourReservation)  throws PersistenceException {
+    public boolean reservationRemove(Integer tableID, Date datReservation, Time hourReservation)  throws PersistenceException {
         if(tableID == null || datReservation == null || hourReservation == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "reservationID cannot be null.");
         
@@ -106,7 +106,7 @@ public class ReservationManagementImpl implements ReservationManagement {
     }
 
     @Override
-    public Reservation getReservationByID(Long tableID, Date datReservation, Time hourReservation)  throws PersistenceException {
+    public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation)  throws PersistenceException {
         if(tableID == null || datReservation == null || hourReservation == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameters can be null.");
         
@@ -115,7 +115,7 @@ public class ReservationManagementImpl implements ReservationManagement {
 
     
     @Override
-    public List<Reservation> getReservationsByTableID(Long tableID) throws PersistenceException {
+    public List<Reservation> getReservationsByTableID(Integer tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameters can be null.");
         

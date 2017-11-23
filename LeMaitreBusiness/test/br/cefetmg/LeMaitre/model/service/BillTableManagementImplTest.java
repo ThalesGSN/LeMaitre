@@ -35,11 +35,11 @@ public class BillTableManagementImplTest {
     private final TableManagement tableManagement= new TableManagementImpl(TableDAOImpl.getInstance());
     
     private final Bill bill;
-    private Long codBill;
+    private String codBill;
    
     
     private final Table table;
-    private Long codTable;
+    private Integer codTable;
     
     private final BillTable billTable;
    
@@ -60,10 +60,11 @@ public class BillTableManagementImplTest {
     
 
     @Before
-    public void setUp() {
+    public void setUp() throws BusinessException, PersistenceException {
         inserted = false;
         billTable.setCodIDBill(codBill);
         billTable.setCodIDTable(codTable);
+        management.billTableInsert(billTable);
     }
     
     @After
@@ -127,11 +128,12 @@ public class BillTableManagementImplTest {
     @Test
     public void testBillTableRemove() throws Exception {
         try {
-            System.err.println("codBill:" + codBill + "\ncodTable: " + codTable);
+            management.billTableInsert(billTable);
             management.billTableRemove(codBill, codTable);
-            
+            inserted = false;
         } catch ( PersistenceException ex) {
-            fail("Failed to remove correct billTable");
+            ex.printStackTrace();
+            fail("Failed to remove correct billTable" + ex.getMessage());
         }
     }
     /**
@@ -179,10 +181,14 @@ public class BillTableManagementImplTest {
     @Test
     public void testGetTablesByBillID() throws Exception {
         try {
-            
-            management.getTablesByBillID(codBill);    
+            management.getTablesByToken(codBill);    
         } catch (PersistenceException ex) {
-            fail("Failed to update correct billTable");
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            fail("Failed get billTables ");
+            
+            
+            
         }
     }
     
@@ -192,7 +198,7 @@ public class BillTableManagementImplTest {
     @Test
     public void testGetTablesByNullBillID() throws Exception {
         try {
-            management.getTablesByBillID(null);
+            management.getTablesByToken(null);
             fail("Failed to catch exception when geting bills");
         } catch ( PersistenceException ex) {
             System.out.println("Passed testGetBillsByNullTableID test");

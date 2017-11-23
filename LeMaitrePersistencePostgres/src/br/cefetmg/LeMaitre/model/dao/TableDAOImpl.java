@@ -35,19 +35,19 @@ public class TableDAOImpl implements TableDAO {
     
     
     @Override
-    synchronized public Long insert(Table table) throws PersistenceException {
+    synchronized public Integer insert(Table table) throws PersistenceException {
         if (table == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "Table cannot be null");
         }
         
-        Long idTable = null;
+        Integer idTable = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "INSERT INTO \"table\" "
-                    + "(IDT_status, NRO_seat) "
-                    + "    VALUES (?, ?) returning COD_ID;";
+            String sql = "INSERT INTO \"table\"(\n"
+                    + "	 idt_status, nro_seat)\n"
+                    + "	VALUES ( ?, ?) returning cod_id;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, String.valueOf(table.getIdtStatus()) );
@@ -56,7 +56,7 @@ public class TableDAOImpl implements TableDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idTable = rs.getLong("COD_ID");
+                idTable = rs.getInt("cod_id");
             }
 
             rs.close();
@@ -66,6 +66,7 @@ public class TableDAOImpl implements TableDAO {
         } catch (ClassNotFoundException ex) {
             throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
         } catch(SQLException ex){
+            System.out.print(ex.getMessage());
             if(ex.getErrorCode() == 1062)
                 throw new PersistenceException(PersistenceException.DUPLICATED_KEY, "Duplicated Key");
         }
@@ -90,7 +91,7 @@ public class TableDAOImpl implements TableDAO {
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, String.valueOf(table.getIdtStatus()));
             pstmt.setInt(2, table.getNroSeat());
-            pstmt.setLong(3, table.getCodID());
+            pstmt.setInt(3, table.getCodID());
             int changedRows = pstmt.executeUpdate();
             
             pstmt.close();
@@ -109,7 +110,7 @@ public class TableDAOImpl implements TableDAO {
     }
 
     @Override
-    synchronized public boolean remove(Long tableID) throws PersistenceException {
+    synchronized public boolean remove(Integer tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -119,7 +120,7 @@ public class TableDAOImpl implements TableDAO {
             String sql = "DELETE FROM \"table\" WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, tableID);
+            pstmt.setInt(1, tableID);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -139,7 +140,7 @@ public class TableDAOImpl implements TableDAO {
     }
 
     @Override
-    synchronized public Table getTableByID(Long tableID) throws PersistenceException {
+    synchronized public Table getTableByID(Integer tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -149,7 +150,7 @@ public class TableDAOImpl implements TableDAO {
             String sql = "SELECT * FROM \"table\" WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, tableID);
+            pstmt.setInt(1, tableID);
             ResultSet rs = pstmt.executeQuery();
 
             Table table = new Table();
@@ -172,7 +173,7 @@ public class TableDAOImpl implements TableDAO {
     }
 
     @Override
-    synchronized public boolean containsThisTableID(Long tableID) throws PersistenceException {
+    synchronized public boolean containsThisTableID(Integer tableID) throws PersistenceException {
         if(tableID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
@@ -182,7 +183,7 @@ public class TableDAOImpl implements TableDAO {
             String sql = "SELECT 1 FROM \"table\" WHERE COD_ID = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, tableID);
+            pstmt.setInt(1, tableID);
             ResultSet rs = pstmt.executeQuery();
             boolean status = rs.next();
 

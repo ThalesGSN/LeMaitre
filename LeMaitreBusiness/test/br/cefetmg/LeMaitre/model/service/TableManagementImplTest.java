@@ -10,6 +10,7 @@ import br.cefetmg.LeMaitre.model.domain.Table;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import java.util.List;
+import java.util.Objects;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ import static org.junit.Assert.*;
 public class TableManagementImplTest {
     
     private Table table;
-    private Long codID;
+    private Integer codID;
     private char idtStatus;
     private int nroSeat;
     private TableManagement tableManagement;
@@ -37,7 +38,7 @@ public class TableManagementImplTest {
     @Before
     public void setUp() {
         idtStatus = 'O';
-        codID = -1L;
+        codID = -1;
         nroSeat = 4;
         table.setIdtStatus(idtStatus);
         table.setNroSeat(nroSeat);
@@ -46,10 +47,10 @@ public class TableManagementImplTest {
     @After
     public void tearDown() {
         try {
-            if (codID != -1L) {
+            if (codID != -1) {
                 tableManagement.tableRemove(codID);
             }
-        } catch (PersistenceException ex) {
+        } catch (PersistenceException  ex) {
             System.out.println("Failed to remove table after test");
         }
     }
@@ -149,7 +150,7 @@ public class TableManagementImplTest {
         try {
             codID = tableManagement.tableInsert(table);
             tableManagement.tableRemove(codID);
-            codID = -1L;
+            codID = -1;
             System.out.println("Correctly removed table");
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to remove correct table");
@@ -164,7 +165,7 @@ public class TableManagementImplTest {
         try {
             codID = tableManagement.tableInsert(table);
             Table newTable = tableManagement.getTableByID(codID);
-            if (newTable.getCodID() != codID) {
+            if (!Objects.equals(newTable.getCodID(), codID)) {
                 fail("Failed to retrieve correct table");
             }
             System.out.println("Correctly retrieved table");

@@ -9,6 +9,7 @@ import br.cefetmg.LeMaitre.model.domain.Bill;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import br.cefetmg.LeMaitre.util.db.ConnectionManager;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,28 +36,30 @@ public class BillDAOImpl implements BillDAO {
     
     
     @Override
-    synchronized public Long insert(Bill bill) throws PersistenceException {
+    synchronized public String insert(Bill bill) throws PersistenceException {
         if (bill == null) {
             throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "bill cannot be null");
         }
         
-        Long idBill = null;
+        String idBill = null;
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "INSERT INTO Bill "
-                    + "(DAT_use, IDT_status) "
-                    + "    VALUES (?, ?) returning COD_ID;";
+            String sql = "INSERT INTO bill(\n"
+                    + "	 dat_use, idt_status)\n"
+                    + "	VALUES ( ?, ?) returning cod_token;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setDate(1,(java.sql.Date) bill.getDatUse());
+            
+            Date dateAux = new  Date(bill.getDatUse().getTime());
+            pstmt.setDate(1,dateAux);
             pstmt.setString(2, String.valueOf(bill.getIdtStatus()));
             
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                idBill = rs.getLong("COD_ID");
+                idBill = rs.getString("cod_token");
             }
 
             rs.close();
@@ -68,6 +71,7 @@ public class BillDAOImpl implements BillDAO {
         } catch(SQLException ex){
             if(ex.getErrorCode() == 1062)
                 throw new PersistenceException(PersistenceException.DUPLICATED_KEY, "Duplicated Key");
+            throw new PersistenceException(PersistenceException.DUPLICATED_KEY, ex.getMessage());
         }
 
         return idBill;
@@ -82,14 +86,14 @@ public class BillDAOImpl implements BillDAO {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "UPDATE Bill "
-                    + " SET DAT_use = ?,"
-                    + "     IDT_status = ?"
-                    + " WHERE COD_ID = ?;";
+                    + " SET dat_use = ?,"
+                    + "     idt_status = ?"
+                    + " WHERE cod_token = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setDate(1, (java.sql.Date) bill.getDatUse());
             pstmt.setString(2, String.valueOf(bill.getIdtStatus()));
-            pstmt.setLong(3, bill.getCodID());
+            pstmt.setString(3, bill.getCodToken());
             int changedRows = pstmt.executeUpdate();
             
             pstmt.close();
@@ -108,17 +112,17 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    synchronized public boolean remove(Long billID) throws PersistenceException {
-        if(billID == null)
+    synchronized public boolean remove(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "DELETE FROM Bill WHERE COD_ID = ?;";
+            String sql = "DELETE FROM Bill WHERE cod_token = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
+            pstmt.setString(1, codToken);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -138,22 +142,22 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    synchronized public Bill getBillByID(Long billID) throws PersistenceException {
-        if(billID == null)
+    synchronized public Bill getBillByID(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "SELECT * FROM bill WHERE COD_ID = ?;";
+            String sql = "SELECT * FROM bill WHERE cod_token = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
+            pstmt.setString(1, codToken);
             ResultSet rs = pstmt.executeQuery();
 
             Bill bill = new Bill();
             if (rs.next()) {
-                bill.setCodID(billID);
+                bill.setCodToken(codToken);
                 bill.setDatUse(rs.getDate("DAT_use"));
                 bill.setIdtStatus(rs.getString("IDT_status").charAt(0));
             }
@@ -171,17 +175,17 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    synchronized public boolean containsThisBillID(Long billID) throws PersistenceException {
-        if(billID == null)
+    synchronized public boolean containsThisBillID(String codToken) throws PersistenceException {
+        if(codToken == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
         
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "SELECT 1 FROM Bill WHERE COD_ID = ?;";
+            String sql = "SELECT 1 FROM Bill WHERE cod_token = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, billID);
+            pstmt.setString(1, codToken);
             ResultSet rs = pstmt.executeQuery();
             boolean status = rs.next();
 

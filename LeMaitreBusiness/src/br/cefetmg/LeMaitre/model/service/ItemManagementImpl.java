@@ -17,7 +17,7 @@ import java.util.List;
  * @author Thalesgsn
  */
 public class ItemManagementImpl implements ItemManagement {
-    ItemDAO DAO;
+    private ItemDAO DAO;
     private final CategoryManagement categoryManagement;
 
     public ItemManagementImpl(ItemDAO DAO) {
@@ -26,7 +26,7 @@ public class ItemManagementImpl implements ItemManagement {
     }
     
     @Override
-    public Long itemInsert(Item item) throws BusinessException, PersistenceException {
+    public Integer itemInsert(Item item) throws BusinessException, PersistenceException {
         if(item == null)
             throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null item cannot be inserted.");
         
@@ -44,12 +44,6 @@ public class ItemManagementImpl implements ItemManagement {
         
         if(item.getDesItem().isEmpty())
             throw new BusinessException(BusinessException.EMPTY_STRING, "desItem cannot be empty.");
-        
-        if(item.getCodCategory() == null)
-            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
-        
-        if(!categoryManagement.containsThisCategoryID(item.getCodCategory()))
-            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "codCategory doesn't exist in the persistence");
         
         return DAO.insert(item);
     }
@@ -76,18 +70,12 @@ public class ItemManagementImpl implements ItemManagement {
         
         if(item.getDesItem().isEmpty())
             throw new BusinessException(BusinessException.EMPTY_STRING, "desItem cannot be empty.");
-       
-        if(item.getCodCategory() == null)
-            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "codItem cannot be null.");
-        
-        if(!categoryManagement.containsThisCategoryID(item.getCodCategory()))
-            throw new BusinessException(BusinessException.INVALID_FOREING_KEY, "codCategory doesn't exist in the persistence");
         
         return DAO.update(item);
     }
 
     @Override
-    public boolean itemRemove(Long itemID) throws PersistenceException {
+    public boolean itemRemove(Integer itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "itemID cannot be null.");
         
@@ -95,7 +83,7 @@ public class ItemManagementImpl implements ItemManagement {
     }
 
     @Override
-    public Item getItemByID(Long itemID) throws PersistenceException {
+    public Item getItemByID(Integer itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "itemID cannot be null.");
         
@@ -103,7 +91,7 @@ public class ItemManagementImpl implements ItemManagement {
     }
 
     @Override
-    public boolean containsThisItemID(Long itemID) throws PersistenceException {
+    public boolean containsThisItemID(Integer itemID) throws PersistenceException {
         if(itemID == null)
             throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "itemID cannot be null.");
         

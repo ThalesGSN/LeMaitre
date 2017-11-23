@@ -22,8 +22,8 @@ import static org.junit.Assert.*;
  */
 public class BillManagementImplTest {
     
-    private Long codID;
-    
+    private String Token;
+
     private Date datUse;
     
     private Date date;
@@ -44,17 +44,17 @@ public class BillManagementImplTest {
     public void setUp() {
         datUse = date;
         idtStatus = 'O';
-        codID = -1L;
+        Token = null;
         bill.setDatUse(datUse);
         bill.setIdtStatus(idtStatus);
-        bill.setCodID(null);
+        bill.setCodToken(null);
     }
     
     @After
     public void tearDown() {
         try {
-            if (codID != -1L) {
-                billManagement.billRemove(codID);
+            if (Token != null) {
+                billManagement.billRemove(Token);
             }
         } catch (PersistenceException ex) {
             System.out.println("Failed to remove bill after test");
@@ -67,7 +67,7 @@ public class BillManagementImplTest {
     @Test
     public void testBillInsert() {
         try {
-            codID = billManagement.billInsert(bill);
+            Token = billManagement.billInsert(bill);
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to insert correct bill");
         }
@@ -81,7 +81,7 @@ public class BillManagementImplTest {
     public void testBillInsertNull() {
         try {
             bill = null;
-            codID = billManagement.billInsert(bill);
+            Token = billManagement.billInsert(bill);
             fail("Failed to catch exception when inserting null bill");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillInsertNull test");
@@ -96,7 +96,7 @@ public class BillManagementImplTest {
     public void testBillInsertNullDatUse() {
         try {
             bill.setDatUse(null);
-            codID = billManagement.billInsert(bill);
+            Token = billManagement.billInsert(bill);
             fail("Failed to catch exception when inserting null date");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillInsertNullDatUse test");
@@ -111,7 +111,7 @@ public class BillManagementImplTest {
     public void testBillInsertInvalidIdt() {
         try {
             bill.setIdtStatus('R');
-            codID = billManagement.billInsert(bill);
+            Token = billManagement.billInsert(bill);
             fail("Failed to catch exception when inserting null idt");
         } catch (BusinessException | PersistenceException ex) {
             System.out.println("Passed testBillInsertInvalidIdt test");
@@ -124,11 +124,13 @@ public class BillManagementImplTest {
     @Test
     public void testBillUpdate() {
         try {
-            codID = billManagement.billInsert(bill);
-            bill.setCodID(codID);
+            Token = billManagement.billInsert(bill);
+            bill.setCodToken(Token);
             billManagement.billUpdate(bill);
             System.out.println("Passed testBillUpdate test");
         } catch (BusinessException | PersistenceException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
             fail("Failed to update correct bill");
         }
     }
@@ -139,7 +141,7 @@ public class BillManagementImplTest {
     @Test
     public void testBillUpdateNullId() {
         try {
-            codID = billManagement.billInsert(bill);
+            Token = billManagement.billInsert(bill);
             billManagement.billUpdate(bill);
             fail("Failed to catch exception when updating  null id");
         } catch (BusinessException | PersistenceException ex) {
@@ -153,9 +155,9 @@ public class BillManagementImplTest {
     @Test
     public void testBillUpdateNullDatUse() {
         try {
-            codID = billManagement.billInsert(bill);
+            Token = billManagement.billInsert(bill);
             bill.setDatUse(null);
-            bill.setCodID(codID);
+            bill.setCodToken(Token);
             billManagement.billUpdate(bill);
             fail("Failed to catch exception when updating null date");
         } catch (BusinessException | PersistenceException ex) {
@@ -169,9 +171,9 @@ public class BillManagementImplTest {
     @Test
     public void testBillUpdateInvalidIdt() {
         try {
-            codID = billManagement.billInsert(bill);
+            Token = billManagement.billInsert(bill);
             bill.setIdtStatus('R');
-            bill.setCodID(codID);
+            bill.setCodToken(Token);
             billManagement.billUpdate(bill);
             fail("Failed to catch exception when updating invalid idt");
         } catch (BusinessException | PersistenceException ex) {
@@ -185,9 +187,9 @@ public class BillManagementImplTest {
     @Test
     public void testBillRemove() {
         try {
-            codID = billManagement.billInsert(bill);
-            billManagement.billRemove(codID);
-            codID = -1L;
+            Token = billManagement.billInsert(bill);
+            billManagement.billRemove(Token);
+            Token = null;
             System.out.println("Correctly removed bill");
         } catch (BusinessException | PersistenceException ex) {
             fail("Failed to remove correct bill");
@@ -200,14 +202,13 @@ public class BillManagementImplTest {
     @Test
     public void testGetBillByID() {
         try {
-            codID = billManagement.billInsert(bill);
-            Bill newBill = billManagement.getBillByID(codID);
-            if (newBill.getCodID() != codID) {
+            Token = billManagement.billInsert(bill);
+            Bill newBill = billManagement.getBillByID(Token);
+            if (newBill.getCodToken() == null ? Token != null : !newBill.getCodToken().equals(Token)) {
                 fail("Failed to retrieve correct bill");
             }
             System.out.println("Correctly retrieved bill");
         } catch (BusinessException | PersistenceException ex) {
-            ex.printStackTrace();
             fail("Failed to retrieve correct bill");
             
         }
@@ -219,7 +220,7 @@ public class BillManagementImplTest {
     @Test
     public void testListAll() {
         try {
-            codID = billManagement.billInsert(bill);
+            Token = billManagement.billInsert(bill);
             List list = billManagement.listAll();
             if (list.isEmpty()) {
                 fail("Failed to retrieve correct bill");
