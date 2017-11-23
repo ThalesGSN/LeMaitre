@@ -126,4 +126,27 @@ public class ReservationManagementImpl implements ReservationManagement {
     public List<Reservation> listAll() throws PersistenceException {
         return DAO.listAll();
     }
+
+    @Override
+    public List<Reservation> listReservationByTableIDWithinSevenDays(Integer tableID) throws PersistenceException {
+        if(tableID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameters can be null.");
+        
+        return DAO.listReservationByTableIDWithinSevenDays(tableID);
+    }
+
+    @Override
+    public List<Reservation> listAllWithinSevenDays() throws PersistenceException {
+        return DAO.listAllWithinSevenDays();
+    }
+
+    @Override
+    public List<Reservation> getReservationsByDate(Date datReservation) throws PersistenceException {
+        if(datReservation == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "None of parameters can be null.");
+        
+        return DAO.getReservationsByDate(datReservation);
+    }
+    
+    
 }

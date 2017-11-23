@@ -24,6 +24,14 @@
         <servlet-name>CategoryUpdate</servlet-name>
         <servlet-class>br.cefetmg.LeMaitre.servlet.CategoryUpdate</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReservationCreate</servlet-name>
+        <servlet-class>br.cefetmg.LeMaitre.servlet.ReservationCreate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReservationUpdate</servlet-name>
+        <servlet-class>br.cefetmg.LeMaitre.servlet.ReservationUpdate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TableCreate</servlet-name>
         <url-pattern>/TableCreate</url-pattern>
@@ -47,6 +55,14 @@
     <servlet-mapping>
         <servlet-name>CategoryUpdate</servlet-name>
         <url-pattern>/CategoryUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReservationCreate</servlet-name>
+        <url-pattern>/ReservationCreate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReservationUpdate</servlet-name>
+        <url-pattern>/ReservationUpdate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
