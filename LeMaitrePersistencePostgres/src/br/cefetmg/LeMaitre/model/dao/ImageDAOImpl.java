@@ -108,7 +108,8 @@ public class ImageDAOImpl implements ImageDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "DELETE FROM Bill WHERE cod_image = ?;";
+            String sql = "DELETE FROM image\n"
+                    + "	WHERE cod_image = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, imageID);
