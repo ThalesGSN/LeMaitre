@@ -91,7 +91,7 @@ public class BillDAOImpl implements BillDAO {
                     + " WHERE cod_token = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setDate(1, (java.sql.Date) bill.getDatUse());
+            pstmt.setDate(1, new java.sql.Date(bill.getDatUse().getTime()));
             pstmt.setString(2, String.valueOf(bill.getIdtStatus()));
             pstmt.setString(3, bill.getCodToken());
             int changedRows = pstmt.executeUpdate();
@@ -203,8 +203,8 @@ public class BillDAOImpl implements BillDAO {
 
     @Override
     public List<Bill> listAll() throws PersistenceException {
-        List list = new ArrayList();
-        
+        List<Bill> list = null;
+        Bill bill = null;
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
                                    
@@ -213,8 +213,14 @@ public class BillDAOImpl implements BillDAO {
             PreparedStatement pstmt = connection.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             
-            while (rs.next()) {
-                list.add(rs);
+            bill = new Bill();
+            list = new ArrayList();
+            while(rs.next()) {
+                bill.setCodToken(rs.getString("cod_token"));
+                bill.setDatUse(rs.getDate("DAT_use"));
+                bill.setIdtStatus(rs.getString("IDT_status").charAt(0));
+                
+                list.add(bill);
             }
             
             rs.close();
