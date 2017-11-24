@@ -22,6 +22,9 @@ public interface ReservationManagement {
     public boolean reservationRemove(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
     public Reservation getReservationByID(Integer tableID, Date datReservation, Time hourReservation) throws PersistenceException;
     public List<Reservation> getReservationsByTableID(Integer tableID) throws PersistenceException;
+    public List<Reservation> getReservationsByDate(Date datReservation) throws PersistenceException;
     public List<Reservation> listAll() throws PersistenceException;
+    public List<Reservation> listReservationByTableIDWithinSevenDays(Integer tableID) throws PersistenceException;
+    public List<Reservation> listAllWithinSevenDays() throws PersistenceException;
     
 }

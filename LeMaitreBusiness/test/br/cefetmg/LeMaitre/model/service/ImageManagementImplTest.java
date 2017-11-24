@@ -60,9 +60,9 @@ public class ImageManagementImplTest {
         try {
             codImage = imageManagement.imageInsert(image);
         } catch (BusinessException | PersistenceException ex) {
-            fail("Failed to insert correct table");
+            fail("Failed to insert correct image");
         }
-        System.out.println("Passed testTableInsert test");
+        System.out.println("Passed imageInsert test");
     }
 
     /**
