@@ -24,7 +24,7 @@ public class Order {
 
     private Integer qtdItem;
 
-    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {'T', 'D', 'R'};
+    public static final char[] IDT_STATUS_POSSIBLE_VALUES = {'P', 'D', 'N'};
     
     public Order() { }
 

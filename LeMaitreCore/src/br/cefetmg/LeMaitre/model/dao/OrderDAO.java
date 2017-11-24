@@ -23,4 +23,5 @@ public interface OrderDAO {
     public Order getOrderByID(String codToken, Timestamp datOrder) throws PersistenceException;
     public List<Order> listOrdersByToken(String codToken) throws PersistenceException;
     public List<Item> listItemsByToken(String codToken) throws PersistenceException;
+    public List<Order> listToDoOrders() throws PersistenceException;
 }

@@ -13,10 +13,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -88,7 +86,7 @@ public class OrderDAOImpl implements OrderDAO {
 
             String sql = "UPDATE \"order\"\n"
                     + "	SET  cod_item=?, idt_status=?, vlr_price=?, qtd_item=?\n"
-                    + "	WHERE  cod_id_bill = ? AND dat_order = ?;";
+                    + "	WHERE  cod_id_bill = ? AND dat_order - '" + order.getDatOrder().toString() + "'::timestamp < to_timestamp('01', 'SS')::time;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             
@@ -129,11 +127,10 @@ public class OrderDAOImpl implements OrderDAO {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "DELETE FROM public.\"order\"\n"
-                    + "	WHERE cod_id_bill = ? AND dat_order = ?;";
+                    + "	WHERE cod_id_bill = ? AND dat_order - '" + datOrder.toString() + "'::timestamp < to_timestamp('01', 'ss')::time;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, codToken);
-            pstmt.setTimestamp(2, datOrder);
             
             int removedRows = pstmt.executeUpdate();
 
@@ -159,18 +156,17 @@ public class OrderDAOImpl implements OrderDAO {
         
        try {
             Connection connection = ConnectionManager.getInstance().getConnection();
-
+             
             String sql = "SELECT cod_item, idt_status, vlr_price, qtd_item\n"
-                    + "	FROM \"order\" WHERE cod_id_bill = ? AND dat_order = ?;";
+                    + "	FROM \"order\" WHERE cod_id_bill = ? AND dat_order - '" + datOrder.toString() + "'::timestamp < to_timestamp('01', 'SS')::time;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, codToken);
-            pstmt.setTimestamp(2, datOrder);
             
             ResultSet rs = pstmt.executeQuery();
 
             Order order = null;
-            
+                       
             if(rs.next()){
                 order = new Order();
                 order.setCodToken(codToken);
@@ -280,4 +276,47 @@ public class OrderDAOImpl implements OrderDAO {
             throw new PersistenceException(ex);
         }
     }
+    
+    @Override
+    synchronized public List<Order> listToDoOrders() throws PersistenceException {
+        
+        ArrayList<Order> orders = null;
+        
+        try {
+            Connection connection = ConnectionManager.getInstance().getConnection();
+            String sql = "SELECT * \n"
+                    + "FROM \"order\" \n"
+                    + "WHERE idt_status != 'D';";
+            
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            Order order = null;
+            orders = new ArrayList();
+            while(rs.next()){
+                order = new Order();
+                
+                order.setCodToken(rs.getString("cod_id_bill"));
+                order.setDatOrder(rs.getTimestamp("dat_order"));
+                order.setCodItem(rs.getInt("cod_item"));
+                order.setIdtStatus(rs.getString("idt_status").charAt(0));
+                order.setVlrPrice(rs.getDouble("vlr_price"));
+                order.setQtdItem(rs.getInt("qtd_item"));
+                
+                orders.add(order);
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return orders;
+        } catch (ClassNotFoundException ex) {
+            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
+        } catch(SQLException ex){
+            throw new PersistenceException(ex);
+        }
+    }
+    
 }

@@ -16,7 +16,7 @@ import javax.ws.rs.core.Application;
 public class ApplicationConfig extends Application {
 
     @Override
-public Set<Class<?>> getClasses() {
+    public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         addRestResourceClasses(resources);
         return resources;
@@ -36,6 +36,7 @@ public Set<Class<?>> getClasses() {
         resources.add(br.cefetmg.LeMaitre.servlet.ImageResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.ItemImageResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.ItemResource.class);
+        resources.add(br.cefetmg.LeMaitre.servlet.OrderResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.ReservationResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.SubcategoryResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.TableResource.class);

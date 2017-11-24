@@ -117,4 +117,9 @@ public class OrderManagementImpl implements  OrderManagement {
         
         return DAO.listItemsByToken(codToken);
     }
+
+    @Override
+    public List<Order> listToDoOrders() throws PersistenceException {
+        return DAO.listToDoOrders();
+    }
 }

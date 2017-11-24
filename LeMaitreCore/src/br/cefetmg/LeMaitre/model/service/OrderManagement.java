@@ -23,4 +23,5 @@ public interface OrderManagement {
     public Order getOrderByID(String codToken, Timestamp datOrder) throws PersistenceException;
     public List<Order> getOrdersByToken(String codToken) throws PersistenceException;
     public List<Item> getItemsByToken(String codToken) throws PersistenceException;
+    public List<Order> listToDoOrders() throws PersistenceException;
 }
