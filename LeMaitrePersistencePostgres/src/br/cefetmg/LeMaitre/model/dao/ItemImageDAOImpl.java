@@ -71,11 +71,11 @@ public class ItemImageDAOImpl implements ItemImageDAO {
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
-            String sql = "DELETE FROM BillTable "
-                    + "WHERE COD_ID_Bill = ? AND COD_ID_Table = ?;";
+            String sql = "DELETE FROM item_image\n"
+                    + "	WHERE cod_item = ? AND cod_image = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, itemID);
+            pstmt.setInt(1, itemID);
             pstmt.setLong(2, imageID);
             
             int removedRows = pstmt.executeUpdate();
@@ -107,6 +107,8 @@ public class ItemImageDAOImpl implements ItemImageDAO {
                     + "	ON A.cod_image =  B.cod_image where A.cod_item = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, itemID);
+            
             ResultSet rs = pstmt.executeQuery();
             
             Image img = null;
