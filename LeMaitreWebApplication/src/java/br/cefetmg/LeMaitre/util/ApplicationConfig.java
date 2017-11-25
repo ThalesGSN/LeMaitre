@@ -30,6 +30,7 @@ public Set<Class<?>> getClasses() {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(br.cefetmg.LeMaitre.servlet.BillResource.class);
+        resources.add(br.cefetmg.LeMaitre.servlet.BillTableResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.CategoryResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.EmployeeResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.ImageResource.class);
