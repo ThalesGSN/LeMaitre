@@ -84,7 +84,7 @@ public class CategoryResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/items/{id}")
+    @Path("/{id}/items")
     public String getItemsByCategoryID(@PathParam("id") String id) {
         try {
              result = new Result();
