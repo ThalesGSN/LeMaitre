@@ -35,6 +35,7 @@ public Set<Class<?>> getClasses() {
         resources.add(br.cefetmg.LeMaitre.servlet.ImageResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.ItemResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.ReservationResource.class);
+        resources.add(br.cefetmg.LeMaitre.servlet.SubcategoryResource.class);
         resources.add(br.cefetmg.LeMaitre.servlet.TableResource.class);
     }
     
