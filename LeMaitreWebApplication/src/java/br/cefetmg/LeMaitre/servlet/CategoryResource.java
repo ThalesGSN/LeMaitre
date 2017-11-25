@@ -9,6 +9,7 @@ import br.cefetmg.LeMaitre.model.dao.CategoryDAOImpl;
 import br.cefetmg.LeMaitre.model.dao.ItemDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.Category;
 import br.cefetmg.LeMaitre.model.domain.Item;
+import br.cefetmg.LeMaitre.model.domain.Subcategory;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import br.cefetmg.LeMaitre.model.service.CategoryManagement;
 import br.cefetmg.LeMaitre.model.service.CategoryManagementImpl;
@@ -119,6 +120,34 @@ public class CategoryResource {
             gson = new Gson();
             
             List<Category> categories = categoryManagement.listAll();
+            
+            if (categories.isEmpty()) {
+                result.setStatusDOESNOTEXIST();
+            }
+            else {
+                result.setStatusOK();
+                result.setContent(categories);
+            }
+                        
+        } catch (PersistenceException ex) {
+            result.setStatusBADREQUEST();
+            result.setContent(ex);
+        }
+        
+        return gson.toJson(result);
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/subcategories/{id}")
+    public String getSubcategoryByCategoryID(@PathParam("id") String id) {
+        try {
+            result = new Result();
+            categoryManagement = new CategoryManagementImpl(CategoryDAOImpl.getInstance());
+            gson = new Gson();
+            
+            int categoryID = Integer.parseInt(id);
+            List<Subcategory> categories = categoryManagement.listAllSubcategories(categoryID);
             
             if (categories.isEmpty()) {
                 result.setStatusDOESNOTEXIST();

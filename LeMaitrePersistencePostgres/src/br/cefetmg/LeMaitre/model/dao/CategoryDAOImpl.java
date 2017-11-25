@@ -241,17 +241,18 @@ public class CategoryDAOImpl implements CategoryDAO {
                     + "	FROM subcategory where seq_category = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, categoryID);
+            pstmt.setInt(1, categoryID);
 
             ResultSet rs = pstmt.executeQuery();
-
+            
+            Subcategory subcategory = null;
+            subcategories = new ArrayList();
             while (rs.next()) {
-                Subcategory subcategory = new Subcategory();
+                subcategory = new Subcategory();
 
                 subcategory.setSeqCategory(categoryID);
                 subcategory.setSeqCategory(rs.getInt("seq_subcategory"));
                 subcategory.setNomSubcategory(rs.getString("nom_subcategory"));
-
 
                 subcategories.add(subcategory);
             }
@@ -259,7 +260,7 @@ public class CategoryDAOImpl implements CategoryDAO {
             pstmt.close();
             connection.close();
 
-            throw new PersistenceException(PersistenceException.NOT_A_DELETE, "Something went wrong when delete.");
+            return subcategories;
 
         } catch (ClassNotFoundException ex) {
             throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
