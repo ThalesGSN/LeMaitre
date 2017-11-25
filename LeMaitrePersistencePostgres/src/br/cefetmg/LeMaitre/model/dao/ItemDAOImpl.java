@@ -94,7 +94,8 @@ public class ItemDAOImpl implements ItemDAO {
                     + " NOM_item = ?,"
                     + " DES_item = ?,"
                     + " IDT_available = ?,"
-                    + " SEQ_Category = ?"
+                    + " SEQ_Category = ?,"
+                    + " seq_subcategory = ?"
                     + " WHERE COD_Item = ?;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -103,7 +104,9 @@ public class ItemDAOImpl implements ItemDAO {
             pstmt.setString(3, item.getDesItem());
             pstmt.setBoolean(4, item.isAvaliable());
             pstmt.setObject(5, item.getCodCategory());
-            pstmt.setObject(6, item.getCodItem());
+            pstmt.setObject(6, item.getSeqSubcategory());
+            pstmt.setObject(7, item.getCodItem());
+            
             int changedRows = pstmt.executeUpdate();
             
             pstmt.close();
@@ -173,6 +176,8 @@ public class ItemDAOImpl implements ItemDAO {
                 item.setDesItem(rs.getString("DES_item"));
                 item.setIsAvaliable(rs.getBoolean("IDT_available"));
                 item.setCodCategory(rs.getInt("SEQ_Category"));
+                item.setSeqSubcategory(rs.getInt("seq_subcategory"));
+                
             }
 
             rs.close();
@@ -215,6 +220,90 @@ public class ItemDAOImpl implements ItemDAO {
     }
     
     @Override
+    public List<Item> listItemsByCategoryID(Integer categoryID) throws PersistenceException {
+        if(categoryID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
+        Item item = null;
+        List<Item> items = null;
+        try{
+            Connection connection = ConnectionManager.getInstance().getConnection();
+            
+            String sql = "SELECT * FROM item WHERE seq_category = ?;";
+            
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            
+            pstmt.setInt(1, categoryID);
+            ResultSet rs = pstmt.executeQuery();
+            items = new ArrayList();
+            
+            while (rs.next()) {                
+                item = new Item();
+                item.setCodItem(rs.getInt("COD_Item"));
+                item.setVlrPrice(rs.getDouble("VLR_price"));
+                item.setNomItem(rs.getString("NOM_Item"));
+                item.setDesItem(rs.getString("DES_item"));
+                item.setIsAvaliable(rs.getBoolean("IDT_available"));
+                item.setCodCategory(rs.getInt("SEQ_Category"));
+                
+                items.add(item);
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return items;
+        } catch (ClassNotFoundException ex) {
+            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
+        } catch(SQLException ex){
+            throw new PersistenceException(ex);
+        }
+    }
+
+    @Override
+    public List<Item> listItemsBySubcategoryID(Integer subcategoryID) throws PersistenceException {
+        if(subcategoryID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "Parameters cant be null");
+        
+        Item item = null;
+        List<Item> items = null;
+        try{
+            Connection connection = ConnectionManager.getInstance().getConnection();
+            
+            String sql = "SELECT * FROM item WHERE seq_subcategory = ?;";
+            
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            
+            pstmt.setInt(1, subcategoryID);
+            ResultSet rs = pstmt.executeQuery();
+            items = new ArrayList();
+            
+            while (rs.next()) {                
+                item = new Item();
+                item.setCodItem(rs.getInt("COD_Item"));
+                item.setVlrPrice(rs.getDouble("VLR_price"));
+                item.setNomItem(rs.getString("NOM_Item"));
+                item.setDesItem(rs.getString("DES_item"));
+                item.setIsAvaliable(rs.getBoolean("IDT_available"));
+                item.setCodCategory(rs.getInt("SEQ_Category"));
+                
+                items.add(item);
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return items;
+        } catch (ClassNotFoundException ex) {
+            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
+        } catch(SQLException ex){
+            throw new PersistenceException(ex);
+        }
+    }
+    
+    @Override
     synchronized public List<Item> listAllItems() throws PersistenceException {
         ArrayList<Item> items = null;
         
@@ -249,6 +338,7 @@ public class ItemDAOImpl implements ItemDAO {
             throw new PersistenceException(ex);
         }
     }
+
     
 
    

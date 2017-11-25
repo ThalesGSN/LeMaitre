@@ -97,10 +97,27 @@ public class ItemManagementImpl implements ItemManagement {
         
         return DAO.containsThisItemID(itemID);
     }
+    
+    @Override
+    public List<Item> getItemsByCategoryID(Integer categoryID) throws PersistenceException {
+        if(categoryID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "categoryID cannot be null.");
+        
+        return DAO.listItemsByCategoryID(categoryID);
+    }
+
+    @Override
+    public List<Item> getItemsBySubcategoryID(Integer subcategoryID) throws PersistenceException {
+        if(subcategoryID == null)
+            throw new PersistenceException(PersistenceException.PARAMETER_ISNULL, "subvategoryID cannot be null.");
+        
+        return DAO.listItemsBySubcategoryID(subcategoryID);
+    }
 
     @Override
     public List<Item> getAllItems() throws PersistenceException {
         return DAO.listAllItems();
     }
+
     
 }

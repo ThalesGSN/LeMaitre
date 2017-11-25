@@ -5,9 +5,13 @@
  */
 package br.cefetmg.LeMaitre.servlet;
 
+import br.cefetmg.LeMaitre.model.dao.ItemDAOImpl;
 import br.cefetmg.LeMaitre.model.dao.SubcategoryDAOImpl;
+import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.domain.Subcategory;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import br.cefetmg.LeMaitre.model.service.ItemManagement;
+import br.cefetmg.LeMaitre.model.service.ItemManagementImpl;
 import br.cefetmg.LeMaitre.model.service.SubcategoryManagement;
 import br.cefetmg.LeMaitre.model.service.SubcategoryManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
@@ -36,6 +40,7 @@ import javax.ws.rs.core.MediaType;
 public class SubcategoryResource {
 
     private SubcategoryManagement subcategoryManagement;
+    private ItemManagement itemManagement;
     private Gson gson;
     private Result result;
 
@@ -48,6 +53,7 @@ public class SubcategoryResource {
     /**
      * Retrieves representation of an instance of br.cefetmg.LeMaitre.servlet.SubcategoryResource
      * @param categoryID
+     * @param subcategoryID
      * @param subcategoryID
      * @return an instance of java.lang.String
      */
@@ -66,7 +72,7 @@ public class SubcategoryResource {
             
             Subcategory subcategory = subcategoryManagement.getSubcategoryByID(catID, subcatID);
             
-            if (subcategory.getSeqCategory() == null) {
+            if (subcategory.getSeqSubcategory() == null) {
                 result.setStatusDOESNOTEXIST();
             }
             else {
@@ -76,6 +82,39 @@ public class SubcategoryResource {
                         
         } catch (PersistenceException ex) {
             ex.printStackTrace();
+            result.setStatusBADREQUEST();
+            result.setContent(ex);
+        }
+        
+        return gson.toJson(result);
+    }
+    
+    /**
+     * Retrieves representation of an instance of br.cefetmg.LeMaitre.servlet.SubcategoryResource
+     * @param id
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/items/{id}")
+    public String getItemsBySubcategoryID(@PathParam("id") String id) {
+        try {
+            result = new Result();
+            itemManagement = new ItemManagementImpl(ItemDAOImpl.getInstance());
+            gson = new Gson();
+            int subcategoryId = new Integer(id);
+            
+            List<Item> items = itemManagement.getItemsBySubcategoryID(subcategoryId);
+            
+            if (items == null) {
+                result.setStatusDOESNOTEXIST();
+            }
+            else {
+                result.setStatusOK();
+                result.setContent(items);
+            }
+                        
+        } catch (PersistenceException ex) {
             result.setStatusBADREQUEST();
             result.setContent(ex);
         }
@@ -122,10 +161,8 @@ public class SubcategoryResource {
             subcategoryManagement = new SubcategoryManagementImpl(SubcategoryDAOImpl.getInstance());
             gson = new Gson();
                          
-            int catID = Integer.parseInt(categoryID);
+            int catID = Integer.parseInt(subcategoryID);
             int subcatID = Integer.parseInt(subcategoryID);
-            
-            
             
             if (subcategoryManagement.subcategoryRemove(catID, subcatID)) {
                 result.setStatusOK();

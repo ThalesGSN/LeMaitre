@@ -6,10 +6,14 @@
 package br.cefetmg.LeMaitre.servlet;
 
 import br.cefetmg.LeMaitre.model.dao.CategoryDAOImpl;
+import br.cefetmg.LeMaitre.model.dao.ItemDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.Category;
+import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import br.cefetmg.LeMaitre.model.service.CategoryManagement;
 import br.cefetmg.LeMaitre.model.service.CategoryManagementImpl;
+import br.cefetmg.LeMaitre.model.service.ItemManagement;
+import br.cefetmg.LeMaitre.model.service.ItemManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
 import com.google.gson.Gson;
 import java.util.List;
@@ -30,6 +34,7 @@ import javax.ws.rs.core.MediaType;
 public class CategoryResource {
 
     private CategoryManagement categoryManagement;
+    private ItemManagement itemManagement;
     private Gson gson;
     private Result result;
 
@@ -62,6 +67,39 @@ public class CategoryResource {
             else {
                 result.setStatusOK();
                 result.setContent(category);
+            }
+                        
+        } catch (PersistenceException ex) {
+            result.setStatusBADREQUEST();
+            result.setContent(ex);
+        }
+        
+        return gson.toJson(result);
+    }
+    
+    /**
+     * Retrieves representation of an instance of br.cefetmg.LeMaitre.servlet.CategoryResource
+     * @param id
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/items/{id}")
+    public String getItemsByCategoryID(@PathParam("id") String id) {
+        try {
+             result = new Result();
+            itemManagement = new ItemManagementImpl(ItemDAOImpl.getInstance());
+            gson = new Gson();
+            int subcategoryId = new Integer(id);
+            
+            List<Item> items = itemManagement.getItemsBySubcategoryID(subcategoryId);
+            
+            if (items == null) {
+                result.setStatusDOESNOTEXIST();
+            }
+            else {
+                result.setStatusOK();
+                result.setContent(items);
             }
                         
         } catch (PersistenceException ex) {
