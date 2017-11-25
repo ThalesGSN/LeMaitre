@@ -87,6 +87,7 @@ public class OrderCreate extends HttpServlet {
            .setDateFormat("yyyy-MM-dd hh:mm:ss a")
            .create();
         Order order = gson.fromJson(str, Order.class);
+        order.setIdtStatus('N');
         return order;
     }
 }
