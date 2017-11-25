@@ -19,8 +19,8 @@ public interface ItemManagement {
     public boolean itemUpdate(Item item) throws BusinessException, PersistenceException;
     public boolean itemRemove(Integer itemID) throws PersistenceException;
     public Item getItemByID(Integer itemID) throws PersistenceException;
+    public boolean containsThisItemID(Integer itemID) throws PersistenceException;
     public List<Item> getItemsByCategoryID(Integer categoryID) throws PersistenceException;
     public List<Item> getItemsBySubcategoryID(Integer subcategoryID) throws PersistenceException;
-    public boolean containsThisItemID(Integer itemID) throws PersistenceException;
     public List<Item> getAllItems() throws PersistenceException;
 }
