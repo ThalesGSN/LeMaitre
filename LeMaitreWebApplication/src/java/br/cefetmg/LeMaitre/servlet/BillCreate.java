@@ -65,17 +65,13 @@ public class BillCreate extends HttpServlet {
         
         try {
             String payload = util.getJson(request);
-            Bill bill = this.billFromJson(payload);
             
             billManagement = new BillManagementImpl(BillDAOImpl.getInstance());
             
-            String id = billManagement.billInsert(bill);
-            bill.setCodToken(id);
-            
             result.setStatusOK();
-            result.setContent(bill);
+            result.setContent(billManagement.billCreate());
             
-        } catch (BusinessException | PersistenceException | ParseException ex) {
+        } catch (PersistenceException ex) {
             ex.printStackTrace();
             result.setContent(ex.getMessage());
             result.setStatusBADREQUEST();

@@ -15,7 +15,7 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface BillManagement {
-    public String billInsert(Bill bill) throws BusinessException, PersistenceException;
+    public Bill billCreate() throws PersistenceException;
     public boolean billUpdate(Bill bill) throws BusinessException, PersistenceException;
     public boolean billRemove(String billID) throws PersistenceException;
     public Bill getBillByID(String billID) throws PersistenceException;

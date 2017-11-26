@@ -36,36 +36,32 @@ public class BillDAOImpl implements BillDAO {
     
     
     @Override
-    synchronized public String insert(Bill bill) throws PersistenceException {
-        if (bill == null) {
-            throw new PersistenceException(PersistenceException.INSERT_OBJECT_ISNULL, "bill cannot be null");
-        }
-        
-        String idBill = null;
-        
+    synchronized public Bill create() throws PersistenceException {
+        Bill bill = null;
+            
         try {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "INSERT INTO bill(\n"
                     + "	 dat_use, idt_status)\n"
-                    + "	VALUES ( ?, ?) returning cod_token;";
+                    + "	VALUES ( current_date, 'O') "
+                    + "returning cod_token, dat_use, idt_status;";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             
-            Date dateAux = new  Date(bill.getDatUse().getTime());
-            pstmt.setDate(1,dateAux);
-            pstmt.setString(2, String.valueOf(bill.getIdtStatus()));
-            
             ResultSet rs = pstmt.executeQuery();
-
+            
             if (rs.next()) {
-                idBill = rs.getString("cod_token");
+                bill = new Bill();
+                bill.setCodToken(rs.getString("cod_token"));
+                bill.setDatUse(rs.getDate("dat_use"));
+                bill.setIdtStatus('O');
             }
 
             rs.close();
             pstmt.close();
             connection.close();
-
+            
         } catch (ClassNotFoundException ex) {
             throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
         } catch(SQLException ex){
@@ -73,8 +69,8 @@ public class BillDAOImpl implements BillDAO {
                 throw new PersistenceException(PersistenceException.DUPLICATED_KEY, "Duplicated Key");
             throw new PersistenceException(PersistenceException.DUPLICATED_KEY, ex.getMessage());
         }
-
-        return idBill;
+        
+        return bill;
     }
 
     @Override

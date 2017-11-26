@@ -23,19 +23,8 @@ public class BillManagementImpl implements BillManagement {
     }
     
     @Override
-    public String billInsert(Bill bill) throws BusinessException, PersistenceException {
-        if(bill == null)
-            throw new BusinessException(BusinessException.NULL_INSERT_OBJECT, "Null bill cannot be inserted.");
-        
-        if(bill.getDatUse() == null)
-            throw new BusinessException(BusinessException.NOTNULL_ATRIBUTE_ISNULL, "DatUse cannot be null.");
-        
-        if(String.copyValueOf(Bill.IDT_STATUS_POSSIBLE_VALUES)
-                .indexOf(bill.getIdtStatus()) < 0){
-            throw new BusinessException(BusinessException.INVALID_IDT_VALUE, "idtStatus invalid value.");
-        }
-        
-        return DAO.insert(bill);
+    public Bill billCreate() throws PersistenceException {
+        return DAO.create();
     }
 
     @Override

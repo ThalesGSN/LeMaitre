@@ -14,7 +14,7 @@ import java.util.List;
  * @author Thalesgsn
  */
 public interface BillDAO {
-    public String insert(Bill bill) throws PersistenceException;
+    public Bill create() throws PersistenceException;
     public boolean update(Bill bill) throws PersistenceException;
     public boolean remove(String codToken) throws PersistenceException;
     public Bill getBillByID(String codToken) throws PersistenceException;
