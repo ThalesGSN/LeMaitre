@@ -40,6 +40,10 @@
         <servlet-name>OrderUpdate</servlet-name>
         <servlet-class>br.cefetmg.LeMaitre.servlet.OrderUpdate</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrdersCreate</servlet-name>
+        <servlet-class>br.cefetmg.LeMaitre.servlet.OrdersCreate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TableCreate</servlet-name>
         <url-pattern>/TableCreate</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>OrderUpdate</servlet-name>
         <url-pattern>/OrderUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrdersCreate</servlet-name>
+        <url-pattern>/OrdersCreate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
