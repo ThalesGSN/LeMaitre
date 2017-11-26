@@ -5,11 +5,16 @@
  */
 package br.cefetmg.LeMaitre.servlet;
 
+import br.cefetmg.LeMaitre.model.dao.ItemDAO;
+import br.cefetmg.LeMaitre.model.dao.ItemDAOImpl;
 import br.cefetmg.LeMaitre.model.dao.OrderDAO;
 import br.cefetmg.LeMaitre.model.dao.OrderDAOImpl;
+import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.domain.Order;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import br.cefetmg.LeMaitre.model.service.ItemManagement;
+import br.cefetmg.LeMaitre.model.service.ItemManagementImpl;
 import br.cefetmg.LeMaitre.model.service.OrderManagement;
 import br.cefetmg.LeMaitre.model.service.OrderManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
@@ -63,6 +68,18 @@ public class OrderCreate extends HttpServlet {
             
             OrderDAO orderDAO = OrderDAOImpl.getInstance();
             orderManagement = new OrderManagementImpl(orderDAO);
+            
+            if (order.getVlrPrice() == 0) {
+                ItemDAO itemDAO = ItemDAOImpl.getInstance();
+                ItemManagement itemManagement = new ItemManagementImpl(itemDAO);
+
+                Item i = itemManagement.getItemByID(order.getCodItem());
+                order.setVlrPrice(i.getVlrPrice());
+            }
+            
+            if (order.getQtdItem() == 0) {
+                order.setQtdItem(1);
+            }
             
             orderManagement.orderInsert(order);
             
