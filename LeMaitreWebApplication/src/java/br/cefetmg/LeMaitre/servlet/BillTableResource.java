@@ -6,21 +6,14 @@
 package br.cefetmg.LeMaitre.servlet;
 
 import br.cefetmg.LeMaitre.model.dao.BillTableDAOImpl;
-import br.cefetmg.LeMaitre.model.domain.Image;
-import br.cefetmg.LeMaitre.model.domain.BillTable;
+import br.cefetmg.LeMaitre.model.domain.Bill;
 import br.cefetmg.LeMaitre.model.domain.Table;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
 import br.cefetmg.LeMaitre.model.service.BillTableManagement;
 import br.cefetmg.LeMaitre.model.service.BillTableManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
 import com.google.gson.Gson;
-import java.util.Date;
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.Produces;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -69,6 +62,40 @@ public class BillTableResource {
             else {
                 result.setStatusOK();
                 result.setContent(tables);
+            }
+                        
+        } catch (PersistenceException ex) {
+            result.setStatusBADREQUEST();
+            result.setContent(ex);
+            ex.printStackTrace();
+        }
+        
+        return gson.toJson(result);
+    }
+    
+    /**
+     * Retrieves representation of an instance of br.cefetmg.LeMaitre.servlet.BillTableResource
+     * @param tableId
+     * @return an instance of java.lang.String
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/table/{tableID}")
+    public String getTokenByTable(@PathParam("tableID") String tableId) {
+        try {
+            result = new Result();
+            billTableManagement = new BillTableManagementImpl(BillTableDAOImpl.getInstance());
+            gson = new Gson();            
+            
+            int codTable = Integer.parseInt(tableId);
+            List<Bill> bills = billTableManagement.getBillsByTableID(codTable);
+            
+            if (bills == null) {
+                result.setStatusDOESNOTEXIST();
+            }
+            else {
+                result.setStatusOK();
+                result.setContent(bills);
             }
                         
         } catch (PersistenceException ex) {

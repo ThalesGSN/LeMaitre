@@ -157,13 +157,14 @@ public class BillTableDAOImpl implements BillTableDAO {
             Connection connection = ConnectionManager.getInstance().getConnection();
 
             String sql = "SELECT A.COD_ID_Bill AS ID, B.DAT_use AS DAT, B.IDT_status AS STATUS "
-                    + "FROM BillTable A JOIN Bill B ON A.COD_ID_Bill = B.COD_ID "
+                    + "FROM Bill_Table A JOIN Bill B ON A.COD_ID_Bill = B.COD_Token "
                     + "WHERE COD_ID_Table = ?;";
             
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, tableID);
             
             ResultSet rs = pstmt.executeQuery();
+            bills = new ArrayList();
 
             while(rs.next()){
                 Bill bill = new Bill();
@@ -177,9 +178,8 @@ public class BillTableDAOImpl implements BillTableDAO {
             
             pstmt.close();
             connection.close();
-
-             
-            throw new PersistenceException(PersistenceException.NOT_A_DELETE, "Something went wrong when delete.");
+            
+            return bills;
 
         } catch (ClassNotFoundException ex) {
             throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
