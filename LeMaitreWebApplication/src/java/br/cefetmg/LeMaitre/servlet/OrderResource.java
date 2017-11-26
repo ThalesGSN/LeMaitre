@@ -5,9 +5,17 @@
  */
 package br.cefetmg.LeMaitre.servlet;
 
+import br.cefetmg.LeMaitre.model.dao.ItemDAOImpl;
+import br.cefetmg.LeMaitre.model.dao.ItemImageDAOImpl;
 import br.cefetmg.LeMaitre.model.dao.OrderDAOImpl;
+import br.cefetmg.LeMaitre.model.domain.Image;
+import br.cefetmg.LeMaitre.model.domain.Item;
 import br.cefetmg.LeMaitre.model.domain.Order;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import br.cefetmg.LeMaitre.model.service.ItemImageManagement;
+import br.cefetmg.LeMaitre.model.service.ItemImageManagementImpl;
+import br.cefetmg.LeMaitre.model.service.ItemManagement;
+import br.cefetmg.LeMaitre.model.service.ItemManagementImpl;
 import br.cefetmg.LeMaitre.model.service.OrderManagement;
 import br.cefetmg.LeMaitre.model.service.OrderManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
@@ -17,6 +25,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.DELETE;
@@ -120,7 +129,10 @@ private OrderManagement orderManagement;
             }
             else {
                 result.setStatusOK();
-                result.setContent(orders);
+                
+                List<Content> content = this.setOrders(orders);
+                
+                result.setContent(content);
             }
                         
         } catch (PersistenceException ex) {
@@ -173,4 +185,191 @@ private OrderManagement orderManagement;
                     
         return date;
     }
+    
+    public List<Content> setOrders(List<Order> orders) throws PersistenceException {
+        List<Content> content = new ArrayList();
+        ItemManagement itemManagement = new ItemManagementImpl(ItemDAOImpl.getInstance());
+        ItemImageManagement itemImageManagement = new ItemImageManagementImpl(ItemImageDAOImpl.getInstance());
+        Content o;
+        ItemOrdered i;
+        
+        for (Order order: orders) {
+            o = new Content();
+            o.setCodToken(order.getCodToken());
+            o.setDatOrder(order.getDatOrder());
+            o.setIdtStatus(order.getIdtStatus());
+            o.setQtdItem(order.getQtdItem());
+            o.setVlrPrice(order.getVlrPrice());
+            
+            Item item = itemManagement.getItemByID(order.getCodItem());
+            i = new ItemOrdered();
+            i.setCodItem(item.getCodItem());
+            i.setDesItem(item.getDesItem());
+            i.setIsAvaliable(item.isIsAvaliable());
+            i.setNomItem(item.getNomItem());
+            i.setSeqCategory(item.getSeqCategory());
+            i.setSeqSubCategory(item.getSeqSubcategory());
+               
+            List<Image> images = itemImageManagement.getImagesByItemID(item.getCodItem());
+            i.setImages(images);
+            o.setItem(i);
+            
+            content.add(o);
+            
+        }
+        
+        return content;
+    }
+}
+
+class Content {
+    private String codToken;
+    private Timestamp datOrder;
+    private char idtStatus;
+    private double vlrPrice;
+    private int qtdItem;
+    private ItemOrdered item;
+
+    public Content() {
+    }
+
+    public Content(String codToken, Timestamp datOrder, char idtStatus, double vlrPrice, int qtdItem, ItemOrdered item) {
+        this.codToken = codToken;
+        this.datOrder = datOrder;
+        this.idtStatus = idtStatus;
+        this.vlrPrice = vlrPrice;
+        this.qtdItem = qtdItem;
+        this.item = item;
+    }
+    
+    
+
+    public String getCodToken() {
+        return codToken;
+    }
+
+    public void setCodToken(String codToken) {
+        this.codToken = codToken;
+    }
+
+    public Timestamp getDatOrder() {
+        return datOrder;
+    }
+
+    public void setDatOrder(Timestamp datOrder) {
+        this.datOrder = datOrder;
+    }
+
+    public char getIdtStatus() {
+        return idtStatus;
+    }
+
+    public void setIdtStatus(char idtStatus) {
+        this.idtStatus = idtStatus;
+    }
+
+    public double getVlrPrice() {
+        return vlrPrice;
+    }
+
+    public void setVlrPrice(double vlrPrice) {
+        this.vlrPrice = vlrPrice;
+    }
+
+    public int getQtdItem() {
+        return qtdItem;
+    }
+
+    public void setQtdItem(int qtdItem) {
+        this.qtdItem = qtdItem;
+    }
+
+    public ItemOrdered getItem() {
+        return item;
+    }
+
+    public void setItem(ItemOrdered item) {
+        this.item = item;
+    }
+    
+    
+}
+
+class ItemOrdered {
+    private int codItem;
+    private String nomItem;
+    private String desItem;
+    private boolean isAvaliable;
+    private int seqCategory;
+    private int seqSubCategory;
+    private List<Image> images;
+
+    public ItemOrdered() {
+    }
+
+    public ItemOrdered(int codItem, String nomItem, String desItem, boolean isAvaliable, int seqCategory, int seqSubCategory) {
+        this.codItem = codItem;
+        this.nomItem = nomItem;
+        this.desItem = desItem;
+        this.isAvaliable = isAvaliable;
+        this.seqCategory = seqCategory;
+        this.seqSubCategory = seqSubCategory;
+    }
+
+    public int getCodItem() {
+        return codItem;
+    }
+
+    public void setCodItem(int codItem) {
+        this.codItem = codItem;
+    }
+
+    public String getNomItem() {
+        return nomItem;
+    }
+
+    public void setNomItem(String nomItem) {
+        this.nomItem = nomItem;
+    }
+
+    public String getDesItem() {
+        return desItem;
+    }
+
+    public void setDesItem(String desItem) {
+        this.desItem = desItem;
+    }
+
+    public boolean isIsAvaliable() {
+        return isAvaliable;
+    }
+
+    public void setIsAvaliable(boolean isAvaliable) {
+        this.isAvaliable = isAvaliable;
+    }
+
+    public int getSeqCategory() {
+        return seqCategory;
+    }
+
+    public void setSeqCategory(int seqCategory) {
+        this.seqCategory = seqCategory;
+    }
+
+    public int getSeqSubCategory() {
+        return seqSubCategory;
+    }
+
+    public void setSeqSubCategory(int seqSubCategory) {
+        this.seqSubCategory = seqSubCategory;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+    
 }

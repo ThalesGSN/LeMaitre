@@ -63,6 +63,18 @@ public class Item {
         return vlrPrice;
     }
 
+    public Integer getSeqCategory() {
+        return seqCategory;
+    }
+
+    public void setSeqCategory(Integer seqCategory) {
+        this.seqCategory = seqCategory;
+    }
+
+    public boolean isIsAvaliable() {
+        return isAvaliable;
+    }
+
     /**
      * Set the value of vlrPrice
      *
