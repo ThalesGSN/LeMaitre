@@ -5,11 +5,14 @@
  */
 package br.cefetmg.LeMaitre.servlet;
 
-import br.cefetmg.LeMaitre.model.dao.BillTableDAO;
 import br.cefetmg.LeMaitre.model.dao.BillTableDAOImpl;
+import br.cefetmg.LeMaitre.model.dao.TableDAOImpl;
 import br.cefetmg.LeMaitre.model.domain.BillTable;
+import br.cefetmg.LeMaitre.model.domain.Table;
 import br.cefetmg.LeMaitre.model.exception.BusinessException;
 import br.cefetmg.LeMaitre.model.exception.PersistenceException;
+import br.cefetmg.LeMaitre.model.service.TableManagement;
+import br.cefetmg.LeMaitre.model.service.TableManagementImpl;
 import br.cefetmg.LeMaitre.model.service.BillTableManagement;
 import br.cefetmg.LeMaitre.model.service.BillTableManagementImpl;
 import br.cefetmg.LeMaitre.util.Result;
@@ -32,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BillTableCreate extends HttpServlet { 
 
     private BillTableManagement billTableManagement;
+    private TableManagement tableManagement;
     private Result result;
     private ServletUtil util;
     private Gson gson;
@@ -62,10 +66,16 @@ public class BillTableCreate extends HttpServlet {
             BillTable billTable = this.billTableFromJson(payload);
             
             billTableManagement = new BillTableManagementImpl(BillTableDAOImpl.getInstance());
+            tableManagement = new TableManagementImpl(TableDAOImpl.getInstance());
             
             if(billTableManagement.billTableInsert(billTable)){
-                result.setStatusOK();
-                result.setContent(billTable);
+                Table table = tableManagement.getTableByID(billTable.getCodIDTable());
+                table.setIdtStatus('O');
+                
+                if(tableManagement.tableUpdate(table)) {
+                    result.setStatusOK();
+                    result.setContent(billTable);
+                }
             }
             
         } catch (BusinessException | PersistenceException ex) {
