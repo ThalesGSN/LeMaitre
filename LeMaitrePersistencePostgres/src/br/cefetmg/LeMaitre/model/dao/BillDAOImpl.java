@@ -209,9 +209,10 @@ public class BillDAOImpl implements BillDAO {
             PreparedStatement pstmt = connection.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             
-            bill = new Bill();
             list = new ArrayList();
+            
             while(rs.next()) {
+                bill = new Bill();
                 bill.setCodToken(rs.getString("cod_token"));
                 bill.setDatUse(rs.getDate("DAT_use"));
                 bill.setIdtStatus(rs.getString("IDT_status").charAt(0));
@@ -222,13 +223,14 @@ public class BillDAOImpl implements BillDAO {
             rs.close();
             pstmt.close();
             connection.close();
+            
+            return list;
                         
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BillDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BillDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return list;
+            throw new PersistenceException(PersistenceException.DRIVER_NOT_FOUND, "Driver not found");
+        } catch(SQLException ex){
+            throw new PersistenceException(ex);
+        }  
+
     }
 }
